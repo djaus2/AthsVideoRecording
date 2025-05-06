@@ -1,4 +1,4 @@
-﻿# MauiMediaRecorderVideoLib
+﻿# MauiMediaRecorderVideoAndroidApp
 
 ## Uses Nuget Package
 [NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
@@ -15,13 +15,21 @@
 - Proper handling of Android permissions
 - Screen dimensions detection for optimal preview
 
-## Installation
+## Setup/Installation
 
 You can install the package via NuGet:
 
 ```shell
 dotnet add package MauiMediaRecorderVideoLib
 ```
+You also need to install the CommunityToolkit.Maui.Camera package:
+```shell
+dotnet add package CommunityToolkit.Maui.Camera
+```
+
+> **Nb:** The CommunityToolkit.Maui.Camera is also in the library 
+but was found to be required in he app as well.
+An issue to to be considered.
 
 ## Usage
 
