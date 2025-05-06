@@ -1,7 +1,7 @@
 ﻿# MauiMediaRecorderVideoLib
 
 ## Uses Nuget Package
-[NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/MauiMediaRecorderVideoLib/)
+[NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
 , a .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features.
 
 ## Features
