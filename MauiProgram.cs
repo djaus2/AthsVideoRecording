@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using MauiAndroidCameraViewLib;
 
 //[assembly: Dependency(typeof(MauiCameraViewSample.Platforms.Android.VideoRecorderService))];
-namespace MauiCameraViewSample
+namespace MauiAndroidVideoCaptureApp
 {
     public static class MauiProgram
     {

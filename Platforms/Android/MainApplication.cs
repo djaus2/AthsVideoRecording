@@ -4,7 +4,7 @@ using Android.Runtime;
 [assembly: UsesPermission(Android.Manifest.Permission.ReadMediaImages)]
 [assembly: UsesPermission(Android.Manifest.Permission.ReadMediaVideo)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
-namespace MauiCameraViewSample
+namespace MauiAndroidVideoCaptureApp
 {
     [Application]
     public class MainApplication : MauiApplication

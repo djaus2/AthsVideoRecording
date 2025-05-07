@@ -1,6 +1,6 @@
-﻿using MauiCameraViewSample;
+﻿using MauiAndroidVideoCaptureApp;
 
-namespace MauiCameraViewSample
+namespace MauiAndroidVideoCaptureApp
 {
     public partial class App : Application
     {

@@ -18,14 +18,14 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using MauiCameraViewSample;
+using MauiAndroidVideoCaptureApp;
 using static AndroidX.Camera.Core.Internal.CameraUseCaseAdapter;
 using AndroidX.Lifecycle;
 using System.Diagnostics.Metrics;
 using MauiAndroidCameraViewLib;
 
 
-namespace MauiCameraViewSample;
+namespace MauiAndroidVideoCaptureApp;
 
 public partial class MainPage : ContentPage, IDisposable
 {
