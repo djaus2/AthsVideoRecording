@@ -65,7 +65,7 @@
   <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
     <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
   </PropertyGroup>
-  <!-- Rem1-->
+  
 
 	<ItemGroup>
 		<PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="1.1.2" />
