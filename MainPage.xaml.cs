@@ -18,14 +18,14 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using MauiAndroidVideoCaptureApp;
+using MauiCameraViewSample;
 using static AndroidX.Camera.Core.Internal.CameraUseCaseAdapter;
 using AndroidX.Lifecycle;
 using System.Diagnostics.Metrics;
 using MauiAndroidCameraViewLib;
 
 
-namespace MauiAndroidVideoCaptureApp;
+namespace MauiCameraViewSample;
 
 public partial class MainPage : ContentPage, IDisposable
 {
@@ -43,18 +43,13 @@ public partial class MainPage : ContentPage, IDisposable
     {
         InitializeComponent();
         _VideoKapture = new VideoKapture(this, CameraPreview);
-        _VideoKapture.PerformPerms();
-
-        BindingContext = _VideoKapture.ViewModel;
-        _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
-
-       
-
-;
-
+        //_VideoKapture.RequestPermissions();
+        Task.Delay(1000).Wait();
         // Register for page lifecycle events
         this.Appearing += _VideoKapture.MainPage_Appearing;
         this.Disappearing += _VideoKapture.MainPage_Disappearing;
+        BindingContext = _VideoKapture.ViewModel;
+        _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
     }
 
     ~MainPage()

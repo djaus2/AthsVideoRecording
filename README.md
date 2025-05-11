@@ -1,13 +1,40 @@
 ﻿# MauiMediaRecorderVideoAndroidApp
 
+A test app for the following NuGet package.
+
 ## Uses Nuget Package
 [NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
 , a .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features.
 
-## Features
+> This package is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works.)_
+---
+
+## About MauiMediaRecorderVideoLib
+
+A .NET MAUI library for Android video recording using MediaRecorder with camera preview and stabilization features.
+
+
+> Nb This is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works)._
+
+
+> **Update:** Have resolved issue to do with permssions. Now waits for the user to accept Camera before starting the camera preview. 
+***~~Should now work in Release version of host app.~~***  
+Only debug version of test app works.  
+Note also: Audio permissions are not requested as not captured. Video only.  
+
+> Nb: (Private Repository) The solution of test app plus this lib as one solution DOES work in Release mode.
+
+### Test App Repository _(this)_
+[djaus2/MauiMediaRecorderVideoAndroidApp](https://github.com/djaus2/MauiMediaRecorderVideoAndroidApp)
+
+### About the library
+This library is being developed to target a sporting Photoiming app. See [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus)
+
+### Features
 
 - Full-screen camera preview
 - Video recording with MediaRecorder
+  - No audio recording
 - Image stabilization options (Standard or Locked)
 - Camera rotation support (0, 90, 180, 270 degrees)
 - Configurable video FPS (30, 60, or default)
@@ -15,37 +42,42 @@
 - Proper handling of Android permissions
 - Screen dimensions detection for optimal preview
 
-## Setup/Installation
+### Usage with a MAUI Android Phone App
 
-You can install the package via NuGet:
+#### Installation
+
+Start by creating a new .NET MAUI project or using an existing one.
+
+Install the package via NuGet:
 
 ```shell
 dotnet add package MauiMediaRecorderVideoLib
 ```
-You also need to install the CommunityToolkit.Maui.Camera package:
+
+Also need to install the following NuGet package:
+
 ```shell
 dotnet add package CommunityToolkit.Maui.Camera
 ```
 
-> **Nb:** The CommunityToolkit.Maui.Camera is also in the library 
-but was found to be required in he app as well.
-An issue to to be considered.
+> **Nb:** CommunityToolkit.Maui.Camera is in the library but needs a reference in 
+the App as it uses the Toolkit Peview.
 
-## Usage
 
-This app implements the following.
-> **Nb:** The app only works in Debug mode when run from Visual Studio.
+#### Basic Setup
 
-### Basic Setup
+ 
+ 1. Add the required permissions to your Android Manifest:  
 
- 1. Add the required permissions to your Android Manifest:
 
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.RECORD_AUDIO" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 ```
+
+> **Note:** In app Android//MainActivity calls permissions setup via static 
+method in library that iterates through in-app Android/Manifest permissions.
+
+### The following needs updating (2Do).
 
   2. Initialize the video recorder service:
 
@@ -92,9 +124,9 @@ await videoRecorderService.StopRecordingAsync();
 await videoRecorderService.CleanupAsync();
 ```
 
-## Requirements
+### Requirements
 
 - .NET MAUI project targeting Android
 - Android API level 21 or higher
-- Requires Android device with camera (and ??microphone?? ,, not used.)
+- Requires Android device with camera
 

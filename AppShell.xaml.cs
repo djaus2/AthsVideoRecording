@@ -1,4 +1,4 @@
-﻿namespace MauiAndroidVideoCaptureApp
+﻿namespace MauiCameraViewSample
 {
     public partial class AppShell : Shell
     {
