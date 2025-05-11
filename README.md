@@ -61,7 +61,7 @@ dotnet add package CommunityToolkit.Maui.Camera
 ```
 
 > **Nb:** CommunityToolkit.Maui.Camera is in the library but needs a reference in 
-the App as it uses the Toolkit Peview.
+the App as it uses the Toolkit Preview.
 
 
 #### Basic Setup
