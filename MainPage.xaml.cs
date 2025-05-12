@@ -18,7 +18,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using MauiCameraViewSample;
 using static AndroidX.Camera.Core.Internal.CameraUseCaseAdapter;
 using AndroidX.Lifecycle;
 using System.Diagnostics.Metrics;
@@ -31,7 +30,7 @@ public partial class MainPage : ContentPage, IDisposable
 {
     // Service for handling video recording
     //private IVideoRecorderService? _videoRecorderService;
-    private VideoKapture _VideoKapture;
+    private MauiAndroidCameraViewLib.VideoKapture _VideoKapture;
 
 
     // UI state tracking
@@ -42,9 +41,8 @@ public partial class MainPage : ContentPage, IDisposable
     public MainPage()
     {
         InitializeComponent();
-        _VideoKapture = new VideoKapture(this, CameraPreview);
-        //_VideoKapture.RequestPermissions();
-        Task.Delay(1000).Wait();
+        _VideoKapture = new MauiAndroidCameraViewLib.VideoKapture(this, CameraPreview);
+        Task.Delay(1000).Wait();//Let permission/s permeate
         // Register for page lifecycle events
         this.Appearing += _VideoKapture.MainPage_Appearing;
         this.Disappearing += _VideoKapture.MainPage_Disappearing;

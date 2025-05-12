@@ -2,11 +2,17 @@
 
 A test app for the following NuGet package.
 
+## Latest Update: 2023-10-23
+
+> **Found that it works in Release mode if AOT is disabled!  
+_Both Bundle AND APK builds_**  
+Bundle-No AOT config here.
+
 ## Uses Nuget Package
 [NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
 , a .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features.
 
-> This package is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works.)_
+> ~~This package is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works.)_~~
 ---
 
 ## About MauiMediaRecorderVideoLib
@@ -14,7 +20,7 @@ A test app for the following NuGet package.
 A .NET MAUI library for Android video recording using MediaRecorder with camera preview and stabilization features.
 
 
-> Nb This is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works)._
+> ~~Nb This is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works)._~~
 
 
 > **Update:** Have resolved issue to do with permssions. Now waits for the user to accept Camera before starting the camera preview. 

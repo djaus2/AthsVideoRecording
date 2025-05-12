@@ -24,8 +24,6 @@
 		<PlatformTarget>ARM64</PlatformTarget>
 	</PropertyGroup>
 
-
-
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -108,5 +106,12 @@
   <PropertyGroup>
     <NoWarn>CS8600;CS8604;CS8602;CS8603;CS8618;CA1422;CA1416</NoWarn>
   </PropertyGroup>
+
+ 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
+
+
 
 </Project>
