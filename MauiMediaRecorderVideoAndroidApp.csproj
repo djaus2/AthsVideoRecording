@@ -17,14 +17,12 @@
 		<ApplicationId>au.com.sportronics.mauiandroidvideocaptureapp</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<PlatformTarget>ARM64</PlatformTarget>
 	</PropertyGroup>
-
-
 
 	<ItemGroup>
 		<!-- App Icon -->
@@ -68,7 +66,7 @@
   
 
 	<ItemGroup>
-		<PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="1.1.2" />
+		<PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="2.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
@@ -107,6 +105,20 @@
  
   <PropertyGroup>
     <NoWarn>CS8600;CS8604;CS8602;CS8603;CS8618;CA1422;CA1416</NoWarn>
+  </PropertyGroup>
+
+ 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <DebugSymbols>False</DebugSymbols>
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
+  </PropertyGroup>
+
+ 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+    <DebugSymbols>False</DebugSymbols>
+    <AndroidEnableSGenConcurrent>False</AndroidEnableSGenConcurrent>
   </PropertyGroup>
 
 </Project>
