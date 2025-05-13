@@ -107,4 +107,9 @@
     <NoWarn>CS8600;CS8604;CS8602;CS8603;CS8618;CA1422;CA1416</NoWarn>
   </PropertyGroup>
 
+ 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+  </PropertyGroup>
+
 </Project>
