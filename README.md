@@ -6,7 +6,7 @@ A test app for the following NuGet package.
 
 > **Found that it works in Release mode if AOT is disabled!  
 _Both Bundle AND APK builds_**  
-Bundle-No AOT config here.
+Bundle-No AOT config here for Release config.
 
 ## Uses Nuget Package
 [NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
