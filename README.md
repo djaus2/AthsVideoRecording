@@ -16,6 +16,8 @@ Bundle-No AOT config here for Release config.
 
 ## About MauiMediaRecorderVideoLib
 
+> Nb: Video is stored /Movies folder. Filename is juxtaposed with date.
+
 A .NET MAUI library for Android video recording using MediaRecorder with camera preview and stabilization features.
 
 Latest Version: 2.0.1

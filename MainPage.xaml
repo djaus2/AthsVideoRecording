@@ -201,13 +201,6 @@
                 Clicked="OnButton_GetReady4Recording" 
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
-            <ImageButton 
-                x:Name="NextButton"
-                Source="optionsvid.svg" 
-                Grid.Row="1" Grid.Column="3"
-                Clicked="OnButton_NextPage" 
-                IsEnabled="{Binding IsGetReadyButtonEnabled}" 
-                IsVisible="{Binding IsGetReadyButtonEnabled}" />
 
         </Grid>
 
