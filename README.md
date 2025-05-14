@@ -2,11 +2,12 @@
 
 A test app for the following NuGet package.
 
-## Latest Update
+## Latest Updates 2025-05-15
 
+- Added Audio (Microphone) Recording
 - Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
 
-## Update: 2023-10-23
+## Update: 2025-05-14
 
 - **Found that it works in Release mode if AOT is disabled!  
 _Both Bundle AND APK builds_**  
