@@ -5,7 +5,7 @@ A test app for the following NuGet package.
 ## Latest Update
 
 - Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
-- 
+
 ## Update: 2023-10-23
 
 - **Found that it works in Release mode if AOT is disabled!  
