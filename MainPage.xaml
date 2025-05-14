@@ -61,6 +61,20 @@
                     VerticalOptions="Fill"
                     HorizontalOptions="Fill"
                     Opacity="0.2"/>
+        <BoxView Grid.Row="0" Grid.RowSpan="2"                    
+                    Color="Red"
+                    VerticalOptions="Fill"
+                    WidthRequest="1"
+                    HorizontalOptions="Center"
+                    IsVisible="{Binding ShowCrossHairs}"
+                    Opacity="0.8"/>
+        <BoxView Grid.Row="0" Grid.RowSpan="2"                    
+                    Color="Red"
+                    VerticalOptions="Center"
+                    HeightRequest="1"
+                    HorizontalOptions="Fill"
+                    IsVisible="{Binding ShowCrossHairs}"
+                    Opacity="0.8"/>
 
 
         <VerticalStackLayout Grid.Row ="1"
@@ -199,6 +213,13 @@
                 Source="optionsvid.svg" 
                 Grid.Row="1" Grid.Column="5"
                 Clicked="OnButton_GetReady4Recording" 
+                IsEnabled="{Binding IsGetReadyButtonEnabled}" 
+                IsVisible="{Binding IsGetReadyButtonEnabled}" />
+            <ImageButton 
+                x:Name="CrossHairsButton"
+                Source="crosshairs.svg" 
+                Grid.Row="1" Grid.Column="3"
+                Clicked="OnButton_CrossHairs" 
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
 

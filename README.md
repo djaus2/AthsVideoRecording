@@ -2,9 +2,14 @@
 
 A test app for the following NuGet package.
 
-## Latest Update: 2023-10-23
+## Latest Update
 
-> **Found that it works in Release mode if AOT is disabled!  
+- Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
+- 2Do Make it visible in recording mode
+- 
+## Update: 2023-10-23
+
+- **Found that it works in Release mode if AOT is disabled!  
 _Both Bundle AND APK builds_**  
 Bundle-No AOT config here for Release config.
 

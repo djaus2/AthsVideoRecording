@@ -277,4 +277,8 @@ public partial class MainPage : ContentPage, IDisposable
         });
     }
 
+    private void OnButton_CrossHairs(object sender, EventArgs e)
+    {
+        _VideoKapture.ViewModel.EnableCrossHairs = !_VideoKapture.ViewModel.EnableCrossHairs;
+    }
 }
