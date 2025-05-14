@@ -2,6 +2,8 @@
 
 A test app for the following NuGet package.
 
+> Seems that the again library works in Debug mode but not in Release mode.
+
 ## Latest Updates 2025-05-15
 
 - Added Audio (Microphone) Recording
