@@ -5,7 +5,6 @@ A test app for the following NuGet package.
 ## Latest Update
 
 - Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
-- 2Do Make it visible in recording mode
 - 
 ## Update: 2023-10-23
 
