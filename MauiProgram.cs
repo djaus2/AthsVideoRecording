@@ -1,12 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Camera;
-//using MauiCameraViewSample.Services;
 using Microsoft.Extensions.Logging;
-//using MauiCameraViewSample.Platforms.Android;
-//using MauiCameraViewSample.Platforms.Android;
 using MauiAndroidCameraViewLib;
 
-//[assembly: Dependency(typeof(MauiCameraViewSample.Platforms.Android.VideoRecorderService))];
 namespace MauiCameraViewSample
 {
     public static class MauiProgram

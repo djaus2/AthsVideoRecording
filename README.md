@@ -1,43 +1,50 @@
 ﻿# MauiMediaRecorderVideoAndroidApp
 
-A test app for the following NuGet package.
+A test app for the following NuGet package. V2.1
 
-## Latest Update 
-NuGet package 2.1.2 is now available on NuGet.org but don't use as doesn't seek permissions for Audio.
+> ~~Seems that the again library works in Debug mode but not in Release mode.~~  
+_Fixed now. Was Manifest coding error by me! Sorry_
 
-## Update: 
+## Latest Updates 2025-05-15
 
-> **Found that it works in Release mode if AOT is disabled!  
+- Added Audio (Microphone) Recording
+  - First time run get audio errors.
+  - Restart app, works then.
+- Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
+
+## Update: 2025-05-14
+
+- **Found that it works in Release mode if AOT is disabled!  
 _Both Bundle AND APK builds_**  
-Bundle-No AOT config here.
+Bundle-No AOT config here for Release config.
 
 ## Uses Nuget Package
 [NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
 , a .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features.
 
-> ~~This package is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works.)_~~
 ---
 
 ## About MauiMediaRecorderVideoLib
 
+> Nb: Video is stored /Movies folder. Filename is juxtaposed with date.
+
 A .NET MAUI library for Android video recording using MediaRecorder with camera preview and stabilization features.
 
+Latest Version: 2.0.1
 
-> ~~Nb This is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works)._~~
+> Nb This is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works)._
 
+## The Test App  _(here)_
 
-> **Update:** Have resolved issue to do with permssions. Now waits for the user to accept Camera before starting the camera preview. 
-***~~Should now work in Release version of host app.~~***  
-Only debug version of test app works.  
-Note also: Audio permissions are not requested as not captured. Video only.  
+Clone this repository, build and deploy to an Android phone.  
+_(Was tested on a Pixel 6 phone)_
 
-> Nb: (Private Repository) The solution of test app plus this lib as one solution DOES work in Release mode.
+Change the UI as you wish.
 
-### Test App Repository _(this)_
-[djaus2/MauiMediaRecorderVideoAndroidApp](https://github.com/djaus2/MauiMediaRecorderVideoAndroidApp)
+---
 
 ### About the library
-This library is being developed to target a sporting Photoiming app. See [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus)
+The library is being developed to target a sporting Photoiming app. See [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus)
 
 ### Features
 
