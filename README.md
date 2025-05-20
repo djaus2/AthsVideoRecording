@@ -2,7 +2,10 @@
 
 A test app for the following NuGet package.
 
-## Latest Update: 2023-10-23
+## Latest Update 
+NuGet package 2.1.2 is now available on NuGet.org but don't use as doesn't seek permissions for Audio.
+
+## Update: 
 
 > **Found that it works in Release mode if AOT is disabled!  
 _Both Bundle AND APK builds_**  
