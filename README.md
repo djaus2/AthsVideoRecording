@@ -2,14 +2,16 @@
 
 A test app for the following NuGet package. V2.1
 
-> ~~Seems that the again library works in Debug mode but not in Release mode.~~  
-_Fixed now. Was Manifest coding error by me! Sorry_
+## Update 2025-0520
+- Now works using NuGet package 2.1.2
+  - NuGet packge no functional changes from NuGet 2.1.1 package.
 
-## Latest Updates 2025-05-15
+## Updates 2025-05-15
 
 - Added Audio (Microphone) Recording
-  - First time run get audio errors.
-  - Restart app, works then.
+  - First time, accept Camera Permissions run get audio errors.
+  - Restart app, accept Audio Permissions works then.
+  - 2Do to fix
 - Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
 
 ## Update: 2025-05-14
