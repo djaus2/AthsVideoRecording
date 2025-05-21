@@ -1,15 +1,15 @@
 ﻿# MauiMediaRecorderVideoAndroidApp
 
-A test app for the following NuGet package. V2.1
+A test app for the following NuGet package. V2.2.0
 
-> ~~Seems that the again library works in Debug mode but not in Release mode.~~  
-_Fixed now. Was Manifest coding error by me! Sorry_
+## Latest Updates 2025-05-21
+- Fixed runtime audio permissions issue using task delays.
 
-## Latest Updates 2025-05-15
+## Update 2025-05-15
 
 - Added Audio (Microphone) Recording
-  - First time run get audio errors.
-  - Restart app, works then.
+  - ~~First time run get audio errors.~~
+  - ~~Restart app, works then.~~
 - Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
 
 ## Update: 2025-05-14
