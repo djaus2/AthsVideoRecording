@@ -2,7 +2,7 @@
 
 A test app for the following NuGet package. V2.1
 
-## Update 2025-0520
+## Latest Update 2025-05-20
 - Now works using NuGet package 2.1.2
   - NuGet packge no functional changes from NuGet 2.1.1 package.
 
