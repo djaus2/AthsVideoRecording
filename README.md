@@ -8,8 +8,8 @@ A test app for the following NuGet package. V2.2.0
 ## Latest Updates 2025-05-15
 
 - Added Audio (Microphone) Recording
-  - First time run get audio errors.
-  - Restart app, works then.
+  - ~~First time run get audio errors.~~
+  - ~~Restart app, works then.~~
 - Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
 
 ## Update: 2025-05-14
