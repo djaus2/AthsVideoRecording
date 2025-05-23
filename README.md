@@ -1,8 +1,11 @@
 ﻿# MauiMediaRecorderVideoAndroidApp
 
-A test app for the following NuGet package. V2.2.0
+A test app for the following NuGet package. V2.2.1
 
-## Latest Updates 2025-05-21
+## Latest Update 2025-05-22
+- NuGet package update only for it documentation.
+
+## Updates 2025-05-21
 - Fixed runtime audio permissions issue using task delays.
 
 ## Latest Updates 2025-05-15
