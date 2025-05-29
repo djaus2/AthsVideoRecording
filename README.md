@@ -60,7 +60,7 @@ The library is being developed to target a sporting Photoiming app. See [djaus2/
 - Image stabilization options (Standard or Locked)
 - Camera rotation support (0, 90, 180, 270 degrees)
 - Configurable video FPS (30, 60, or default)
-   - Note for 60 FPS with Google Pixle phone need to:
+   - Note for 60 FPS with Google Pixel phone need to:
       - Camera Settings
       - Advanced
       - Turn off Store videos efficiently
