@@ -2,6 +2,9 @@
 
 A test app for the following NuGet package. V2.2.1
 
+## NB 2025-05-29
+- See note wrt FPS below
+
 ## Latest Update 2025-05-22
 - NuGet package update only for it documentation.
 
@@ -57,6 +60,11 @@ The library is being developed to target a sporting Photoiming app. See [djaus2/
 - Image stabilization options (Standard or Locked)
 - Camera rotation support (0, 90, 180, 270 degrees)
 - Configurable video FPS (30, 60, or default)
+   - Note for 60 FPS with Google Pixel phone need to:
+      - Camera Settings
+      - Advanced
+      - Turn off Store videos efficiently
+      - _Probably best to do that for 30 FPS as well otherwise get dynamic FPS_
 - Support for pausing and resuming recording
 - Proper handling of Android permissions
 - Screen dimensions detection for optimal preview
