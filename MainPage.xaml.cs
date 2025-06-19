@@ -22,6 +22,8 @@ using static AndroidX.Camera.Core.Internal.CameraUseCaseAdapter;
 using AndroidX.Lifecycle;
 using System.Diagnostics.Metrics;
 using MauiAndroidCameraViewLib;
+using Java.Interop;
+using static Android.InputMethodServices.Keyboard;
 
 
 namespace MauiCameraViewSample;
@@ -48,6 +50,8 @@ public partial class MainPage : ContentPage, IDisposable
         this.Disappearing += _VideoKapture.MainPage_Disappearing;
         BindingContext = _VideoKapture.ViewModel;
         _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
+        var viewModel = (RecordingViewModel)this.BindingContext;
+        viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready;// Update the gun time in the view model
     }
 
     ~MainPage()
@@ -128,7 +132,10 @@ public partial class MainPage : ContentPage, IDisposable
     private async void OnButton_GetReady4Recording(object? sender, EventArgs e)
     {
         try
-        {   
+        {
+            var viewModel = (RecordingViewModel)this.BindingContext;
+            viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready; ;// Update the gun time in the view model
+
             // Get screen dimensions for preview
             var activity = Platform.CurrentActivity;
             await _VideoKapture.OnButton_GetReady4Recording(activity);
@@ -143,6 +150,9 @@ public partial class MainPage : ContentPage, IDisposable
     {
         try
         {
+            var viewModel = (RecordingViewModel)this.BindingContext;
+            viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready;// Update the gun time in the view model
+
             // Clean up resources
             await _VideoKapture.OnButton_CancelRecording_Clicked();
         }
@@ -201,9 +211,16 @@ public partial class MainPage : ContentPage, IDisposable
     {
         try
         {
+            var viewModel = (RecordingViewModel)this.BindingContext;
+            viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready;// Update the gun time in the view model
+
             // Stop recording
             await _VideoKapture.OnButton_StopRecordingClicked();
-
+            if(gunDateTime != DateTime.MinValue)
+            {
+                AppendGunTimeToVideoFilename();
+                gunDateTime = DateTime.MinValue;
+            }
             // Update UI state based on the current state of the recorder
             // The state will be updated by the RecordingStopped event handler
         }
@@ -280,5 +297,42 @@ public partial class MainPage : ContentPage, IDisposable
     private void OnButton_CrossHairs(object sender, EventArgs e)
     {
         _VideoKapture.ViewModel.EnableCrossHairs = !_VideoKapture.ViewModel.EnableCrossHairs;
+    }
+
+    DateTime gunDateTime = DateTime.MinValue; // Default gun time
+    private void SetGunTime_Click(object sender, EventArgs e)
+    {
+        gunDateTime = DateTime.Now;
+        var viewModel = (RecordingViewModel)this.BindingContext;
+        viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Fired;// Update the gun time in the view model
+        var xx = viewModel.IsStartGunVisible;
+        var yy = viewModel.IsStartGunEnabled;
+    }
+    
+    private void AppendGunTimeToVideoFilename()
+    {
+        var videoPath = _VideoKapture.VideoFilePath;
+        if ((_VideoKapture == null) || (string.IsNullOrEmpty(videoPath)))
+        {
+            ShowMessage("Please start recording first to set gun time.");
+            return;
+        }
+        if (!System.IO.File.Exists(videoPath))
+        {
+            throw new System.IO.FileNotFoundException($"The specified video file does not exist: {videoPath}");
+        }
+        string gunTimeString = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+        gunTimeString = gunTimeString.Replace(":", "--");
+        string extension = videoPath.Substring(videoPath.Length - 4, 4); // Get the last 4 characters for extension check
+        if ((string.IsNullOrEmpty(extension)) ||
+            (!extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new ArgumentException("The input file must be an MP4 video file.");
+        }
+        string outputPath = videoPath.Replace(".mp4", $"_GUN_{gunTimeString}_.mp4", StringComparison.OrdinalIgnoreCase);
+
+        System.IO.File.Copy(videoPath, outputPath, true);
+
     }
 }

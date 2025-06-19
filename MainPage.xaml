@@ -93,11 +93,20 @@
                     <ColumnDefinition Width="1" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="1" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1" />
                 </Grid.ColumnDefinitions>
+                <ImageButton
+                    x:Name="SetGunTime"
+                    Source="gun.svg" 
+                    Grid.Row="0" Grid.Column="1"
+                    Clicked="SetGunTime_Click"
+                    IsEnabled="{Binding IsStartGunEnabled}" 
+                    IsVisible="{Binding IsStartGunEnabled}"/>
                 <ImageButton 
                     x:Name="CancelButton"
                     Source="cancelvid.svg" 
-                    Grid.Row="0" Grid.Column="3"
+                    Grid.Row="0" Grid.Column="5"
                     Clicked="OnButton_CancelRecording_Clicked"
                     IsEnabled="{Binding IsCancelButtonEnabled}" 
                     IsVisible="{Binding IsCancelButtonEnabled}" />
@@ -105,7 +114,7 @@
                 <ImageButton 
                     x:Name="StartButton"
                     Source="startvid.svg" 
-                    Grid.Row="0" Grid.Column="5"
+                    Grid.Row="0" Grid.Column="7"
                     Clicked="OnButton_StartRecording_Clicked"    
                     IsEnabled="{Binding IsStartRecordingButtonEnabled}" 
                     IsVisible="{Binding IsStartRecordingButtonEnabled}"
@@ -114,7 +123,7 @@
                 <ImageButton 
                     x:Name="PauseButton"
                     Source="pausesvid.svg"  
-                    Grid.Row="0" Grid.Column="1"
+                    Grid.Row="0" Grid.Column="7"
                     Clicked="OnButton_PauseRecording_Clicked"    
                     IsEnabled="{Binding IsPauseRecordingButtonEnabled}" 
                     IsVisible="{Binding IsPauseRecordingButtonEnabled}" 
@@ -122,7 +131,7 @@
                 <ImageButton 
                     x:Name="ContinueButton"
                     Source="nextvid.svg" 
-                    Grid.Row="0" Grid.Column="1"
+                    Grid.Row="0" Grid.Column="7"
                     Clicked="OnButton_ContinueRecording_Clicked"   
                     IsEnabled="{Binding IsContinueRecordingButtonEnabled}" 
                     IsVisible="{Binding IsContinueRecordingButtonEnabled}" 
@@ -131,11 +140,12 @@
                 <ImageButton 
                     x:Name="StopButton"
                     Source="stopvid.svg"            
-                    Grid.Row="0" Grid.Column="5"
+                    Grid.Row="0" Grid.Column="7"
                     Clicked="OnButton_StopRecordingClicked"    
                     IsEnabled="{Binding IsStopRecordingButtonEnabled}"  
                     IsVisible="{Binding IsStopRecordingButtonEnabled}"
                     VerticalOptions="Center" />
+
 
             </Grid>
         </VerticalStackLayout>
