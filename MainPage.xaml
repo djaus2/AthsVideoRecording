@@ -178,16 +178,39 @@
                             <RadioButton x:Name="RadioFpsAuto" Content="Auto" CheckedChanged="OnFrameRateCheckedChanged" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
-                    <VerticalStackLayout Margin="0" IsVisible="{Binding IsGetReadyButtonEnabled}">
-                        <HorizontalStackLayout  Spacing="5" >
-                            <RadioButton x:Name="FromVideoStart"  Content="Start" GroupName="TimeFromMode"    IsChecked="True" CheckedChanged="OnTimeFromModeChanged" />
-                            <RadioButton x:Name="FromGunSound" Content="Fire" GroupName="TimeFromMode"        CheckedChanged="OnTimeFromModeChanged" />
-                            <RadioButton x:Name="FromGunFlash" Content="Flash" GroupName="TimeFromMode"       CheckedChanged="OnTimeFromModeChanged" />
-                            <RadioButton x:Name="ManuallySelect" Content="Manual" GroupName="TimeFromMode"    CheckedChanged="OnTimeFromModeChanged" />
-                            <RadioButton x:Name="WallClockSelect" Content="WClock" GroupName="TimeFromMode"   CheckedChanged="OnTimeFromModeChanged" />
-                        </HorizontalStackLayout>
-                </VerticalStackLayout>
-                    <Label Margin="0" Text="VideoStart GunFire GunFlash Manual WClock" IsVisible="{Binding IsGetReadyButtonEnabled}"/>
+                    <Grid Margin="0" IsVisible="{Binding IsGetReadyButtonEnabled}" HorizontalOptions="Start">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Row="0" Grid.Column="0" x:Name="FromVideoStart" Content="Vid Start"  GroupName="TimeFromMode"    IsChecked="True" CheckedChanged="OnTimeFromModeChanged"/>
+                        <RadioButton Grid.Row="0" Grid.Column="1" x:Name="FromGunSound" Content="Gun Bang" GroupName="TimeFromMode"        CheckedChanged="OnTimeFromModeChanged" />
+                        <RadioButton Grid.Row="0" Grid.Column="2" x:Name="FromGunFlash" Content="Gun Flash" GroupName="TimeFromMode"       CheckedChanged="OnTimeFromModeChanged" />
+                        <RadioButton Grid.Row="0" Grid.Column="3" x:Name="ManuallySelect" Content="Manual" GroupName="TimeFromMode"    CheckedChanged="OnTimeFromModeChanged" />
+                        <RadioButton Grid.Row="0" Grid.Column="4" x:Name="WallClockSelect" Content="Wall Clck" GroupName="TimeFromMode"   CheckedChanged="OnTimeFromModeChanged" />
+                        <ImageButton Source="start.svg" Grid.Row="1" Grid.Column="0" WidthRequest="40"  HeightRequest="40" 
+                                     CommandParameter="StartButton"
+                                     Clicked="OnButton_TimeFromMode_Clicked" />
+                        <ImageButton Source="bang.svg" Grid.Row="1" Grid.Column="1" WidthRequest="40"  HeightRequest="40" 
+                                     CommandParameter="BangButton"
+                                     Clicked="OnButton_TimeFromMode_Clicked" />
+                        <ImageButton Source="boltlightning.svg" Grid.Row="1" Grid.Column="2" WidthRequest="40"  HeightRequest="40" 
+                                     CommandParameter="FlashButton"
+                                     Clicked="OnButton_TimeFromMode_Clicked" />
+                        <ImageButton Source="spanner.svg" Grid.Row="1" Grid.Column="3" WidthRequest="40"  HeightRequest="40" 
+                                     CommandParameter="ManualButton"
+                                     Clicked="OnButton_TimeFromMode_Clicked" />
+                        <ImageButton Source="gun.svg" Grid.Row="1" Grid.Column="4" WidthRequest="40"  HeightRequest="40" 
+                                     CommandParameter="WCButton"
+                                     Clicked="OnButton_TimeFromMode_Clicked" />
+                    </Grid>
                     <!-- Stabilization Mode Toggle -->
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
                         <Label Text="Stabilization:" FontAttributes="Bold" />

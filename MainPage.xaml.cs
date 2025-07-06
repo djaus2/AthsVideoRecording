@@ -364,39 +364,76 @@ public partial class MainPage : ContentPage, IDisposable
     {
         if (e.Value)
         {
-            var viewModel = (RecordingViewModel)this.BindingContext;
-            var radioButton = sender as RadioButton;
-            if (radioButton == null) return;
-            // Get the content of the radio button to identify it
-            string content = radioButton.Content?.ToString() ?? "";
-            if(string.IsNullOrEmpty(content))
+            if (this.BindingContext is RecordingViewModel viewModel)
             {
-                System.Diagnostics.Debug.WriteLine("RadioButton content is null or empty.");
-                return;
-            }
-            System.Diagnostics.Debug.WriteLine($"Selected: {content}");
-            if (content.Contains("Start"))
-            {
-                viewModel.TimeFromMode = TimeFromMode.FromVideoStart;
-            }
-            else if (content.Contains("Fire"))
-            {
-                viewModel.TimeFromMode = TimeFromMode.FromGunSound;
-            }
-            else if (content.Contains("Flash"))
-            {
-                viewModel.TimeFromMode = TimeFromMode.FromGunFlash;
-            }
-            else if (content.Contains("Manual"))
-            {
-                viewModel.TimeFromMode = TimeFromMode.ManuallySelect;
-            }
-            else if (content.Contains("WClock"))
-            {
-                viewModel.TimeFromMode = TimeFromMode.WallClockSelect;
+                var radioButton = sender as RadioButton;
+                if (radioButton == null) return;
+                // Get the content of the radio button to identify it
+                string mode = radioButton.Content?.ToString() ?? "";
+                if (string.IsNullOrEmpty(mode))
+                {
+                    System.Diagnostics.Debug.WriteLine("RadioButton content is null or empty.");
+                    return;
+                }
+                System.Diagnostics.Debug.WriteLine($"Selected: {mode}");
+                SetModeFromButton(mode);
             }
         }
-        //var val = ((RadioButton)sender).
-        //System.Diagnostics.Debug.WriteLine($"{val}");
     }
+
+    private void OnButton_TimeFromMode_Clicked(object sender, EventArgs e)
+    {
+        System.Diagnostics.Debug.WriteLine("OnButton_TimeFromMode_Clicked");
+        if (sender is ImageButton button && button.CommandParameter is string mode)
+        {
+            System.Diagnostics.Debug.WriteLine(mode);
+            mode = mode.Replace("Button", "").Trim(); // Remove "Button" from the mode string
+            System.Diagnostics.Debug.WriteLine(mode);
+            switch (mode)
+            {
+                case "Start":
+                    FromVideoStart.IsChecked = true; // Set the corresponding radio button to checked
+                    break;
+                case "Bang":
+                    FromGunSound.IsChecked = true; // Set the corresponding radio button to checked
+                    break;
+                case "Flash":
+                    FromGunFlash.IsChecked = true; // Set the corresponding radio button to checked
+                    break;
+                case "Manual":
+                    ManuallySelect.IsChecked = true; // Set the corresponding radio button to checked
+                    break;
+                case "WC":
+                    WallClockSelect.IsChecked = true; // Set the corresponding radio button to checked
+                    break;
+            }            
+        }
+    }
+
+    private void SetModeFromButton(string mode)
+    {
+        if (this.BindingContext is RecordingViewModel viewModel)
+        {
+            switch (mode)
+            {
+                case "Start":
+                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart;
+                    break;
+                case "Bang":
+                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromGunSound;
+                    break;
+                case "Flash":
+                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromGunFlash;
+                    break;
+                case "Manual":
+                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.ManuallySelect;
+                    break;
+                case "WC":
+                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.WallClockSelect;
+                    break;
+            }
+        }
+    }
+
+
 }
