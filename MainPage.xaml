@@ -178,7 +178,16 @@
                             <RadioButton x:Name="RadioFpsAuto" Content="Auto" CheckedChanged="OnFrameRateCheckedChanged" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
-                    
+                    <VerticalStackLayout Margin="0" IsVisible="{Binding IsGetReadyButtonEnabled}">
+                        <HorizontalStackLayout  Spacing="5" >
+                            <RadioButton x:Name="FromVideoStart"  Content="Start" GroupName="TimeFromMode"    IsChecked="True" CheckedChanged="OnTimeFromModeChanged" />
+                            <RadioButton x:Name="FromGunSound" Content="Fire" GroupName="TimeFromMode"        CheckedChanged="OnTimeFromModeChanged" />
+                            <RadioButton x:Name="FromGunFlash" Content="Flash" GroupName="TimeFromMode"       CheckedChanged="OnTimeFromModeChanged" />
+                            <RadioButton x:Name="ManuallySelect" Content="Manual" GroupName="TimeFromMode"    CheckedChanged="OnTimeFromModeChanged" />
+                            <RadioButton x:Name="WallClockSelect" Content="WClock" GroupName="TimeFromMode"   CheckedChanged="OnTimeFromModeChanged" />
+                        </HorizontalStackLayout>
+                </VerticalStackLayout>
+                    <Label Margin="0" Text="VideoStart GunFire GunFlash Manual WClock" IsVisible="{Binding IsGetReadyButtonEnabled}"/>
                     <!-- Stabilization Mode Toggle -->
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
                         <Label Text="Stabilization:" FontAttributes="Bold" />

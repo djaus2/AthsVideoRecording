@@ -24,9 +24,11 @@ using System.Diagnostics.Metrics;
 using MauiAndroidCameraViewLib;
 using Java.Interop;
 using static Android.InputMethodServices.Keyboard;
+using AndroidX.Camera.Video;
 
 
 namespace MauiCameraViewSample;
+
 
 public partial class MainPage : ContentPage, IDisposable
 {
@@ -39,6 +41,7 @@ public partial class MainPage : ContentPage, IDisposable
     private bool _disposed = false;
     private string? VideoFilePath { get => _VideoKapture?.VideoFilePath; } // File path for the recorded video
 
+    //private AppViewModel appViewModel;
 
     public MainPage()
     {
@@ -50,15 +53,14 @@ public partial class MainPage : ContentPage, IDisposable
         this.Disappearing += _VideoKapture.MainPage_Disappearing;
         BindingContext = _VideoKapture.ViewModel;
         _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
-        var viewModel = (RecordingViewModel)this.BindingContext;
-        viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready;// Update the gun time in the view model
+        _VideoKapture.ViewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart; // Default time from mode
     }
 
     ~MainPage()
     {
         // Finalizer
         Dispose(false);
-    }
+    }   
 
     public void Dispose()
     {
@@ -133,9 +135,6 @@ public partial class MainPage : ContentPage, IDisposable
     {
         try
         {
-            var viewModel = (RecordingViewModel)this.BindingContext;
-            viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready; ;// Update the gun time in the view model
-
             // Get screen dimensions for preview
             var activity = Platform.CurrentActivity;
             await _VideoKapture.OnButton_GetReady4Recording(activity);
@@ -150,9 +149,6 @@ public partial class MainPage : ContentPage, IDisposable
     {
         try
         {
-            var viewModel = (RecordingViewModel)this.BindingContext;
-            viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready;// Update the gun time in the view model
-
             // Clean up resources
             await _VideoKapture.OnButton_CancelRecording_Clicked();
         }
@@ -211,15 +207,16 @@ public partial class MainPage : ContentPage, IDisposable
     {
         try
         {
-            var viewModel = (RecordingViewModel)this.BindingContext;
-            viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Ready;// Update the gun time in the view model
-
             // Stop recording
             await _VideoKapture.OnButton_StopRecordingClicked();
             if(gunDateTime != DateTime.MinValue)
             {
                 AppendGunTimeToVideoFilename();
                 gunDateTime = DateTime.MinValue;
+            }
+            else
+            {
+                AppendTimeFromModePrefixToVideoFilename();
             }
             // Update UI state based on the current state of the recorder
             // The state will be updated by the RecordingStopped event handler
@@ -299,6 +296,32 @@ public partial class MainPage : ContentPage, IDisposable
         _VideoKapture.ViewModel.EnableCrossHairs = !_VideoKapture.ViewModel.EnableCrossHairs;
     }
 
+    private void AppendTimeFromModePrefixToVideoFilename()
+    {
+        var viewModel = (RecordingViewModel)this.BindingContext;
+        var videoPath = _VideoKapture.VideoFilePath;
+        if ((_VideoKapture == null) || (string.IsNullOrEmpty(videoPath)))
+        {
+            ShowMessage("Please start recording first to set gun time.");
+            return;
+        }
+        if (!System.IO.File.Exists(videoPath))
+        {
+            throw new System.IO.FileNotFoundException($"The specified video file does not exist: {videoPath}");
+        }
+
+        string extension = videoPath.Substring(videoPath.Length - 4, 4); // Get the last 4 characters for extension check
+        if ((string.IsNullOrEmpty(extension)) ||
+            (!extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase)))
+        {
+            throw new ArgumentException("The input file must be an MP4 video file.");
+        }
+        string outputPath = videoPath.Replace(".mp4", $"_{viewModel.TimeFromModePrefix}_.mp4", StringComparison.OrdinalIgnoreCase);
+
+        System.IO.File.Copy(videoPath, outputPath, true);
+
+    }
+
     DateTime gunDateTime = DateTime.MinValue; // Default gun time
     private void SetGunTime_Click(object sender, EventArgs e)
     {
@@ -311,6 +334,7 @@ public partial class MainPage : ContentPage, IDisposable
     
     private void AppendGunTimeToVideoFilename()
     {
+        var viewModel = (RecordingViewModel)this.BindingContext;
         var videoPath = _VideoKapture.VideoFilePath;
         if ((_VideoKapture == null) || (string.IsNullOrEmpty(videoPath)))
         {
@@ -330,9 +354,49 @@ public partial class MainPage : ContentPage, IDisposable
         {
             throw new ArgumentException("The input file must be an MP4 video file.");
         }
-        string outputPath = videoPath.Replace(".mp4", $"_GUN_{gunTimeString}_.mp4", StringComparison.OrdinalIgnoreCase);
+        string outputPath = videoPath.Replace(".mp4", $"_{viewModel.TimeFromModePrefix}_{gunTimeString}_.mp4", StringComparison.OrdinalIgnoreCase);
 
         System.IO.File.Copy(videoPath, outputPath, true);
 
+    }
+
+    private void OnTimeFromModeChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (e.Value)
+        {
+            var viewModel = (RecordingViewModel)this.BindingContext;
+            var radioButton = sender as RadioButton;
+            if (radioButton == null) return;
+            // Get the content of the radio button to identify it
+            string content = radioButton.Content?.ToString() ?? "";
+            if(string.IsNullOrEmpty(content))
+            {
+                System.Diagnostics.Debug.WriteLine("RadioButton content is null or empty.");
+                return;
+            }
+            System.Diagnostics.Debug.WriteLine($"Selected: {content}");
+            if (content.Contains("Start"))
+            {
+                viewModel.TimeFromMode = TimeFromMode.FromVideoStart;
+            }
+            else if (content.Contains("Fire"))
+            {
+                viewModel.TimeFromMode = TimeFromMode.FromGunSound;
+            }
+            else if (content.Contains("Flash"))
+            {
+                viewModel.TimeFromMode = TimeFromMode.FromGunFlash;
+            }
+            else if (content.Contains("Manual"))
+            {
+                viewModel.TimeFromMode = TimeFromMode.ManuallySelect;
+            }
+            else if (content.Contains("WClock"))
+            {
+                viewModel.TimeFromMode = TimeFromMode.WallClockSelect;
+            }
+        }
+        //var val = ((RadioButton)sender).
+        //System.Diagnostics.Debug.WriteLine($"{val}");
     }
 }

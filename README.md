@@ -1,22 +1,29 @@
 ﻿# MauiMediaRecorderVideoAndroidApp
 
-A test app for the following NuGet package. V2.2.1
+A test app for the following NuGet package. V2.2.2
 
 ## NB 2025-05-29
 - See note wrt FPS below
 
-## Latest Update 2025-05-22
-- NuGet package update only for it documentation.
+## Updates Summary of late
+- Several options for determiningthe event start tim, wrt the video start time
 
-## Updates 2025-05-21
-- Fixed runtime audio permissions issue using task delays.
-
-## Latest Updates 2025-05-15
-
-- Added Audio (Microphone) Recording
-  - ~~First time run get audio errors.~~
-  - ~~Restart app, works then.~~
-- Added optional CrossHairs to Camera Preview. Button at bottom left to toggle.
+## Update: 2025-07-06
+- Added **TimeFromMode property** to VideoRecorderService to allow for different ways of determining the start time of the event.
+  - Appends a text string for **TimeFromMode** to the video filename.
+  - **AthStitcher** app uses this to determine the start time of the event and parse it to the video file **Title** property, removing that text from the filename.
+  - For **WallClock** mode, the gun time is also appended that AthStitcher parses to gun WallClock time and sets as Video file **Comment** property, _also_ removing that text from the filename.
+  - Note: Gun only shows if **TimeFromMode** is set to **WallClock** when ready to record. 
+    - Can be pressed before or during video recording.
+- _2Do Insert those properties in the capture library so that the video file has those properties set._
+- Text appended: (Note: _ is added before and after each text string:
+```cs
+        TimeFromMode.FromVideoStart => "VIDEOSTART",
+        TimeFromMode.FromGunSound => "GUNSOUND",
+        TimeFromMode.FromGunFlash => "GUNFLASH",
+        TimeFromMode.ManuallySelect => "MANUAL",
+        TimeFromMode.WallClockSelect => "WALLCLOCK"
+```
 
 ## Update: 2025-05-14
 
@@ -32,7 +39,8 @@ Bundle-No AOT config here for Release config.
 
 ## About MauiMediaRecorderVideoLib
 
-> Nb: Video is stored /Movies folder. Filename is juxtaposed with date.
+> Nb: Video is stored /Movies folder. Filename is juxtaposed with date. Can optionally also optionally 
+start time to the the video filename which this app can parse and use.
 
 A .NET MAUI library for Android video recording using MediaRecorder with camera preview and stabilization features.
 
