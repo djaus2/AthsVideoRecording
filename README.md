@@ -1,6 +1,7 @@
 ﻿# MauiMediaRecorderVideoAndroidApp
 
-A test app for the following NuGet package. V2.2.2
+A test app for the following NuGet package. V2.4.3
+[djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
 
 ## NB 2025-05-29
 - See note wrt FPS below
