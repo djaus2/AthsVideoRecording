@@ -25,6 +25,9 @@ using MauiAndroidCameraViewLib;
 using Java.Interop;
 using static Android.InputMethodServices.Keyboard;
 using AndroidX.Camera.Video;
+using System.Globalization;
+using CommunityToolkit.Maui.Views;
+using MauiAndroidVideoCaptureApp.Views;
 
 
 namespace MauiCameraViewSample;
@@ -43,6 +46,7 @@ public partial class MainPage : ContentPage, IDisposable
 
     //private AppViewModel appViewModel;
 
+
     public MainPage()
     {
         InitializeComponent();
@@ -52,6 +56,7 @@ public partial class MainPage : ContentPage, IDisposable
         this.Appearing += _VideoKapture.MainPage_Appearing;
         this.Disappearing += _VideoKapture.MainPage_Disappearing;
         BindingContext = _VideoKapture.ViewModel;
+        Resources.Add("TimeModeToVisible", new TimeFromModeToVisibilityConverter());
         _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
         _VideoKapture.ViewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart; // Default time from mode
     }
@@ -102,32 +107,58 @@ public partial class MainPage : ContentPage, IDisposable
     {
         try
         {
-            // Get the filename from the Entry control
-            var entry = sender as Entry;
-            string filename = entry?.Text;
-            _VideoKapture.OnFilenameCompleted(filename);
-
-            if (string.IsNullOrWhiteSpace(filename))
+            if (_VideoKapture.ViewModel is RecordingViewModel)
             {
-                ShowMessage("Please enter a valid filename");
-                return;
-            }
+                // Get the filename from the Entry control
+                var entry = sender as Entry;
+                string filename = entry?.Text;
+                _VideoKapture.OnFilenameCompleted(filename);
 
-            // Validate the filename
-            if (filename.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0)
-            {
-                ShowMessage("Invalid filename. Please avoid using special characters.");
-                return;
-            }
+                if (string.IsNullOrWhiteSpace(filename))
+                {
+                    ShowMessage("Please enter a valid filename");
+                    return;
+                }
 
-            // Store the filename for later use in OnButton_GetReady4Recording
-            // No need to initialize camera or prepare recorder here
-            System.Diagnostics.Debug.WriteLine($"Filename validated: {filename}");
+                // Validate the filename
+                if (filename.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) >= 0)
+                {
+                    ShowMessage("Invalid filename. Please avoid using special characters.");
+                    return;
+                }
+
+                // Store the filename for later use in OnButton_GetReady4Recording
+                // No need to initialize camera or prepare recorder here
+                System.Diagnostics.Debug.WriteLine($"Filename validated: {filename}");
+            }
         }
         catch (System.Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error validating filename: {ex.Message}");
             ShowMessage($"Error validating filename: {ex.Message}");
+        }
+    }
+
+    private void OnAutoStartSecsCompleted(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (_VideoKapture.ViewModel is RecordingViewModel)
+            {
+                // Get the filename from the Entry control
+                var entry = sender as Entry;
+                string autostartsecsStr = entry?.Text;
+
+                if (!string.IsNullOrWhiteSpace(autostartsecsStr))
+                {
+                    _VideoKapture.ViewModel.AutoStartSecs = int.TryParse(autostartsecsStr, out int autostartSecs) ? autostartSecs : 0;
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error validating AuoStartSecs: {ex.Message}");
+            ShowMessage($"Error validating AutoStartSecs: {ex.Message}");
         }
     }
 
@@ -151,6 +182,7 @@ public partial class MainPage : ContentPage, IDisposable
         {
             // Clean up resources
             await _VideoKapture.OnButton_CancelRecording_Clicked();
+            _VideoKapture.ViewModel.NotifyStateChange();
         }
         catch (System.Exception ex)
         {
@@ -160,13 +192,50 @@ public partial class MainPage : ContentPage, IDisposable
 
     private async void OnButton_StartRecording_Clicked(object? sender, EventArgs e)
     {
+
         try
         {
+            if (CountdownPopup != null)
+            {
+                // If a countdown popup is active, cancel it
+                CountdownPopup.Cancel();
+            }
             // Start recording
             await _VideoKapture.OnButton_StartRecording_Clicked();
 
             // Update UI state based on the current state of the recorder
             // The state will be updated by the RecordingStarted event handler
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error starting recording: {ex.Message}");
+            ShowMessage($"Error starting recording: {ex.Message}");
+        }
+    }
+
+    CountdownPopup? CountdownPopup = null;
+    private async void OnButton_AutoStartRecordingafterAutoStartSecs_Clicked(object? sender, EventArgs e)
+    {
+        try
+        {
+            if (_VideoKapture.ViewModel is RecordingViewModel)
+            {
+                if ((_VideoKapture.ViewModel.AutoStart))
+                {
+                    int delay = _VideoKapture.ViewModel.AutoStartSecs; // Convert seconds to milliseconds
+                    if (delay > 0)
+                    {
+                        //var result = await this.ShowPopupAsync(new CountdownPopup(delay));
+                        CountdownPopup = new CountdownPopup(delay);
+                        await this.ShowPopupAsync(CountdownPopup);
+                      
+                        bool result = await CountdownPopup.Result;
+                        CountdownPopup = null;
+                        if (result)
+                            await _VideoKapture.OnButton_AutoStartRecordingafterAutoStartSecs_Clicked();
+                    }
+                }
+            }
         }
         catch (System.Exception ex)
         {
@@ -206,7 +275,7 @@ public partial class MainPage : ContentPage, IDisposable
     private async void OnButton_StopRecordingClicked(object? sender, EventArgs e)
     {
         try
-        {
+        {         
             // Stop recording
             await _VideoKapture.OnButton_StopRecordingClicked();
             if(gunDateTime != DateTime.MinValue)
@@ -218,6 +287,7 @@ public partial class MainPage : ContentPage, IDisposable
             {
                 AppendTimeFromModePrefixToVideoFilename();
             }
+            _VideoKapture.ViewModel.NotifyStateChange();
             // Update UI state based on the current state of the recorder
             // The state will be updated by the RecordingStopped event handler
         }
@@ -328,8 +398,7 @@ public partial class MainPage : ContentPage, IDisposable
         gunDateTime = DateTime.Now;
         var viewModel = (RecordingViewModel)this.BindingContext;
         viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Fired;// Update the gun time in the view model
-        var xx = viewModel.IsStartGunVisible;
-        var yy = viewModel.IsStartGunEnabled;
+        var yy = viewModel.IsStartGunButtonEnabled;
     }
     
     private void AppendGunTimeToVideoFilename()
@@ -416,24 +485,41 @@ public partial class MainPage : ContentPage, IDisposable
         {
             switch (mode)
             {
-                case "Start":
+                case "Vid Start":
                     viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart;
                     break;
-                case "Bang":
+                case "Gun Bang":
                     viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromGunSound;
                     break;
-                case "Flash":
+                case "Gun Flash":
                     viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromGunFlash;
                     break;
                 case "Manual":
                     viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.ManuallySelect;
                     break;
-                case "WC":
+                case "Wall Clck":
                     viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.WallClockSelect;
                     break;
             }
         }
     }
+
+    public class TimeFromModeToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //return mode != null && mode == TimeFromMode.WallClockSelect;
+            if (value == null)
+            {
+                return false; // If value is null, return false
+            }
+            return value is TimeFromMode mode && mode == TimeFromMode.WallClockSelect;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+            => throw new NotImplementedException();
+    }
+
 
 
 }

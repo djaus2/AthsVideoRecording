@@ -66,7 +66,7 @@
   
 
 	<ItemGroup>
-		<PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="2.4.3" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
@@ -74,6 +74,9 @@
 
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\CountdownPopup.xaml">
+	    <Generator></Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="MainPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -102,6 +105,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MauiMediaRecorderVideolib\MauiMediaRecorderVideoLib.csproj" />
+  </ItemGroup>
+
  
   <PropertyGroup>
     <NoWarn>CS8600;CS8604;CS8602;CS8603;CS8618;CA1422;CA1416</NoWarn>
@@ -112,14 +119,14 @@
     <RunAOTCompilation>False</RunAOTCompilation>
     <ApplicationDisplayVersion>3.0</ApplicationDisplayVersion>
     <ApplicationVersion>3</ApplicationVersion>
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
   </PropertyGroup>
 
  
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
     <ApplicationDisplayVersion>3.0</ApplicationDisplayVersion>
     <ApplicationVersion>3</ApplicationVersion>
-    <Optimize>True</Optimize>
+    <Optimize>False</Optimize>
   </PropertyGroup>
 
 </Project>

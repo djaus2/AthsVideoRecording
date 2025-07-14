@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+<ContentPage  x:Class="MauiCameraViewSample.MainPage"  
+            Title="Maui Video Capture" 
+            xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
             xmlns:local="clr-namespace:MauiCameraViewSample"
             xmlns:lib="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"
-            x:Class="MauiCameraViewSample.MainPage"  
-            Title="Maui Video Capture"  
-            xmlns:vm="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"  
-            x:DataType="vm:RecordingViewModel">  
-   <ContentPage.Resources>
-        <Style TargetType="Grid">
-            <Setter Property="HorizontalOptions" Value = "Center" />
-            <Setter Property="VerticalOptions" Value = "Center" />
-            <Setter Property="RowSpacing" Value = "0" />
-            <Setter Property="Margin" Value = "0,0,0,0"/>
-        </Style>
+            xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+            xmlns:vm="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"       
+            x:DataType="vm:RecordingViewModel">
+    
+    <ContentPage.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         <Style TargetType="ImageButton">
            <Setter Property="HorizontalOptions" Value = "Center" />
            <Setter Property="VerticalOptions" Value = "Center" />
@@ -77,36 +74,32 @@
                     Opacity="0.8"/>
 
 
-        <VerticalStackLayout Grid.Row ="1"
-              x:Name="MyLayout"           
-              Padding="30,0"  
-              Spacing="25">
-            <Grid VerticalOptions="End">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="80" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="1" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="1" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="1" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="1" />
-                </Grid.ColumnDefinitions>
-                <ImageButton
-                    x:Name="SetGunTime"
-                    Source="gun.svg" 
-                    Grid.Row="0" Grid.Column="1"
-                    Clicked="SetGunTime_Click"
-                    IsEnabled="{Binding IsStartGunEnabled}" 
-                    IsVisible="{Binding IsStartGunEnabled}"/>
-                <ImageButton 
-                    x:Name="CancelButton"
+        <Grid x:Name="MyLayout" Margin="0"
+              Grid.Row ="0" 
+              IsVisible="{Binding IsShowHeadingEtcShowing, Converter={StaticResource InvertedBoolConverter}}" 
+              HorizontalOptions="Fill"
+              VerticalOptions="End" 
+              ColumnDefinitions="Auto,*,Auto" Padding="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+            </Grid.RowDefinitions>
+            <ImageButton x:Name="AutoStartButton" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" IsEnabled="{Binding IsAutoStartGunButtonEnabled}" IsVisible="{Binding IsAutoStartGunButtonVisible}" HorizontalOptions="Start" VerticalOptions="Center"></ImageButton>
+            <!-- Spacer column (Grid.Column="1") takes up remaining space -->
+            <ImageButton x:Name="SetGunTime" Source="gun.svg" Grid.Row="0" Grid.Column="2" Clicked="SetGunTime_Click" IsEnabled="{Binding IsStartGunButtonEnabled}" IsVisible="{Binding IsStartGunButtonEnabled}" HorizontalOptions="End" VerticalOptions="Center"/>
+        </Grid>
+
+        <Grid x:Name="MyLayout2" Margin="0"  
+              Grid.Row ="1" 
+              IsVisible="{Binding IsShowHeadingEtcShowing, Converter={StaticResource InvertedBoolConverter}}" 
+              HorizontalOptions="Fill"
+              ColumnDefinitions="Auto,*,Auto,*,Auto" Padding="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80" />
+            </Grid.RowDefinitions>
+            <ImageButton 
+                    x:Name="cancelvid"
                     Source="cancelvid.svg" 
-                    Grid.Row="0" Grid.Column="5"
+                    Grid.Row="0" Grid.Column="1"
                     Clicked="OnButton_CancelRecording_Clicked"
                     IsEnabled="{Binding IsCancelButtonEnabled}" 
                     IsVisible="{Binding IsCancelButtonEnabled}" />
@@ -114,16 +107,17 @@
                 <ImageButton 
                     x:Name="StartButton"
                     Source="startvid.svg" 
-                    Grid.Row="0" Grid.Column="7"
+                    Grid.Row="0" Grid.Column="3"
                     Clicked="OnButton_StartRecording_Clicked"    
                     IsEnabled="{Binding IsStartRecordingButtonEnabled}" 
                     IsVisible="{Binding IsStartRecordingButtonEnabled}"
                     VerticalOptions="Center">
                 </ImageButton>
+                
                 <ImageButton 
                     x:Name="PauseButton"
                     Source="pausesvid.svg"  
-                    Grid.Row="0" Grid.Column="7"
+                    Grid.Row="0" Grid.Column="3"
                     Clicked="OnButton_PauseRecording_Clicked"    
                     IsEnabled="{Binding IsPauseRecordingButtonEnabled}" 
                     IsVisible="{Binding IsPauseRecordingButtonEnabled}" 
@@ -131,31 +125,28 @@
                 <ImageButton 
                     x:Name="ContinueButton"
                     Source="nextvid.svg" 
-                    Grid.Row="0" Grid.Column="7"
+                    Grid.Row="0" Grid.Column="3"
                     Clicked="OnButton_ContinueRecording_Clicked"   
                     IsEnabled="{Binding IsContinueRecordingButtonEnabled}" 
                     IsVisible="{Binding IsContinueRecordingButtonEnabled}" 
                     VerticalOptions="Center">
                 </ImageButton>
-                <ImageButton 
+            <ImageButton 
                     x:Name="StopButton"
                     Source="stopvid.svg"            
-                    Grid.Row="0" Grid.Column="7"
+                    Grid.Row="0" Grid.Column="5"
                     Clicked="OnButton_StopRecordingClicked"    
                     IsEnabled="{Binding IsStopRecordingButtonEnabled}"  
                     IsVisible="{Binding IsStopRecordingButtonEnabled}"
                     VerticalOptions="Center" />
+        </Grid>
 
-
-            </Grid>
-        </VerticalStackLayout>
         <!-- Camera Preview -->
-
-        <Grid Grid.Row="0" IsVisible="{Binding IsShowHeadingEtcShowing}">
+        <Grid Grid.Row="0" Margin="0" IsVisible="{Binding IsShowHeadingEtcShowing}">
             <ScrollView >
                 <VerticalStackLayout x:Name="SetupVSL"
-                    Padding="10"  
-                    Spacing="25">
+                    Padding="0"  
+                    Spacing="0">
                     <Image  
                       Source="dotnet_athletics.png"  
                       HeightRequest="185"  
@@ -164,11 +155,11 @@
                       SemanticProperties.Description="dot net bot in a hovercraft number nine" />
 
                     <Label  
-                      Text="MAUI Video Recording App"  
+                      Text="Aths Video Recording"  
                       Style="{StaticResource Headline}" 
                       IsVisible="{Binding IsGetReadyButtonEnabled}"
                       SemanticProperties.HeadingLevel="Level1" />
-                    
+
                     <!-- Frame Rate Selection -->
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
                         <Label Text="Frame Rate:" FontAttributes="Bold" />
@@ -178,6 +169,40 @@
                             <RadioButton x:Name="RadioFpsAuto" Content="Auto" CheckedChanged="OnFrameRateCheckedChanged" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
+
+                    <Grid IsVisible= "{Binding IsGetReadyButtonEnabled}" Margin="0"
+                    Grid.ColumnSpacing ="5"
+                          HorizontalOptions="Fill" VerticalOptions="Center">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+                        <HorizontalStackLayout Grid.Row ="0" Grid.Column="0">
+                            <CheckBox VerticalOptions="Center"  x:Name="myCheckBox" IsChecked="{Binding AutoStart}" />
+                            <Label    VerticalOptions="Center" Text="Auto Start Video"/>
+                        </HorizontalStackLayout>
+                        <Label    Grid.Row ="0" Grid.Column="2" 
+                                  VerticalOptions="Center"
+                                  HorizontalOptions="End"
+                                  FontAttributes="Bold"
+                                  IsVisible="{Binding AutoStart}" 
+                                  Text=" Delay: "  TextColor="Blue"/>
+                        <Entry    Grid.Row ="0" Grid.Column="4"
+                            Keyboard="Numeric"
+                                  HorizontalOptions="Start"
+                                  VerticalOptions="Center"
+                            Placeholder="Seconds before auto start"
+                            Text="{Binding AutoStartSecs, Mode=TwoWay}"
+                            IsVisible="{Binding AutoStart}" />
+                    </Grid>
+
                     <Grid Margin="0" IsVisible="{Binding IsGetReadyButtonEnabled}" HorizontalOptions="Start">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -236,7 +261,9 @@
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>
-        <Grid IsVisible="{Binding IsGetReadyButtonEnabled}" Grid.Row="1">
+
+ 
+        <Grid Margin="0"  IsVisible="{Binding IsGetReadyButtonEnabled}" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1" />
                 <RowDefinition Height="80" />
