@@ -27,7 +27,15 @@ using static Android.InputMethodServices.Keyboard;
 using AndroidX.Camera.Video;
 using System.Globalization;
 using CommunityToolkit.Maui.Views;
-using MauiAndroidVideoCaptureApp.Views;
+//using MauiAndroidVideoCaptureApp.Views;
+using DjsMauiToolkit.Views;
+// Ensure that the necessary namespaces are included at the top of the file.  
+using System;
+using System.Threading.Tasks;
+using System.Globalization;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
+
 
 
 namespace MauiCameraViewSample;
@@ -212,21 +220,22 @@ public partial class MainPage : ContentPage, IDisposable
             ShowMessage($"Error starting recording: {ex.Message}");
         }
     }
-
     CountdownPopup? CountdownPopup = null;
+   
     private async void OnButton_AutoStartRecordingafterAutoStartSecs_Clicked(object? sender, EventArgs e)
     {
         try
+
         {
             if (_VideoKapture.ViewModel is RecordingViewModel)
             {
                 if ((_VideoKapture.ViewModel.AutoStart))
                 {
-                    int delay = _VideoKapture.ViewModel.AutoStartSecs; // Convert seconds to milliseconds
+                    int delay = _VideoKapture.ViewModel.AutoStartSecs; 
                     if (delay > 0)
                     {
                         //var result = await this.ShowPopupAsync(new CountdownPopup(delay));
-                        CountdownPopup = new CountdownPopup(delay);
+                        CountdownPopup = new CountdownPopup(delay, "dotnet_athletics.jpg", 64,"Starting...");
                         await this.ShowPopupAsync(CountdownPopup);
                       
                         bool result = await CountdownPopup.Result;

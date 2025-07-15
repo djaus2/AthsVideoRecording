@@ -63,6 +63,14 @@
   <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
     <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\CountdownPopup.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Remove="Views\CountdownPopup.xaml" />
+  </ItemGroup>
   
 
 	<ItemGroup>
@@ -74,9 +82,6 @@
 
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\CountdownPopup.xaml">
-	    <Generator></Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="MainPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -106,7 +111,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MauiCountdownPopup\DjsMauiToolkit.csproj" />
     <ProjectReference Include="..\MauiMediaRecorderVideolib\MauiMediaRecorderVideoLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
 
  

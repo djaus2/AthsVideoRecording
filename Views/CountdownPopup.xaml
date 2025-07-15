@@ -9,34 +9,49 @@
     <!-- Important for rounded corners -->
     <toolkit:Popup.Resources>
         <Style x:Key="PopupBorderStyle" TargetType="Border">
-            <Setter Property="StrokeThickness" Value="3" />
+            <Setter Property="StrokeThickness" Value="2" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="BackgroundColor" Value="White" />
-            <Setter Property="HorizontalOptions" Value="Fill" />
-            <Setter Property="VerticalOptions" Value="Fill" />
             <Setter Property="StrokeShape">
                 <RoundRectangle CornerRadius="16" />
             </Setter>
         </Style>
     </toolkit:Popup.Resources>
 
-    <Border Stroke="Red" Style="{StaticResource PopupBorderStyle}" WidthRequest="240" HeightRequest="150">
-        <Border Stroke="Yellow" Style="{StaticResource PopupBorderStyle}">
-            <Border Stroke="Orange" Style="{StaticResource PopupBorderStyle}">
-                <Border Stroke="Green" Style="{StaticResource PopupBorderStyle}">
-                    <Border Stroke="Blue" Style="{StaticResource PopupBorderStyle}">
-                        <Border Stroke="Indigo" Style="{StaticResource PopupBorderStyle}">
-                            <Border Stroke="Violet" Style="{StaticResource PopupBorderStyle}">
+    <Border x:Name="OuterBorder" Stroke="Red" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}" WidthRequest="240" HeightRequest="240">
+        <Border Stroke="Yellow" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}">
+            <Border Stroke="Orange" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}">
+                <Border Stroke="Green" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}">
+                    <Border Stroke="Blue" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}">
+                        <Border Stroke="Indigo" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}">
+                            <Border Stroke="Violet" HorizontalOptions="Fill" VerticalOptions="Fill"  Style="{StaticResource PopupBorderStyle}">
                                 <VerticalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
-                                    <Label x:Name="CountdownLabel" Text="Starting..." FontSize="24" HorizontalOptions="Center" />
-                                    <Button Text="Cancel"
+
+                                    <Image x:Name="PopupIcon"
+                                       Source="dotnet_athletics.jpg"
+                                       WidthRequest="100"
+                                       HeightRequest="100"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Aspect="AspectFit" />
+
+                                    <Label x:Name="CountdownLabel"
+                                       Text="Starting..."
+                                       FontSize="24"
+                                       HorizontalOptions="Center"
+                                       LineBreakMode="NoWrap" />
+
+                                    <Button x:Name="CancelButton"
+                                        Text="Cancel"
                                         Clicked="OnCancelClicked"
                                         BackgroundColor="#e74c3c"
                                         TextColor="White"
                                         CornerRadius="8"
                                         WidthRequest="100"
                                         HorizontalOptions="Center" />
+
                                 </VerticalStackLayout>
+
                             </Border>
                         </Border>
                     </Border>
