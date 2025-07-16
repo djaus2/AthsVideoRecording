@@ -162,7 +162,7 @@
 
                     <!-- Frame Rate Selection -->
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
-                        <Label Text="Frame Rate:" FontAttributes="Bold" />
+                        <Label Text="Frame Rate:" FontAttributes="Bold" TextColor= "Purple" />
                         <HorizontalStackLayout Spacing="15">
                             <RadioButton x:Name="RadioFps30" Content="30 FPS" IsChecked="True" CheckedChanged="OnFrameRateCheckedChanged" />
                             <RadioButton x:Name="RadioFps60" Content="60 FPS" CheckedChanged="OnFrameRateCheckedChanged" />
@@ -176,6 +176,7 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -186,7 +187,7 @@
                         </Grid.ColumnDefinitions>
                         <HorizontalStackLayout Grid.Row ="0" Grid.Column="0">
                             <CheckBox VerticalOptions="Center"  x:Name="myCheckBox" IsChecked="{Binding AutoStart}" />
-                            <Label    VerticalOptions="Center" Text="Auto Start Video"/>
+                            <Label    VerticalOptions="Center" Text="Auto Start Video" FontAttributes="Bold"  TextColor="DarkGreen"/>
                         </HorizontalStackLayout>
                         <Label    Grid.Row ="0" Grid.Column="2" 
                                   VerticalOptions="Center"
@@ -201,10 +202,20 @@
                             Placeholder="Seconds before auto start"
                             Text="{Binding AutoStartSecs, Mode=TwoWay}"
                             IsVisible="{Binding AutoStart}" />
+                        <!-- Autostart Countdown Mode Selection -->
+                        <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="5" Spacing="0" Margin="0,0,0,0" IsVisible="{Binding AutoStart}">
+                            <Label Text="Autostart Countdown Mode:" FontAttributes="Bold"  TextColor="Purple"/>
+                            <HorizontalStackLayout Spacing="15">
+                                <RadioButton x:Name="Red" Content="Red Popup" IsChecked="True" CheckedChanged="OnCountDownModeChange" />
+                                <RadioButton x:Name="Rainbow" Content="Rainbow Popup" CheckedChanged="OnCountDownModeChange" />
+                                <RadioButton x:Name="Soft" Content="Soft" CheckedChanged="OnCountDownModeChange" />
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
                     </Grid>
 
                     <Grid Margin="0" IsVisible="{Binding IsGetReadyButtonEnabled}" HorizontalOptions="Start">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
@@ -215,30 +226,32 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <RadioButton Grid.Row="0" Grid.Column="0" x:Name="FromVideoStart" Content="Vid Start"  GroupName="TimeFromMode"    IsChecked="True" CheckedChanged="OnTimeFromModeChanged"/>
-                        <RadioButton Grid.Row="0" Grid.Column="1" x:Name="FromGunSound" Content="Gun Bang" GroupName="TimeFromMode"        CheckedChanged="OnTimeFromModeChanged" />
-                        <RadioButton Grid.Row="0" Grid.Column="2" x:Name="FromGunFlash" Content="Gun Flash" GroupName="TimeFromMode"       CheckedChanged="OnTimeFromModeChanged" />
-                        <RadioButton Grid.Row="0" Grid.Column="3" x:Name="ManuallySelect" Content="Manual" GroupName="TimeFromMode"    CheckedChanged="OnTimeFromModeChanged" />
-                        <RadioButton Grid.Row="0" Grid.Column="4" x:Name="WallClockSelect" Content="Wall Clck" GroupName="TimeFromMode"   CheckedChanged="OnTimeFromModeChanged" />
-                        <ImageButton Source="start.svg" Grid.Row="1" Grid.Column="0" WidthRequest="40"  HeightRequest="40" 
+                        <Label Grid.Row="0" Grid.ColumnSpan="5" Text="Time From Mode:" FontAttributes="Bold" TextColor= "Purple" />
+
+                        <RadioButton Grid.Row="1" Grid.Column="0" x:Name="FromVideoStart" Content="Vid Start"  GroupName="TimeFromMode"    IsChecked="True" CheckedChanged="OnTimeFromModeChanged"/>
+                        <RadioButton Grid.Row="1" Grid.Column="1" x:Name="FromGunSound" Content="Gun Bang" GroupName="TimeFromMode"        CheckedChanged="OnTimeFromModeChanged" />
+                        <RadioButton Grid.Row="1" Grid.Column="2" x:Name="FromGunFlash" Content="Gun Flash" GroupName="TimeFromMode"       CheckedChanged="OnTimeFromModeChanged" />
+                        <RadioButton Grid.Row="1" Grid.Column="3" x:Name="ManuallySelect" Content="Manual" GroupName="TimeFromMode"    CheckedChanged="OnTimeFromModeChanged" />
+                        <RadioButton Grid.Row="1" Grid.Column="4" x:Name="WallClockSelect" Content="Wall Clck" GroupName="TimeFromMode"   CheckedChanged="OnTimeFromModeChanged" />
+                        <ImageButton Source="start.svg" Grid.Row="2" Grid.Column="0" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="StartButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
-                        <ImageButton Source="bang.svg" Grid.Row="1" Grid.Column="1" WidthRequest="40"  HeightRequest="40" 
+                        <ImageButton Source="bang.svg" Grid.Row="2" Grid.Column="1" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="BangButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
-                        <ImageButton Source="boltlightning.svg" Grid.Row="1" Grid.Column="2" WidthRequest="40"  HeightRequest="40" 
+                        <ImageButton Source="boltlightning.svg" Grid.Row="2" Grid.Column="2" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="FlashButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
-                        <ImageButton Source="spanner.svg" Grid.Row="1" Grid.Column="3" WidthRequest="40"  HeightRequest="40" 
+                        <ImageButton Source="spanner.svg" Grid.Row="2" Grid.Column="3" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="ManualButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
-                        <ImageButton Source="gun.svg" Grid.Row="1" Grid.Column="4" WidthRequest="40"  HeightRequest="40" 
+                        <ImageButton Source="gun.svg" Grid.Row="2" Grid.Column="4" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="WCButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
                     </Grid>
                     <!-- Stabilization Mode Toggle -->
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
-                        <Label Text="Stabilization:" FontAttributes="Bold" />
+                        <Label Text="Stabilization:" FontAttributes="Bold" TextColor= "Purple" />
                         <HorizontalStackLayout Spacing="15">
                             <RadioButton x:Name="RadioStabStandard" Content="Standard" IsChecked="True" CheckedChanged="OnStabilizationModeChanged" />
                             <RadioButton x:Name="RadioStabLocked" Content="Locked" CheckedChanged="OnStabilizationModeChanged" />
@@ -246,7 +259,7 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
-                        <Label Text="Video Filename:" FontAttributes="Bold" />
+                        <Label Text="Video Filename:" FontAttributes="Bold" TextColor= "Purple" />
                         <Entry x:Name="Filename" 
                          Placeholder="Enter Video FileName (without .mp4)" 
                          HeightRequest="50"

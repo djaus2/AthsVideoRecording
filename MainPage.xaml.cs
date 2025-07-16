@@ -32,7 +32,6 @@ using MauiCountdownToolkit.Views;
 // Ensure that the necessary namespaces are included at the top of the file.  
 using System;
 using System.Threading.Tasks;
-using System.Globalization;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
 
@@ -67,6 +66,7 @@ public partial class MainPage : ContentPage, IDisposable
         Resources.Add("TimeModeToVisible", new TimeFromModeToVisibilityConverter());
         _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
         _VideoKapture.ViewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart; // Default time from mode
+        _VideoKapture.ViewModel.CountdownMode = CountDownMode.PopupRed;
     }
 
     ~MainPage()
@@ -220,7 +220,7 @@ public partial class MainPage : ContentPage, IDisposable
             ShowMessage($"Error starting recording: {ex.Message}");
         }
     }
-    CountdownPopup? CountdownPopup = null;
+    ICountdownPopup? CountdownPopup = null;
    
     private async void OnButton_AutoStartRecordingafterAutoStartSecs_Clicked(object? sender, EventArgs e)
     {
@@ -231,19 +231,39 @@ public partial class MainPage : ContentPage, IDisposable
             {
                 if ((_VideoKapture.ViewModel.AutoStart))
                 {
+                    var mode = _VideoKapture.ViewModel.CountdownMode;
+                    if (mode == CountDownMode.None)
+                    {
+                        return;
+                    }
+
                     int delay = _VideoKapture.ViewModel.AutoStartSecs; 
                     if (delay > 0)
                     {
+                        bool result = true;
                         // If doing delay here then signal to VideoKapture to not use soft auto start
-                        _VideoKapture.ViewModel.UseSoftAutoStartinVideoCaptureLib=false;
-                        //var result = await this.ShowPopupAsync(new CountdownPopup(delay));
-                        CountdownPopup = new CountdownPopup(delay,null, "dotnet_athletics.jpg", 64,"Starting...");
-                        await this.ShowPopupAsync(CountdownPopup);
-                      
-                        bool result = await CountdownPopup.Result;
-                        CountdownPopup = null;
-                        //Turn back on soft delay to auto start
-                        _VideoKapture.ViewModel.UseSoftAutoStartinVideoCaptureLib = true;
+                        if (mode != CountDownMode.Soft)
+                        {
+                            // Nb ShowPopupAsync()m can't take an interface type.
+                            if (mode == CountDownMode.PopupRed)
+                            {
+                                //2Do set color from red
+                                CountdownPopup cp = new CountdownPopup(delay, null, "dotnet_athletics.jpg", 64, "Starting...");
+                                await this.ShowPopupAsync(cp);
+                                CountdownPopup = cp;
+                            }
+                            else
+                            {
+                                //Default to Rainbow
+                                RainbowCountdownPopup cp = new RainbowCountdownPopup(delay, "dotnet_athletics.jpg", 64, "Starting...");
+                                await this.ShowPopupAsync(cp);
+                                CountdownPopup = cp;
+                            }
+
+                            result = await CountdownPopup.Result;
+                            CountdownPopup = null;
+                            //Turn back on soft delay to auto start
+                        }
                         if (result)
                             await _VideoKapture.OnButton_AutoStartRecordingafterAutoStartSecs_Clicked();
                     }
@@ -320,7 +340,9 @@ public partial class MainPage : ContentPage, IDisposable
 
         // Get the content of the radio button to identify it
         string content = radioButton.Content?.ToString() ?? "";
-        
+        if (string.IsNullOrEmpty(content))
+            return;
+
         if (content.Contains("30"))
         {
             _VideoKapture.SelectedFrameRate = 30; // Set frame rate to 30 FPS
@@ -347,7 +369,9 @@ public partial class MainPage : ContentPage, IDisposable
 
         // Get the content of the radio button to identify it
         string content = radioButton.Content?.ToString() ?? "";
-        
+        if (string.IsNullOrEmpty(content))
+            return;
+
         if (content.Contains("Standard"))
         {
             _VideoKapture.UseLockedStabilization = false;
@@ -533,6 +557,28 @@ public partial class MainPage : ContentPage, IDisposable
             => throw new NotImplementedException();
     }
 
+    private void OnCountDownModeChange(object sender, CheckedChangedEventArgs e)
+    {
+        if (!e.Value) return; // Only process when a button is checked, not unchecked
 
+        var radioButton = sender as RadioButton;
+        if (radioButton == null) return;
 
+        // Get the content of the radio button to identify it
+        string content = radioButton.Content?.ToString() ?? "";
+        if (string.IsNullOrEmpty(content))
+            return;
+        if(content.Contains("soft",StringComparison.OrdinalIgnoreCase))
+        {
+            _VideoKapture.ViewModel.CountdownMode = CountDownMode.Soft;
+        }
+        else if (content.Contains("red", StringComparison.OrdinalIgnoreCase))
+        {
+            _VideoKapture.ViewModel.CountdownMode = CountDownMode.PopupRed;
+        }
+        else if (content.Contains("rainbow", StringComparison.OrdinalIgnoreCase))
+        {
+            _VideoKapture.ViewModel.CountdownMode = CountDownMode.PopupRainbow;
+        }
+    }
 }
