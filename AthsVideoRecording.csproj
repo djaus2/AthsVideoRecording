@@ -111,7 +111,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MauiCountdownPopup\DjsMauiToolkit.csproj" />
+    <ProjectReference Include="..\MauiCountdownPopup\MauiCountdownToolkit.csproj" />
     <ProjectReference Include="..\MauiMediaRecorderVideolib\MauiMediaRecorderVideoLib.csproj" />
   </ItemGroup>
 

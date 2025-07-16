@@ -28,7 +28,7 @@ using AndroidX.Camera.Video;
 using System.Globalization;
 using CommunityToolkit.Maui.Views;
 //using MauiAndroidVideoCaptureApp.Views;
-using DjsMauiToolkit.Views;
+using MauiCountdownToolkit.Views;
 // Ensure that the necessary namespaces are included at the top of the file.  
 using System;
 using System.Threading.Tasks;
@@ -235,7 +235,7 @@ public partial class MainPage : ContentPage, IDisposable
                     if (delay > 0)
                     {
                         //var result = await this.ShowPopupAsync(new CountdownPopup(delay));
-                        CountdownPopup = new CountdownPopup(delay, "dotnet_athletics.jpg", 64,"Starting...");
+                        CountdownPopup = new CountdownPopup(delay,null, "dotnet_athletics.jpg", 64,"Starting...");
                         await this.ShowPopupAsync(CountdownPopup);
                       
                         bool result = await CountdownPopup.Result;
