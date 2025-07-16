@@ -1,4 +1,6 @@
-﻿# MauiMediaRecorderVideoAndroidApp
+﻿# AthsVideoRecording  
+*** Note renamed fromMauiMediaRecorderVideoAndroidApp
+> Will change Repository URL to match soon.
 
 A test app for the following NuGet package. V2.4.3
 [djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
