@@ -11,6 +11,7 @@
     
     <ContentPage.Resources>
         <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+        <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
         <Style TargetType="ImageButton">
            <Setter Property="HorizontalOptions" Value = "Center" />
            <Setter Property="VerticalOptions" Value = "Center" />
@@ -170,8 +171,10 @@
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
-                    <Grid IsVisible= "{Binding IsGetReadyButtonEnabled}" Margin="0"
-                    Grid.ColumnSpacing ="5"
+                    <Grid 
+                          IsVisible="{Binding TimeFromMode, Converter={StaticResource EnumEqualsConverter}}"
+                          Margin="0"
+                          Grid.ColumnSpacing ="5"
                           HorizontalOptions="Fill" VerticalOptions="Center">
 
                         <Grid.RowDefinitions>
