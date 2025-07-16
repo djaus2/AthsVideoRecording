@@ -1,5 +1,5 @@
 ﻿# AthsVideoRecording  
-*** Note renamed fromMauiMediaRecorderVideoAndroidApp
+- Note renamed fromMauiMediaRecorderVideoAndroidApp
 > Will change Repository URL to match soon.
 
 A test app for the following NuGet package. V3.0.1
