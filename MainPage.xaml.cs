@@ -234,12 +234,16 @@ public partial class MainPage : ContentPage, IDisposable
                     int delay = _VideoKapture.ViewModel.AutoStartSecs; 
                     if (delay > 0)
                     {
+                        // If doing delay here then signal to VideoKapture to not use soft auto start
+                        _VideoKapture.ViewModel.UseSoftAutoStartinVideoCaptureLib=false;
                         //var result = await this.ShowPopupAsync(new CountdownPopup(delay));
                         CountdownPopup = new CountdownPopup(delay,null, "dotnet_athletics.jpg", 64,"Starting...");
                         await this.ShowPopupAsync(CountdownPopup);
                       
                         bool result = await CountdownPopup.Result;
                         CountdownPopup = null;
+                        //Turn back on soft delay to auto start
+                        _VideoKapture.ViewModel.UseSoftAutoStartinVideoCaptureLib = true;
                         if (result)
                             await _VideoKapture.OnButton_AutoStartRecordingafterAutoStartSecs_Clicked();
                     }
