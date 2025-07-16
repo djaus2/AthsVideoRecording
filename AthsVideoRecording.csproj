@@ -75,7 +75,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
-		<PackageReference Include="djaus2MauiCountdownToolkit" Version="1.0.6" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
@@ -112,7 +111,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MauiMediaRecorderVideolib\MauiMediaRecorderVideoLib.csproj" />
+    <PackageReference Include="djaus2MauiCountdownToolkit" Version="1.0.6" />
+    <PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
