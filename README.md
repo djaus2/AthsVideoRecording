@@ -11,7 +11,20 @@ Also uses Nuget Package V1,0,6 [djaus2MauiCountdownToolkit](https://www.nuget.or
 - See note wrt FPS below
 
 ## Updates Summary of late
-- Several options for determiningthe event start tim, wrt the video start time
+- Several options for determining the event start tim, wrt the video start time
+
+## Update: 2025-07-16
+- Numerous updates including with 2 NuGet packages it uses.
+  - In TimeFromMode WallClockSelect
+    - These features only show in this mode.
+    - Can auto start video recording after a period
+      - 3 Modes for that:
+        - Soft: Just handled by _VideoKapture as UI less delay
+          - Can be cancelled by pressing video start (white) button.
+        - Red and Rainbow:  A popup with Cancel button
+          - Red: Popup border is Red. 2Do make color selectable
+          - Rainbow: Rainbow border. _Nice!_
+     - There is a start gun icon. Race times are wrt to this.
 
 ## Update: 2025-07-06
 - Added **TimeFromMode property** to VideoRecorderService to allow for different ways of determining the start time of the event.
