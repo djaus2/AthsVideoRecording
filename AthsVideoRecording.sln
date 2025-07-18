@@ -5,8 +5,6 @@ VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AthsVideoRecording", "AthsVideoRecording.csproj", "{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiCountdownToolkit", "..\MauiCountdownPopup\MauiCountdownToolkit.csproj", "{5C188418-1B57-E7B5-88D2-69EA294F637B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,9 +16,6 @@ Global
 		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{5C188418-1B57-E7B5-88D2-69EA294F637B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C188418-1B57-E7B5-88D2-69EA294F637B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C188418-1B57-E7B5-88D2-69EA294F637B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
