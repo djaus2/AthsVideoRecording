@@ -24,7 +24,7 @@ Also uses Nuget Package V1.0.6 [djaus2MauiCountdownToolkit](https://www.nuget.or
           - ***ATM it does this delay in both packages.*** 2Do
         - Red and Rainbow:  A popup with Cancel button
           - Red: Popup border is Red. 2Do make color selectable
-          - Rainbow: Rainbow border. _Nice!_
+          - Rainbow: Rainbow border, as below. _Nice!_
      - There is a start gun icon. Race times are wrt to this.  
 ![Countdown Popup](https://raw.githubusercontent.com/djaus2/MauiCountdownToolkit/master/Popup1.png)
 

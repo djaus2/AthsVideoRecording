@@ -112,11 +112,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="djaus2MauiCountdownToolkit" Version="1.0.8" />
     <PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Views\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MauiCountdownPopup\MauiCountdownToolkit.csproj" />
   </ItemGroup>
 
  
