@@ -28,12 +28,13 @@ using AndroidX.Camera.Video;
 using System.Globalization;
 using CommunityToolkit.Maui.Views;
 //using MauiAndroidVideoCaptureApp.Views;
-using MauiCountdownToolkit.Views;
+using MauiCountdownToolkit;
 // Ensure that the necessary namespaces are included at the top of the file.  
 using System;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
+using MauiAndroidVideoCaptureApp;
 
 
 
@@ -66,7 +67,7 @@ public partial class MainPage : ContentPage, IDisposable
         Resources.Add("TimeModeToVisible", new TimeFromModeToVisibilityConverter());
         _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
         _VideoKapture.ViewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart; // Default time from mode
-        _VideoKapture.ViewModel.CountdownMode = CountDownMode.PopupRed;
+        _VideoKapture.ViewModel.CountdownMode = CountDownModeTranslator.ParseCameraView("red");// MauiAndroidCameraViewLib.CountDownMode.PopupRed;
     }
 
     ~MainPage()
@@ -203,10 +204,10 @@ public partial class MainPage : ContentPage, IDisposable
 
         try
         {
-            if (CountdownPopup != null)
+            if (countdown != null)
             {
                 // If a countdown popup is active, cancel it
-                CountdownPopup.Cancel();
+                countdown.Cancel();
             }
             // Start recording
             await _VideoKapture.OnButton_StartRecording_Clicked();
@@ -220,7 +221,7 @@ public partial class MainPage : ContentPage, IDisposable
             ShowMessage($"Error starting recording: {ex.Message}");
         }
     }
-    ICountdownPopup? CountdownPopup = null;
+    MauiCountdownToolkit.Countdown? countdown = null;
    
     private async void OnButton_AutoStartRecordingafterAutoStartSecs_Clicked(object? sender, EventArgs e)
     {
@@ -232,40 +233,27 @@ public partial class MainPage : ContentPage, IDisposable
                 if ((_VideoKapture.ViewModel.AutoStart))
                 {
                     var mode = _VideoKapture.ViewModel.CountdownMode;
-                    if (mode == CountDownMode.None)
+                    //Need to translate between types. 
+                    MauiCountdownToolkit.CountDownMode mmode = CountDownModeTranslator.ToToolkit(mode);
+                    if (mmode == MauiCountdownToolkit.CountDownMode.None)
                     {
                         return;
                     }
-
                     int delay = _VideoKapture.ViewModel.AutoStartSecs; 
                     if (delay > 0)
                     {
-                        bool result = true;
+                        
                         // If doing delay here then signal to VideoKapture to not use soft auto start
-                        if (mode != CountDownMode.Soft)
+                        countdown  = Countdown.Create(this, mmode);
+                        if (countdown != null)
                         {
-                            // Nb ShowPopupAsync()m can't take an interface type.
-                            if (mode == CountDownMode.PopupRed)
+                            bool response = await countdown.Wait(delay);
+                            if (response)
                             {
-                                //2Do set color from red
-                                CountdownPopup cp = new CountdownPopup(delay, null, "dotnet_athletics.jpg", 64, "Starting...");
-                                await this.ShowPopupAsync(cp);
-                                CountdownPopup = cp;
+                                await _VideoKapture.OnButton_AutoStartRecordingafterAutoStartSecs_Clicked();
                             }
-                            else
-                            {
-                                //Default to Rainbow
-                                RainbowCountdownPopup cp = new RainbowCountdownPopup(delay, "dotnet_athletics.jpg", 64, "Starting...");
-                                await this.ShowPopupAsync(cp);
-                                CountdownPopup = cp;
-                            }
-
-                            result = await CountdownPopup.Result;
-                            CountdownPopup = null;
-                            //Turn back on soft delay to auto start
                         }
-                        if (result)
-                            await _VideoKapture.OnButton_AutoStartRecordingafterAutoStartSecs_Clicked();
+                        countdown = null;
                     }
                 }
             }
@@ -568,17 +556,21 @@ public partial class MainPage : ContentPage, IDisposable
         string content = radioButton.Content?.ToString() ?? "";
         if (string.IsNullOrEmpty(content))
             return;
-        if(content.Contains("soft",StringComparison.OrdinalIgnoreCase))
+        if (content.Contains("none", StringComparison.OrdinalIgnoreCase))
         {
-            _VideoKapture.ViewModel.CountdownMode = CountDownMode.Soft;
+            _VideoKapture.ViewModel.CountdownMode = MauiAndroidCameraViewLib.CountDownMode.None;
+        }
+        else if (content.Contains("soft",StringComparison.OrdinalIgnoreCase))
+        {
+            _VideoKapture.ViewModel.CountdownMode = MauiAndroidCameraViewLib.CountDownMode.Soft;
         }
         else if (content.Contains("red", StringComparison.OrdinalIgnoreCase))
         {
-            _VideoKapture.ViewModel.CountdownMode = CountDownMode.PopupRed;
+            _VideoKapture.ViewModel.CountdownMode = MauiAndroidCameraViewLib.CountDownMode.PopupRed;
         }
         else if (content.Contains("rainbow", StringComparison.OrdinalIgnoreCase))
         {
-            _VideoKapture.ViewModel.CountdownMode = CountDownMode.PopupRainbow;
+            _VideoKapture.ViewModel.CountdownMode = MauiAndroidCameraViewLib.CountDownMode.PopupRainbow;
         }
     }
 }
