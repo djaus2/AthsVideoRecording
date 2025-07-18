@@ -21,6 +21,7 @@ Also uses Nuget Package V1.0.6 [djaus2MauiCountdownToolkit](https://www.nuget.or
       - 3 Modes for that:
         - Soft: Just handled by _VideoKapture as UI less delay
           - Can be cancelled by pressing video start (white) button.
+          - ***ATM it does this delay in both packages.*** 2Do
         - Red and Rainbow:  A popup with Cancel button
           - Red: Popup border is Red. 2Do make color selectable
           - Rainbow: Rainbow border. _Nice!_

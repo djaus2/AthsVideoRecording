@@ -17,8 +17,8 @@
 		<ApplicationId>au.com.sportronics.mauiandroidvideocaptureapp</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
-		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>3.1</ApplicationDisplayVersion>
+		<ApplicationVersion>3</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<PlatformTarget>ARM64</PlatformTarget>
@@ -75,6 +75,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
+		<PackageReference Include="djaus2MauiCountdownToolkit" Version="1.1.2" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
@@ -111,7 +112,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="djaus2MauiCountdownToolkit" Version="1.0.8" />
     <PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="3.0.2" />
   </ItemGroup>
 
@@ -127,7 +127,7 @@
  
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
     <RunAOTCompilation>False</RunAOTCompilation>
-    <ApplicationDisplayVersion>3.0</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>3.1</ApplicationDisplayVersion>
     <ApplicationVersion>3</ApplicationVersion>
     <Optimize>True</Optimize>
   </PropertyGroup>
