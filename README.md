@@ -12,7 +12,9 @@ Also uses Nuget Package V1.0.6 [djaus2MauiCountdownToolkit](https://www.nuget.or
 
 ## Updates Summary of late
 - Several options for determining the event start tim, wrt the video start time
-
+## Update 2025-07-19
+Major bug fix (sorry) in the app that caused the app to crash when trying to run detached from VS.
+- ```EnumEqualsConverter``` went missing! Fixed. 
 ## Update: 2025-07-16
 - Numerous updates including with 2 NuGet packages it uses.
   - In TimeFromMode WallClockSelect
