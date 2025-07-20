@@ -242,8 +242,9 @@ public partial class MainPage : ContentPage, IDisposable
                     int delay = _VideoKapture.ViewModel.AutoStartSecs; 
                     if (delay > 0)
                     {
+
                         // If doing delay here then signal to VideoKapture to not use soft auto start
-                        countdown  = Countdown.Create(this, mmode, "dotnet_athletics.png");
+                        countdown = Countdown.Create(this, mmode, "videogreenx.svg");// "dotnet_athletics.png");
                         if (countdown != null)
                         {
                             bool response = await countdown.Wait(delay);

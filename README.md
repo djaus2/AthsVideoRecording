@@ -11,7 +11,11 @@ Also uses Nuget Package V1.0.6 [djaus2MauiCountdownToolkit](https://www.nuget.or
 - See note wrt FPS below
 
 ## Updates Summary of late
-- Several options for determining the event start tim, wrt the video start time
+- Several options for determining the event start time, wrt the video start time
+
+## Popup Icon issue 2025-07-19
+- Can use Icon from app but not Toolkit embedded versions
+  - 2 Nuget packages tried. Reverting at Version 1.1.6 where app icon works
 ## Update 2025-07-19
 Major bug fix (sorry) in the app that caused the app to crash when trying to run detached from VS.
 - ```EnumEqualsConverter``` went missing! Fixed. 

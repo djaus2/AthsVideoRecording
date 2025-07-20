@@ -103,7 +103,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="djaus2MauiCountdownToolkit" Version="1.1.3" />
+    <PackageReference Include="djaus2MauiCountdownToolkit" Version="1.1.6" />
     <PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="3.0.2" />
   </ItemGroup>
 
