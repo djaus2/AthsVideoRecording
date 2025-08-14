@@ -1,5 +1,5 @@
 ﻿# AthsVideoRecording  
-- Note renamed fromMauiMediaRecorderVideoAndroidApp
+- Note: Renamed fromMauiMediaRecorderVideoAndroidApp
 
 A test app for the following NuGet package. V3.0.1
 [djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
