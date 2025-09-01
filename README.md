@@ -44,8 +44,8 @@ An Android Maui App for video recoding Athletcs (or similar sport) finish of a r
 
 ## Usage
 
-Clone and build the repository targeting an Android phone. Deploy and run.  Need to accet permissions (2).
-First time might need to restart after acveepting permissions.
+Clone and build the repository targeting an Android phone. Deploy and run.  Need to accept permissions (2).
+First time might need to restart after accepting permissions.
 Need the e WPF app for receiving the video.
 
 
