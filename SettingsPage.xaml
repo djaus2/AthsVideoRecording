@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiCameraViewSample.SettingsPage"
+             Title="Settings">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Label Text="Connection Settings"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Frame BorderColor="LightGray" Padding="15" Margin="0,10,0,10">
+                <VerticalStackLayout Spacing="15">
+                    <!-- Connection Timeout Setting -->
+                    <Label Text="Connection Timeout (seconds)" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry x:Name="TimeoutEntry" 
+                               Grid.Column="0"
+                               Keyboard="Numeric"
+                               Text="{Binding DownloadTimeoutInSec}"
+                               Placeholder="Enter timeout in seconds" />
+                    </Grid>
+                    <Label Text="How long to wait for connection before timing out" 
+                           FontSize="Small" 
+                           TextColor="Gray" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BorderColor="LightGray" Padding="15" Margin="0,10,0,10">
+                <VerticalStackLayout Spacing="15">
+                    <!-- Port Setting -->
+                    <Label Text="Connection Port" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry x:Name="PortEntry" 
+                               Grid.Column="0"
+                               Keyboard="Numeric"
+                               Text="{Binding SelectedPort}"
+                               Placeholder="Enter port number" />
+                    </Grid>
+                    <Label Text="Port number for TCP connection (default: 5000)" 
+                           FontSize="Small" 
+                           TextColor="Gray" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Return to Home" 
+                    Clicked="OnReturnToHomeClicked"
+                    HorizontalOptions="Center"
+                    Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

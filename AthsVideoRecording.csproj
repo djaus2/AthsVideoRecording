@@ -45,6 +45,8 @@
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
+  
+  
 
   <PropertyGroup>
     <AndroidEnableMultiDex>false</AndroidEnableMultiDex>
@@ -63,18 +65,31 @@
   <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
     <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
   </PropertyGroup>
-  
+
+  <ItemGroup>
+    <MauiXaml Remove="MainPageBlank.xaml" />
+  </ItemGroup>
+
+
+ 
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
+		<PackageReference Include="Sportronics.SendVideoOverTcpLib" Version="1.0.0" />
 	</ItemGroup>
 
 
 	<ItemGroup>
 	  <MauiXaml Update="MainPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SendVideoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SettingsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -127,5 +142,15 @@
     <ApplicationVersion>3</ApplicationVersion>
     <Optimize>False</Optimize>
   </PropertyGroup>
+  
+  <!-- Added for SendVideo -->
+  
+  <ItemGroup>
+	  <Compile Update="SendVideoPage.xaml.cs">
+	    <DependentUpon>SendVideoPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+  
 
 </Project>

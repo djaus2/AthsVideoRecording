@@ -20,10 +20,13 @@ namespace MauiCameraViewSample
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddTransient<SendVideoOverTCPLib.ViewModels.NetworkViewModel>();
             builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<SendVideoPage>();
+            builder.Services.AddTransient<SettingsPage>();
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
 #if ANDROID

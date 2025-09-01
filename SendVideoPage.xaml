@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+            xmlns:local="clr-namespace:SendVideoOverTCPLib.Converters;assembly=SendVideoOverTcpLib" 
+            x:Class="MauiCameraViewSample.SendVideoPage">
+    <ContentPage.Resources>
+        <local:IpSelectedToVisibilityConverter x:Key="IpVisibilityConverter" />
+    </ContentPage.Resources>
+
+      <VerticalStackLayout  
+          Padding="30,0"  
+          Spacing="25">  
+          <Image  
+              Source="appiconvid.png"  
+              HeightRequest="185"  
+              Aspect="AspectFit"  
+              SemanticProperties.Description="dot net bot in a hovercraft number nine" />  
+
+          <Label  
+              Text="SendVideo"  
+              Style="{StaticResource Headline}"  
+              SemanticProperties.HeadingLevel="Level1" />  
+
+          <Label  
+              Text="Select from Movies folder."  
+              Style="{StaticResource SubHeadline}"  
+              SemanticProperties.HeadingLevel="Level2"  
+              SemanticProperties.Description="Welcome to Send a video file from /Movies" />
+            
+          <ActivityIndicator x:Name="BusyIndicator"
+                   IsRunning="False"
+                   IsVisible="False"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Color="DodgerBlue"
+                   WidthRequest="50"
+                   HeightRequest="50" />
+            <Label x:Name="BusyIndicatorLabel" Padding ="10"  Text="Getting local device IPAddresses"  TextColor="Purple" FontAttributes="Italic,Bold"/>
+
+            <Grid x:Name="grid" IsVisible="True" Padding="10" RowSpacing="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <Label  Text="StartHostId:" VerticalTextAlignment="Center"/>
+                    <Entry x:Name="StartHostId"
+                       VerticalTextAlignment="Center"
+                       Placeholder="Enter a number"
+                       Keyboard="Numeric"
+                       WidthRequest="40"
+                       FontAttributes="Bold" TextColor="Blue" 
+                       Text="{Binding StartHostId}"
+                       HorizontalOptions="Center" />
+                </StackLayout>
+                <StackLayout Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <Label  Text="EndHostId:" VerticalTextAlignment="Center"/>
+                    <Entry x:Name="EndHostId"
+                       VerticalTextAlignment="Center"
+                       Placeholder="Enter a number"
+                       Keyboard="Numeric"
+                       WidthRequest="40"
+                       FontAttributes="Bold" TextColor="Blue" 
+                       Text="{Binding EndHostId}"
+                       HorizontalOptions="Center" />
+                </StackLayout>
+                <Label  Grid.Row="1" Grid.Column="0" 
+                        IsVisible="{Binding SelectedIpAddress, Converter={StaticResource IpVisibilityConverter}}"
+                        VerticalTextAlignment="Center"  HorizontalTextAlignment="End" Text="Select Target IP from: " FontAttributes="Italic"  TextColor="Purple"/>
+                <Picker x:Name="PickIpAddress"
+                        Title="Select a device IP"
+                        TitleColor="Gray"
+                        IsVisible="{Binding SelectedIpAddress, Converter={StaticResource IpVisibilityConverter}}"
+                        SelectedIndexChanged="OnIpPickerSelectionChanged"
+                        Grid.Row="1" Grid.Column="1" VerticalTextAlignment="Center"  HorizontalTextAlignment="Start" 
+                        ItemsSource="{Binding ActiveIPs}" 
+                        SelectedItem="{Binding SelectedIpAddress}" 
+                        TextColor="Green" FontAttributes="Italic"   />
+                <Label  Grid.Row="2" Grid.Column="0" VerticalTextAlignment="Center"  HorizontalTextAlignment="End" Text="Selected IP: " FontAttributes="Italic" TextColor="LightBlue" />
+                <Label  Grid.Row="2" Grid.Column="1" VerticalTextAlignment="Center"  HorizontalTextAlignment="Start" Text="{Binding SelectedIpAddress}" FontAttributes="Bold" TextColor="Blue"  />
+                <Label  Grid.Row="3" Grid.Column="0" VerticalTextAlignment="Center"  HorizontalTextAlignment="End" Text="Port: " FontAttributes="Italic" TextColor="LightBlue" />
+                <Entry x:Name="NumericEntry"
+                       Grid.Row="3" Grid.Column="1"
+                       Placeholder="Enter a number"
+                       TextChanged="SelectedPort_TextChanged"
+                       Keyboard="Numeric"
+                       WidthRequest="200"
+                       FontAttributes="Bold" TextColor="Blue" 
+                       Text="{Binding SelectedPort}"
+                       HorizontalOptions="Center" />
+
+
+
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Text="Send Movie File"  
+                        Grid.Row="0" 
+                        Grid.Column="0"  
+                        Padding="5"
+                        Margin="5"                      
+                        Clicked="OnSendMovieFile_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+
+                    <Button Text="Done"  
+                        Grid.Row="0" 
+                        Grid.Column="2"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Green"
+                        Clicked="Done_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+                    
+                    <Button Text="Rescan Ips"  
+                        Grid.Row="1"                           
+                        Grid.Column="0"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Purple"
+                        Clicked="RescanIps_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+                    
+                    <Button Text="Settings" 
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Pink"
+                        Clicked="Settings_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+                </Grid>
+ 
+            </Grid>  
+      </VerticalStackLayout>   
+</ContentPage>

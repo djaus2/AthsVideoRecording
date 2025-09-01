@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
 using MauiAndroidVideoCaptureApp;
+using Microsoft.Extensions.DependencyInjection;
 
 
 
@@ -46,6 +47,7 @@ public partial class MainPage : ContentPage, IDisposable
     // Service for handling video recording
     //private IVideoRecorderService? _videoRecorderService;
     private MauiAndroidCameraViewLib.VideoKapture _VideoKapture;
+
 
 
     // UI state tracking
@@ -572,5 +574,17 @@ public partial class MainPage : ContentPage, IDisposable
         {
             _VideoKapture.ViewModel.CountdownMode = MauiAndroidCameraViewLib.CountDownMode.PopupRainbow;
         }
+    }
+    private async void DownloadVideo()
+    {
+        var serviceProvider = IPlatformApplication.Current.Services;
+        var modalPage = serviceProvider.GetRequiredService<SendVideoPage>();
+        await Navigation.PushModalAsync(modalPage);
+
+    }
+
+    private void OnButton_SendVideo(object sender, EventArgs e)
+    {
+        DownloadVideo();
     }
 }

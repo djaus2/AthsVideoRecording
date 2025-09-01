@@ -293,6 +293,13 @@
                 <ColumnDefinition Width="1" />
             </Grid.ColumnDefinitions>
             <ImageButton
+                x:Name="GetReadyButton1"
+                Source="send.svg" 
+                Grid.Row="1" Grid.Column="1"
+                Clicked="OnButton_SendVideo" 
+                IsEnabled="{Binding IsGetReadyButtonEnabled}" 
+                IsVisible="{Binding IsGetReadyButtonEnabled}" />
+            <ImageButton
                 x:Name="GetReadyButton"
                 Source="optionsvid.svg" 
                 Grid.Row="1" Grid.Column="5"

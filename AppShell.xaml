@@ -8,6 +8,32 @@
     Shell.NavBarIsVisible="False"
     Title="MauiCameraViewSample">
 
+
+
+    <Shell.FlyoutHeader>
+        <Grid HeightRequest="100" BackgroundColor="#512BD4">
+            <Label Text="SendVideo Settings" 
+                   TextColor="White" 
+                   FontSize="Title" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Center"/>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Home" Icon="appiconvid.png">
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings" Icon="settings.png">
+        <ShellContent
+            Title="Settings"
+            ContentTemplate="{DataTemplate local:SettingsPage}"
+            Route="SettingsPage" />
+    </FlyoutItem>
+
     <ShellContent
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
