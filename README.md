@@ -20,7 +20,7 @@ An Android Maui App for video recoding Athletcs (or similar sport) finish of a r
       - _Probably best to do that for 30 FPS as well otherwise get dynamic FPS_
 - Support for pausing and resuming recording
 - Proper handling of Android permissions
-- Screen dimensions detection for optimal preview
+- Screen dimensions detection for optimal preview.
 
 ### Transmission
 
