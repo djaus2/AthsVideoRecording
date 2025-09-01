@@ -34,7 +34,9 @@ An Android Maui App for video recoding Athletcs (or similar sport) finish of a r
 - [djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
   - A .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features
 - [djaus2MauiCountdownToolkit](https://www.nuget.org/packages/djaus2MauiCountdownToolkit/)
+  - A .NET MAUI library for countdown popup with customizable appearance and behavior
 - [Sportronics.SendVideoOverTcpLib](https://www.nuget.org/packages/Sportronics.SendVideoOverTcpLib)
+  - Handles the TCP Video transmission to the WPF app
 
 ## Usage
 
