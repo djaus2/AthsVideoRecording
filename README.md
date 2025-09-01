@@ -1,95 +1,15 @@
 ﻿# AthsVideoRecording  
 - Note: Renamed fromMauiMediaRecorderVideoAndroidApp
 
-A test app for the following NuGet package. V3.0.1
-[djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
+An Android Maui App for video recoding Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
-Also uses Nuget Package V1.0.6 [djaus2MauiCountdownToolkit](https://www.nuget.org/packages/djaus2MauiCountdownToolkit/)
+## App Features
 
-## NB 2025-05-29
-- See note wrt FPS below
-
-## Updates Summary of late
-- Several options for determining the event start time, wrt the video start time
-
-## Popup Icon issue 2025-07-19
-- Can use Icon from app but not Toolkit embedded versions
-  - 2 Nuget packages tried. Reverting at Version 1.1.6 where app icon works
-## Update 2025-07-19
-Major bug fix (sorry) in the app that caused the app to crash when trying to run detached from VS.
-- ```EnumEqualsConverter``` went missing! Fixed. 
-## Update: 2025-07-16
-- Numerous updates including with 2 NuGet packages it uses.
-  - In TimeFromMode WallClockSelect
-    - These features only show in this mode.
-    - Can auto start video recording after a period
-      - 3 Modes for that:
-        - Soft: Just handled by _VideoKapture as UI less delay
-          - Can be cancelled by pressing video start (white) button.
-          - ***ATM it does this delay in both packages.*** 2Do
-        - Red and Rainbow:  A popup with Cancel button
-          - Red: Popup border is Red. 2Do make color selectable
-          - Rainbow: Rainbow border, as below. _Nice!_
-     - There is a start gun icon. Race times are wrt to this.  
-![Countdown Popup](https://raw.githubusercontent.com/djaus2/MauiCountdownToolkit/master/Popup1.png)
-
-## Update: 2025-07-06
-- Added **TimeFromMode property** to VideoRecorderService to allow for different ways of determining the start time of the event.
-  - Appends a text string for **TimeFromMode** to the video filename.
-  - **AthStitcher** app uses this to determine the start time of the event and parse it to the video file **Title** property, removing that text from the filename.
-  - For **WallClock** mode, the gun time is also appended that AthStitcher parses to gun WallClock time and sets as Video file **Comment** property, _also_ removing that text from the filename.
-  - Note: Gun only shows if **TimeFromMode** is set to **WallClock** when ready to record. 
-    - Can be pressed before or during video recording.
-- _2Do Insert those properties in the capture library so that the video file has those properties set._
-- Text appended: (Note: _ is added before and after each text string:
-```cs
-        TimeFromMode.FromVideoStart => "VIDEOSTART",
-        TimeFromMode.FromGunSound => "GUNSOUND",
-        TimeFromMode.FromGunFlash => "GUNFLASH",
-        TimeFromMode.ManuallySelect => "MANUAL",
-        TimeFromMode.WallClockSelect => "WALLCLOCK"
-```
-
-## Update: 2025-05-14
-
-- **Found that it works in Release mode if AOT is disabled!  
-_Both Bundle AND APK builds_**  
-Bundle-No AOT config here for Release config.
-
-## Uses Nuget Package
-[NuGet: MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib)
-, a .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features.
-
----
-
-## About MauiMediaRecorderVideoLib
-
-> Nb: Video is stored /Movies folder. Filename is juxtaposed with date. Can optionally also optionally 
-start time to the the video filename which this app can parse and use.
-
-A .NET MAUI library for Android video recording using MediaRecorder with camera preview and stabilization features.
-
-Latest Version: 2.0.1
-
-> Nb This is a work in progress. The library is functional but the test app is not yet fully working in Release mode. _(Debug works)._
-
-## The Test App  _(here)_
-
-Clone this repository, build and deploy to an Android phone.  
-_(Was tested on a Pixel 6 phone)_
-
-Change the UI as you wish.
-
----
-
-### About the library
-The library is being developed to target a sporting Photoiming app. See [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus)
-
-### Features
+### Recording
 
 - Full-screen camera preview
 - Video recording with MediaRecorder
-  - No audio recording
+  - Audio can be used for GunFire race start detection.
 - Image stabilization options (Standard or Locked)
 - Camera rotation support (0, 90, 180, 270 degrees)
 - Configurable video FPS (30, 60, or default)
@@ -102,9 +22,86 @@ The library is being developed to target a sporting Photoiming app. See [djaus2/
 - Proper handling of Android permissions
 - Screen dimensions detection for optimal preview
 
-### Usage with a MAUI Android Phone App
+### Transmission
 
-#### Installation
+- "Paper Airplane" button to send the recorded video file over TCP locally to a Windows WPF app.
+- Configurable IP address and port for the receiving app.
+- Status messages to indicate connection status and transmission progress.
+- Error handling for connection issues and transmission failures.
+- Checksum and filename automatically transmitted as part of the protocol.
+
+## Custom NuGet packages used
+- [djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
+  - A .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features
+- [djaus2MauiCountdownToolkit](https://www.nuget.org/packages/djaus2MauiCountdownToolkit/)
+- [Sportronics.SendVideoOverTcpLib](https://www.nuget.org/packages/Sportronics.SendVideoOverTcpLib)
+
+## Usage
+
+Clone and build the repository targeting an Android phone. Deploy and run.  Need to accet permissions (2).
+First time might need to restart after acveepting permissions.
+Need the e WPF app for receiving the video.
+
+
+## TimeFromMode Setting
+
+- **TimeFromMode Property** to VideoRecorderService allows for different ways of determining the start time of the event.
+  - Appends a text string for **TimeFromMode** to the video filename.
+  - The WPF app app uses this to determine the start time of the event and parse it to the video file **Title** property, removing that text from the filename.
+  - For **WallClock** mode, the gun time is also appended that WPF app parses to gun WallClock time and sets as Video file **Comment** property, _also_ removing that text from the filename.
+  - Note: Gun only shows if **TimeFromMode** is set to **WallClock** when ready to record. 
+    - Can be pressed before or during video recording.
+  - Would like to insert those properties into the video file before transmission, but adding info to the filename works. 
+   _The Windows app does parse that info in the filename and add it as file properties, removing it from the filename._
+- Text appended: _(Note: an underscore is added before and after each text string when prepended to the filename._
+```cs
+        TimeFromMode.FromVideoStart => "VIDEOSTART",
+        TimeFromMode.FromGunSound => "GUNSOUND",
+        TimeFromMode.FromGunFlash => "GUNFLASH",
+        TimeFromMode.ManuallySelect => "MANUAL",
+        TimeFromMode.WallClockSelect => "WALLCLOCK"
+```
+
+## Other
+- In TimeFromMode WallClockSelect
+_(These features only show in this mode.)_
+  - Can auto start video recording after a period
+    - 3 Modes for that:
+    - Soft: Just handled by automatically by VideoKapture as UI-less delay
+        - Can be cancelled by pressing video start (white) button.
+        - ***ATM it does this delay in both packages.*** 2Do
+    - Red and Rainbow:  A popup with Cancel button
+        - Red: Popup border is Red. 2Do make color selectable
+        - Rainbow: Rainbow border, as below. _Nice!_
+    - There is a start gun icon. Race times are wrt to this.  
+![Countdown Popup](https://raw.githubusercontent.com/djaus2/MauiCountdownToolkit/master/Popup1.png)
+
+
+ ---
+
+ ## Notes
+
+### Popup Icon issue 2025-07-19
+- Can use Icon from app but not Toolkit embedded versions
+  - 2 Nuget packages tried. Reverting at Version 1.1.6 where app icon works
+
+## Update: 2025-05-14
+
+- **Found that it works in Release mode if AOT is disabled!  
+_Both Bundle AND APK builds_**  
+Bundle-No AOT config here for Release config.
+
+## The MauiMediaRecorderVideoLib
+
+> Nb: Video is stored /Movies folder. Filename is juxtaposed with date. Can optionally also optionally 
+start time to the the video filename which this app can parse and use.
+
+### About the library
+The library has being developed to target a this app.
+
+
+
+#### Library Installation
 
 Start by creating a new .NET MAUI project or using an existing one.
 
