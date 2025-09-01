@@ -3,7 +3,9 @@
 
 An Android Maui App for video recoding Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
-## The Complementary WPF App
+## The Complementary WPF Apps
+
+These receive the video file transmitted from this app.
 
 - [AthStitcher](https://github.com/djaus2/PhotoTimingDjaus/tree/master/AthStitcher)  project from the repository [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus) that does Photo Finish processing of video.
 - Also simpler WPF app that only handles reception: [TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp/tree/master/GetVideoWPFLibSample) in repository [djaus2/TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp)
