@@ -1,5 +1,5 @@
 ﻿# AthsVideoRecording  
-- Note: Renamed fromMauiMediaRecorderVideoAndroidApp
+- Note: Renamed from MauiMediaRecorderVideoAndroidApp
 
 An Android Maui App for video recoding Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
