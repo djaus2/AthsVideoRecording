@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Microsoft.Maui.Controls;
 
-namespace MauiCameraViewSample.Converters
+namespace AthsVideoRecording.Converters
 {
     public class EnumEqualsConverter : IValueConverter
     {

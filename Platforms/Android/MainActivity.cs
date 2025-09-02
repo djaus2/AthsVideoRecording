@@ -4,7 +4,7 @@ using Android.OS;
 using AndroidX.Camera.Video;
 using MauiAndroidCameraViewLib;
 
-namespace MauiCameraViewSample
+namespace AthsVideoRecording
 {
     [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
     public class MainActivity : MauiAppCompatActivity
@@ -13,7 +13,12 @@ namespace MauiCameraViewSample
         {
             base.OnCreate(savedInstanceState); // Ensure base initialization always occurs
 
-            VideoKapture.RequestPermissionsStatic();
+            // Delay permission requests to avoid blocking debug initialization
+            MainThread.BeginInvokeOnMainThread(async () => {
+                // Give the app time to initialize first
+                await Task.Delay(500);
+                VideoKapture.RequestPermissionsStatic();
+            });
         }
     }
 }

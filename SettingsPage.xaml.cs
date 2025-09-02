@@ -2,7 +2,7 @@ using SendVideoOverTCPLib;
 using SendVideoOverTCPLib.ViewModels;
 using System.ComponentModel;
 
-namespace MauiCameraViewSample
+namespace AthsVideoRecording
 {
     public partial class SettingsPage : ContentPage
     {

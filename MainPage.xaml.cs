@@ -39,7 +39,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 
 
-namespace MauiCameraViewSample;
+namespace AthsVideoRecording;
 
 
 public partial class MainPage : ContentPage, IDisposable

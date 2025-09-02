@@ -3,7 +3,7 @@ using CommunityToolkit.Maui.Camera;
 using Microsoft.Extensions.Logging;
 using MauiAndroidCameraViewLib;
 
-namespace MauiCameraViewSample
+namespace AthsVideoRecording
 {
     public static class MauiProgram
     {

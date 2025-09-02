@@ -6,7 +6,7 @@ An Android Maui App for video recoding Athletcs (or similar sport) finish of a r
 ## The Complementary WPF App
 
 - [AthStitcher](https://github.com/djaus2/PhotoTimingDjaus/tree/master/AthStitcher)  project from the repository [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus)
-
+- Also simpler WPF app that only handles reception: [GetVideoWPFLibSample]() project from repository ()[]
 ## App Features
 
 ### Recording

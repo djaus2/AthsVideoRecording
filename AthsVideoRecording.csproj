@@ -4,17 +4,17 @@
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
 
 		<OutputType>Exe</OutputType>
-		<RootNamespace>MauiAndroidVideoCaptureApp</RootNamespace>
+		<RootNamespace>AthsVideoRecording</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
  
 		<!-- Display name -->
-		<ApplicationTitle>MauiAndroidVideoCaptureApp</ApplicationTitle>
+		<ApplicationTitle>AthsVideoRecording</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>au.com.sportronics.mauiandroidvideocaptureapp</ApplicationId>
+		<ApplicationId>sportronics.athsvideorecording</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>4.0</ApplicationDisplayVersion>
@@ -22,6 +22,7 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<PlatformTarget>ARM64</PlatformTarget>
+
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -100,6 +101,16 @@
 
   <PropertyGroup>
     <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression> CC-BY-2.5</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+    <AndroidKeyStore>False</AndroidKeyStore>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+    <AndroidKeyStore>False</AndroidKeyStore>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
@@ -124,24 +135,7 @@
 
 
  
-  <PropertyGroup>
-    <NoWarn>CS8600;CS8604;CS8602;CS8603;CS8618;CA1422;CA1416</NoWarn>
-  </PropertyGroup>
 
- 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-    <RunAOTCompilation>False</RunAOTCompilation>
-    <ApplicationDisplayVersion>3.1</ApplicationDisplayVersion>
-    <ApplicationVersion>3</ApplicationVersion>
-    <Optimize>True</Optimize>
-  </PropertyGroup>
-
- 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-    <ApplicationDisplayVersion>3.0</ApplicationDisplayVersion>
-    <ApplicationVersion>3</ApplicationVersion>
-    <Optimize>False</Optimize>
-  </PropertyGroup>
   
   <!-- Added for SendVideo -->
   

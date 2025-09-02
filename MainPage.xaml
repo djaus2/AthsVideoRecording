@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage  x:Class="MauiCameraViewSample.MainPage"  
+<ContentPage  x:Class="AthsVideoRecording.MainPage"  
             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-            xmlns:local="clr-namespace:MauiCameraViewSample"
+            xmlns:local="clr-namespace:AthsVideoRecording"
             xmlns:lib="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"
             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:vm="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"       

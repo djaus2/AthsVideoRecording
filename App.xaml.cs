@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
-using MauiCameraViewSample;
+using AthsVideoRecording;
 
-namespace MauiCameraViewSample
+namespace AthsVideoRecording
 {
     public partial class App : Application
     {

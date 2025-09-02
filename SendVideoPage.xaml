@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
             xmlns:local="clr-namespace:SendVideoOverTCPLib.Converters;assembly=SendVideoOverTcpLib" 
-            x:Class="MauiCameraViewSample.SendVideoPage">
+            x:Class="AthsVideoRecording.SendVideoPage">
     <ContentPage.Resources>
         <local:IpSelectedToVisibilityConverter x:Key="IpVisibilityConverter" />
     </ContentPage.Resources>

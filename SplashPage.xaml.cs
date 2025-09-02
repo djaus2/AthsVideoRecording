@@ -1,4 +1,4 @@
-namespace MauiCameraViewSample;
+namespace AthsVideoRecording;
 
 
 public partial class SplashPage : ContentPage

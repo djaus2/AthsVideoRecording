@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MauiCameraViewSample.Properties {
+namespace AthsVideoRecording.Properties {
     using System;
     
     

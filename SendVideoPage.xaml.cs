@@ -10,7 +10,7 @@ using Microsoft.Maui.Storage;
 using SendVideoOverTCPLib;
 using SendVideoOverTCPLib.ViewModels;
 
-namespace MauiCameraViewSample
+namespace AthsVideoRecording
 {
     public partial class SendVideoPage : ContentPage
     {
