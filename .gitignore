@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/docs/Part1-JDK-Setup-and-Keystore-Creation.md
+/docs/Part2-Configuring-Signing-and-Building-APK.md
+/docs/Part3-Distributing-APK.md
+/docs/README.md
