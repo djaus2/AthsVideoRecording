@@ -1,12 +1,15 @@
 ﻿# AthsVideoRecording  
-- Note: Renamed fromMauiMediaRecorderVideoAndroidApp
+- Note: Renamed from MauiMediaRecorderVideoAndroidApp
 
 An Android Maui App for video recoding Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
-## The Complementary WPF App
+## The Complementary WPF Apps
 
-- [AthStitcher](https://github.com/djaus2/PhotoTimingDjaus/tree/master/AthStitcher)  project from the repository [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus)
-- Also simpler WPF app that only handles reception: [GetVideoWPFLibSample]() project from repository ()[]
+These receive the video file transmitted from this app.
+
+- [AthStitcher](https://github.com/djaus2/PhotoTimingDjaus/tree/master/AthStitcher)  project from the repository [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus) that does Photo Finish processing of video.
+- Also simpler WPF app that only handles reception: [TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp/tree/master/GetVideoWPFLibSample) in repository [djaus2/TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp)
+
 ## App Features
 
 ### Recording
@@ -44,8 +47,8 @@ An Android Maui App for video recoding Athletcs (or similar sport) finish of a r
 
 ## Usage
 
-Clone and build the repository targeting an Android phone. Deploy and run.  Need to accet permissions (2).
-First time might need to restart after acveepting permissions.
+Clone and build the repository targeting an Android phone. Deploy and run.  Need to accept permissions (2).
+First time might need to restart after accepting permissions.
 Need the e WPF app for receiving the video.
 
 
