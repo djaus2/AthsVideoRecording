@@ -4,8 +4,17 @@
     {
         public AppShell()
         {
-            InitializeComponent();
-            //Routing.RegisterRoute("nextpage", typeof(MainPage));
+            try
+            {
+                InitializeComponent();
+                // ... your code ...
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"AppShell error: {ex}");
+            }
         }
     }
 }
+
+

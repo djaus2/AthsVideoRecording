@@ -22,10 +22,13 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<PlatformTarget>ARM64</PlatformTarget>
+</PropertyGroup>
 
-	</PropertyGroup>
+<PropertyGroup>
+  <NoWarn>XC0022</NoWarn>
+</PropertyGroup>
 
-	<ItemGroup>
+  <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 		<!-- Ensure the icon is included in the final build -->
@@ -76,12 +79,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
-		<PackageReference Include="Sportronics.SendVideoOverTcpLib" Version="1.0.0" />
 	</ItemGroup>
-
 
 	<ItemGroup>
 	  <MauiXaml Update="MainPage.xaml">
@@ -130,13 +131,11 @@
 
   <ItemGroup>
     <PackageReference Include="djaus2MauiCountdownToolkit" Version="1.1.6" />
-    <PackageReference Include="djaus2_MauiMediaRecorderVideoLib" Version="3.0.2" />
+    <ProjectReference Include="..\MauiMediaRecorderVideolib\MauiMediaRecorderVideoLib.csproj" />
+    <ProjectReference Include="..\SendVideoOverTcpLib\SendVideoOverTcpLib.csproj" />
   </ItemGroup>
 
 
- 
-
-  
   <!-- Added for SendVideo -->
   
   <ItemGroup>
@@ -145,6 +144,8 @@
 	  </Compile>
 	</ItemGroup>
 
-  
+  <!--  -->
+
+
 
 </Project>

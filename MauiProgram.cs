@@ -1,7 +1,11 @@
-﻿using CommunityToolkit.Maui;
+using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Camera;
 using Microsoft.Extensions.Logging;
 using MauiAndroidCameraViewLib;
+using SendVideoOverTCPLib.Services;
+#if ANDROID
+using SendVideoOverTCPLib.Platforms.Android;
+#endif
 
 namespace AthsVideoRecording
 {
@@ -39,6 +43,8 @@ builder.ConfigureMauiHandlers(handlers =>
             builder.Services.AddSingleton<IVideoRecorderService, AndroidVideoRecorderService>();
             */
             MauiAndroidCameraViewLib.MauiCameraServicesSetup.ConfigureCameraServices(builder);
+            // Register Android-specific newest-first video metadata/picker service
+            builder.Services.AddSingleton<IVideoMetadataService, VideoMetadataService>();
 #endif
 
 

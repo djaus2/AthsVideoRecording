@@ -36,6 +36,7 @@ using Microsoft.Maui.Controls;
 using Microsoft.Maui.Dispatching;
 using MauiAndroidVideoCaptureApp;
 using Microsoft.Extensions.DependencyInjection;
+using PhotoTimingDjaus.Enums;
 
 
 
@@ -114,6 +115,7 @@ public partial class MainPage : ContentPage, IDisposable
     }
 
 
+    
     private void OnFilenameCompleted(object? sender, EventArgs e)
     {
         try
@@ -123,7 +125,6 @@ public partial class MainPage : ContentPage, IDisposable
                 // Get the filename from the Entry control
                 var entry = sender as Entry;
                 string filename = entry?.Text;
-                _VideoKapture.OnFilenameCompleted(filename);
 
                 if (string.IsNullOrWhiteSpace(filename))
                 {
@@ -137,10 +138,10 @@ public partial class MainPage : ContentPage, IDisposable
                     ShowMessage("Invalid filename. Please avoid using special characters.");
                     return;
                 }
+                
 
-                // Store the filename for later use in OnButton_GetReady4Recording
-                // No need to initialize camera or prepare recorder here
-                System.Diagnostics.Debug.WriteLine($"Filename validated: {filename}");
+                _VideoKapture.OnFilenameCompleted(filename);
+                System.Diagnostics.Debug.WriteLine($"Filename validated and set: {filename}");
             }
         }
         catch (System.Exception ex)
@@ -184,6 +185,7 @@ public partial class MainPage : ContentPage, IDisposable
         catch (System.Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"App:Error getting ready for recording: {ex.Message}");
+            ShowMessage($"Error getting ready for recording: {ex.Message}");
         }
     }
 
@@ -223,6 +225,8 @@ public partial class MainPage : ContentPage, IDisposable
             ShowMessage($"Error starting recording: {ex.Message}");
         }
     }
+
+
     MauiCountdownToolkit.Countdown? countdown = null;
    
     private async void OnButton_AutoStartRecordingafterAutoStartSecs_Clicked(object? sender, EventArgs e)
@@ -295,82 +299,42 @@ public partial class MainPage : ContentPage, IDisposable
         }
     }
 
-    private async void OnButton_StopRecordingClicked(object? sender, EventArgs e)
+    private async void OnButton_StopRecording_Clicked(object? sender, EventArgs e)
     {
-        try
-        {         
+        try { 
             // Stop recording
-            await _VideoKapture.OnButton_StopRecordingClicked();
-            if(gunDateTime != DateTime.MinValue)
+            DateTime videoStart = await _VideoKapture.OnButton_StopRecordingClicked();
+            if (videoStart == DateTime.MinValue)
+            {
+                // Error occurred during stopping
+                return;
+            }
+
+            // Make the just-recorded video available to the Send page list
+            SendVideoOverTCPLib.SendVideo.NewVideo = _VideoKapture.VideoFilePath;
+
+            // Save JSON metadata alongside the video
+            string path = await GetJson();
+            ShowMessage($"VideoInfo: {path}");
+            System.Diagnostics.Debug.WriteLine($"Video Info JSON saved: {path}");
+
+            // Apply file naming based on timing mode or gun time
+            if (_VideoKapture.ViewModel.GunDateTime != DateTime.MinValue)
             {
                 AppendGunTimeToVideoFilename();
-                gunDateTime = DateTime.MinValue;
+                _VideoKapture.ViewModel.GunDateTime = DateTime.MinValue;
             }
             else
             {
                 AppendTimeFromModePrefixToVideoFilename();
             }
+
             _VideoKapture.ViewModel.NotifyStateChange();
-            // Update UI state based on the current state of the recorder
-            // The state will be updated by the RecordingStopped event handler
         }
         catch (System.Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Error stopping recording: {ex.Message}");
             ShowMessage($"Error stopping recording: {ex.Message}");
-        }
-    }
-
-    private void OnFrameRateCheckedChanged(object? sender, CheckedChangedEventArgs e)
-    {
-        if (!e.Value) return; // Only process when a button is checked, not unchecked
-
-        var radioButton = sender as RadioButton;
-        if (radioButton == null) return;
-
-        // Get the content of the radio button to identify it
-        string content = radioButton.Content?.ToString() ?? "";
-        if (string.IsNullOrEmpty(content))
-            return;
-
-        if (content.Contains("30"))
-        {
-            _VideoKapture.SelectedFrameRate = 30; // Set frame rate to 30 FPS
-            System.Diagnostics.Debug.WriteLine("Frame rate set to 30 FPS");
-        }
-        else if (content.Contains("60"))
-        {
-            _VideoKapture.SelectedFrameRate = 60;
-            System.Diagnostics.Debug.WriteLine("Frame rate set to 60 FPS");
-        }
-        else if (content.Contains("Auto"))
-        {
-            _VideoKapture.SelectedFrameRate = 0; // Use 0 to indicate auto frame rate
-            System.Diagnostics.Debug.WriteLine("Frame rate set to Auto");
-        }
-    }
-
-    private void OnStabilizationModeChanged(object? sender, CheckedChangedEventArgs e)
-    {
-        if (!e.Value) return; // Only process when a button is checked, not unchecked
-
-        var radioButton = sender as RadioButton;
-        if (radioButton == null) return;
-
-        // Get the content of the radio button to identify it
-        string content = radioButton.Content?.ToString() ?? "";
-        if (string.IsNullOrEmpty(content))
-            return;
-
-        if (content.Contains("Standard"))
-        {
-            _VideoKapture.UseLockedStabilization = false;
-            System.Diagnostics.Debug.WriteLine("Selected stabilization mode: Standard");
-        }
-        else if (content.Contains("Locked"))
-        {
-            _VideoKapture.UseLockedStabilization = true;
-            System.Diagnostics.Debug.WriteLine("Selected stabilization mode: Locked");
         }
     }
 
@@ -419,10 +383,10 @@ public partial class MainPage : ContentPage, IDisposable
 
     }
 
-    DateTime gunDateTime = DateTime.MinValue; // Default gun time
+
     private void SetGunTime_Click(object sender, EventArgs e)
     {
-        gunDateTime = DateTime.Now;
+        _VideoKapture.ViewModel.GunDateTime = DateTime.Now;
         var viewModel = (RecordingViewModel)this.BindingContext;
         viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Fired;// Update the gun time in the view model
         var yy = viewModel.IsStartGunButtonEnabled;
@@ -474,6 +438,59 @@ public partial class MainPage : ContentPage, IDisposable
                 System.Diagnostics.Debug.WriteLine($"Selected: {mode}");
                 SetModeFromButton(mode);
             }
+        }
+    }
+
+    private void OnFrameRateChanged(object? sender, CheckedChangedEventArgs e)
+    {
+        // Only process when a button is checked, not unchecked
+        if (!e.Value) return;
+
+        var radioButton = sender as RadioButton;
+        if (radioButton == null) return;
+
+        // Identify which radio button by its content
+        string content = radioButton.Content?.ToString() ?? "";
+        if (string.IsNullOrEmpty(content)) return;
+
+        if (content.Contains("30"))
+        {
+            _VideoKapture.SelectedFrameRate = 30; // 30 FPS
+            System.Diagnostics.Debug.WriteLine("Frame rate set to 30 FPS");
+        }
+        else if (content.Contains("60"))
+        {
+            _VideoKapture.SelectedFrameRate = 60; // 60 FPS
+            System.Diagnostics.Debug.WriteLine("Frame rate set to 60 FPS");
+        }
+        else if (content.Contains("Auto"))
+        {
+            _VideoKapture.SelectedFrameRate = 0; // 0 indicates auto
+            System.Diagnostics.Debug.WriteLine("Frame rate set to Auto");
+        }
+    }
+
+    private void OnStabilizationModeChanged(object? sender, CheckedChangedEventArgs e)
+    {
+        // Only process when a button is checked, not unchecked
+        if (!e.Value) return;
+
+        var radioButton = sender as RadioButton;
+        if (radioButton == null) return;
+
+        // Identify which radio button by its content
+        string content = radioButton.Content?.ToString() ?? "";
+        if (string.IsNullOrEmpty(content)) return;
+
+        if (content.Contains("Standard"))
+        {
+            _VideoKapture.UseLockedStabilization = false;
+            System.Diagnostics.Debug.WriteLine("Selected stabilization mode: Standard");
+        }
+        else if (content.Contains("Locked"))
+        {
+            _VideoKapture.UseLockedStabilization = true;
+            System.Diagnostics.Debug.WriteLine("Selected stabilization mode: Locked");
         }
     }
 
@@ -540,7 +557,7 @@ public partial class MainPage : ContentPage, IDisposable
             {
                 return false; // If value is null, return false
             }
-            return value is TimeFromMode mode && mode == TimeFromMode.WallClockSelect;
+            return value is MauiAndroidCameraViewLib.TimeFromMode mode && mode == MauiAndroidCameraViewLib.TimeFromMode.WallClockSelect;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -586,5 +603,57 @@ public partial class MainPage : ContentPage, IDisposable
     private void OnButton_SendVideo(object sender, EventArgs e)
     {
         DownloadVideo();
+    }
+
+    private async Task<string> GetJson()
+    {
+        try
+        {
+            //// Calculate checksum
+            //byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(_VideoKapture.VideoFilePath);
+            //using var sha256 = System.Security.Cryptography.SHA256.Create();
+            //byte[] checksum = sha256.ComputeHash(fileBytes);
+
+            VideoInfo videoInfo = new VideoInfo
+            {
+                VideoPath = _VideoKapture.VideoFilePath,
+                Filename = System.IO.Path.GetFileName(_VideoKapture.VideoFilePath),
+                VideoStart = _VideoKapture.ViewModel.RecordingStartTime,
+                TimeFrom = (PhotoTimingDjaus.Enums.TimeFromMode)_VideoKapture.ViewModel.TimeFromMode,
+            };
+
+            videoInfo.GetCheckSum();
+
+            switch (videoInfo.TimeFrom)
+            {
+                case PhotoTimingDjaus.Enums.TimeFromMode.FromGunFlash:
+                    videoInfo.DetectMode = VideoDetectMode.FromFlash;
+                    break;
+                case PhotoTimingDjaus.Enums.TimeFromMode.WallClockSelect:
+                    videoInfo.GunTime = _VideoKapture.ViewModel.GunDateTime;
+                    break;
+            }
+
+            string videoInfoStr = videoInfo.ToJson();
+
+            string jsonPath = _VideoKapture.VideoFilePath.Replace(".mp4", ".json", StringComparison.OrdinalIgnoreCase);
+            string jsonFileName = System.IO.Path.GetFileName(jsonPath);
+            string appDataPath = Microsoft.Maui.Storage.FileSystem.AppDataDirectory;
+            string privateJsonPath = System.IO.Path.Combine(appDataPath, jsonFileName);
+
+            await System.IO.File.WriteAllTextAsync(privateJsonPath, videoInfoStr);
+            System.Diagnostics.Debug.WriteLine($"JSON saved in app data: {privateJsonPath}");
+
+            _VideoKapture.VideoInfoFilePath = privateJsonPath;
+            _VideoKapture.VideoInfoStr = videoInfoStr;
+
+            return privateJsonPath;
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error saving JSON: {ex.Message}");
+            ShowMessage($"Error saving metadata: {ex.Message}");
+            return string.Empty;
+        }
     }
 }

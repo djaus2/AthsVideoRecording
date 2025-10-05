@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Net;
 using System.Net.NetworkInformation;
@@ -19,6 +19,30 @@ namespace AthsVideoRecording
             InitializeComponent();
         }
 
+        private async void OnRescanVideos_Clicked(object sender, EventArgs e)
+        {
+            grid.IsVisible = false;
+            BusyIndicatorLabel.IsVisible = true;
+            BusyIndicator.IsVisible = true;
+            BusyIndicator.IsRunning = true;
+            BusyIndicatorLabel.Text = "Rescanning videos (newest first)…";
+            try
+            {
+                SendVideoOverTCPLib.SendVideo.ClearVideoListCache();
+                await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
+                // Reset NewVideo after rescan
+                SendVideoOverTCPLib.SendVideo.NewVideo = string.Empty;
+            }
+            catch { }
+            finally
+            {
+                BusyIndicator.IsRunning = false;
+                BusyIndicator.IsVisible = false;
+                BusyIndicatorLabel.IsVisible = false;
+                grid.IsVisible = true;
+            }
+        }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -33,10 +57,30 @@ namespace AthsVideoRecording
                 var ipaddress = await SendVideoOverTCPLib.SendVideo.GetSettings();
             }
             this.BindingContext = SendVideoOverTCPLib.SendVideo.NetworkViewModel;
+            // Always call EnsureVideoListBuiltAsync so NewVideo (if set) can be inserted at the top.
+            // Show spinner only when building from scratch (no cache yet).
+            if (!SendVideoOverTCPLib.SendVideo.HasVideoListCache())
+            {
+                BusyIndicatorLabel.Text = "Scanning videos (newest first)…";
+                await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
+            }
+            else
+            {
+                // Quick path: ensure insert without spinner
+                await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
+            }
+            // Reset NewVideo as requested
+            SendVideoOverTCPLib.SendVideo.NewVideo = string.Empty;
             BusyIndicator.IsRunning = false;
             BusyIndicator.IsVisible = false;
             BusyIndicatorLabel.IsVisible = false;
             grid.IsVisible = true;
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            // Do not clear the cached list here so it persists across page views.
         }
 
 
@@ -63,15 +107,37 @@ namespace AthsVideoRecording
         {
             NetworkViewModel networkViewModel = (NetworkViewModel)BindingContext;
             grid.IsVisible = false;
+            BusyIndicatorLabel.IsVisible = true;
+            BusyIndicator.IsVisible = true;
+            BusyIndicator.IsRunning = true;
+
+            // Show spinner while building the list if needed
+            BusyIndicatorLabel.Text = "Scanning videos (newest first)…";
+            await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
+
+            // Hide spinner BEFORE opening the dialog so it is visible to user
+            BusyIndicator.IsRunning = false;
+            BusyIndicator.IsVisible = false;
+            BusyIndicatorLabel.IsVisible = false;
+            grid.IsVisible = true;
+
+            // Now run pick+send flow which uses the cached list
+            await SendVideoOverTCPLib.SendVideo.OnSendMovieFileClicked(networkViewModel);
+
+            /*NetworkViewModel networkViewModel = (NetworkViewModel)BindingContext;
+            grid.IsVisible = false;
             BusyIndicatorLabel.Text = $"Selecting video file then downloading it. Make sure Recvr is listening. Download timeout is {Math.Round((decimal)networkViewModel.DownloadTimeoutInSec)} sec";
             BusyIndicatorLabel.IsVisible = true;
             BusyIndicator.IsVisible = true;
             BusyIndicator.IsRunning = true;
+            string json = networkViewModel..VideoInfoPathJosnStr;
+            
             await SendVideoOverTCPLib.SendVideo.OnSendMovieFileClicked(networkViewModel);
             BusyIndicator.IsRunning = false;
             BusyIndicator.IsVisible = false;
             BusyIndicatorLabel.IsVisible = false;
             grid.IsVisible = true;
+            */
 
             //var file = await PickMovieFileAsync();
             //if (file is null)

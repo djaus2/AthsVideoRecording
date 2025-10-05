@@ -106,6 +106,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -120,10 +121,17 @@
                         Margin="5"                      
                         Clicked="OnSendMovieFile_Clicked" 
                         SemanticProperties.HeadingLevel="Level1" />
-
-                    <Button Text="Done"  
+                    <Button Text="Rescan Videos"  
                         Grid.Row="0" 
-                        Grid.Column="2"
+                        Grid.Column="2"  
+                        Padding="5"
+                        Margin="5"                      
+                        Clicked="OnRescanVideos_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+
+                <Button Text="Done"  
+                        Grid.Row="2" 
+                        Grid.Column="0"
                         Padding="5"
                         Margin="5"
                         BackgroundColor="Green"

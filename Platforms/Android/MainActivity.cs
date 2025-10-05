@@ -1,8 +1,14 @@
-﻿using Android.App;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using AndroidX.Camera.Video;
 using MauiAndroidCameraViewLib;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
+using System.Threading.Tasks;
 
 namespace AthsVideoRecording
 {
@@ -14,7 +20,7 @@ namespace AthsVideoRecording
             base.OnCreate(savedInstanceState); // Ensure base initialization always occurs
 
             // Delay permission requests to avoid blocking debug initialization
-            MainThread.BeginInvokeOnMainThread(async () => {
+            Microsoft.Maui.ApplicationModel.MainThread.BeginInvokeOnMainThread(async () => {
                 // Give the app time to initialize first
                 await Task.Delay(500);
                 VideoKapture.RequestPermissionsStatic();

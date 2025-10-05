@@ -135,7 +135,7 @@
                     x:Name="StopButton"
                     Source="stopvid.svg"            
                     Grid.Row="0" Grid.Column="5"
-                    Clicked="OnButton_StopRecordingClicked"    
+                    Clicked="OnButton_StopRecording_Clicked"    
                     IsEnabled="{Binding IsStopRecordingButtonEnabled}"  
                     IsVisible="{Binding IsStopRecordingButtonEnabled}"
                     VerticalOptions="Center" />
@@ -164,9 +164,9 @@
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
                         <Label Text="Frame Rate:" FontAttributes="Bold" TextColor= "Purple" />
                         <HorizontalStackLayout Spacing="15">
-                            <RadioButton x:Name="RadioFps30" Content="30 FPS" IsChecked="True" CheckedChanged="OnFrameRateCheckedChanged" />
-                            <RadioButton x:Name="RadioFps60" Content="60 FPS" CheckedChanged="OnFrameRateCheckedChanged" />
-                            <RadioButton x:Name="RadioFpsAuto" Content="Auto" CheckedChanged="OnFrameRateCheckedChanged" />
+                            <RadioButton x:Name="RadioFps30" Content="30 FPS" IsChecked="True" CheckedChanged="OnFrameRateChanged" />
+                            <RadioButton x:Name="RadioFps60" Content="60 FPS" CheckedChanged="OnFrameRateChanged" />
+                            <RadioButton x:Name="RadioFpsAuto" Content="Auto" CheckedChanged="OnFrameRateChanged" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
