@@ -1,16 +1,3 @@
-using Android.Content;
-using Android.Graphics;
-using Android.Hardware.Camera2;
-using Android.Hardware.Camera2.Params;
-using Android.Media;
-using Android.OS;
-using Android.Provider;
-using Android.Runtime;
-using Android.Util;
-using Android.Views;
-using Java.IO;
-using Java.Lang;
-using Java.Util.Concurrent;
 using Microsoft.Maui.ApplicationModel;
 using System;
 using System.Collections.Generic;
@@ -18,27 +5,21 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-using static AndroidX.Camera.Core.Internal.CameraUseCaseAdapter;
-using AndroidX.Lifecycle;
+
 using System.Diagnostics.Metrics;
 using MauiAndroidCameraViewLib;
-using Java.Interop;
-using static Android.InputMethodServices.Keyboard;
-using AndroidX.Camera.Video;
+
 using System.Globalization;
-using CommunityToolkit.Maui.Views;
-//using MauiAndroidVideoCaptureApp.Views;
+
 using MauiCountdownToolkit;
 // Ensure that the necessary namespaces are included at the top of the file.  
 using System;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Dispatching;
+
 using MauiAndroidVideoCaptureApp;
 using Microsoft.Extensions.DependencyInjection;
-using PhotoTimingDjaus.Enums;
-
-
+using Sportronics.VideoEnums;
 
 namespace AthsVideoRecording;
 
@@ -68,8 +49,8 @@ public partial class MainPage : ContentPage, IDisposable
         this.Disappearing += _VideoKapture.MainPage_Disappearing;
         BindingContext = _VideoKapture.ViewModel;
         Resources.Add("TimeModeToVisible", new TimeFromModeToVisibilityConverter());
-        _VideoKapture.ViewModel.State = MauiAndroidCameraViewLib.MediaRecorderState.Stopped; // Button gets disabled
-        _VideoKapture.ViewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart; // Default time from mode
+        _VideoKapture.ViewModel.State = MediaRecorderState.Stopped; // Button gets disabled
+        _VideoKapture.ViewModel.TimeFromMode = TimeFromMode.FromVideoStart; // Default time from mode
         _VideoKapture.ViewModel.CountdownMode = CountDownModeTranslator.ParseCameraView("red");// MauiAndroidCameraViewLib.CountDownMode.PopupRed;
     }
 
@@ -95,13 +76,6 @@ public partial class MainPage : ContentPage, IDisposable
 
                 this.Appearing -= _VideoKapture.MainPage_Appearing;
                 this.Disappearing -= _VideoKapture.MainPage_Disappearing;
-
-                //// Dispose the video recorder service
-                //if (_videoRecorderService != null && _videoRecorderService is IDisposable disposable)
-                //{
-                //    disposable.Dispose();
-                //    _videoRecorderService = null;
-                //}
             }
 
             _disposed = true;
@@ -301,7 +275,8 @@ public partial class MainPage : ContentPage, IDisposable
 
     private async void OnButton_StopRecording_Clicked(object? sender, EventArgs e)
     {
-        try { 
+        try
+        {
             // Stop recording
             DateTime videoStart = await _VideoKapture.OnButton_StopRecordingClicked();
             if (videoStart == DateTime.MinValue)
@@ -310,8 +285,13 @@ public partial class MainPage : ContentPage, IDisposable
                 return;
             }
 
-            // Make the just-recorded video available to the Send page list
-            SendVideoOverTCPLib.SendVideo.NewVideo = _VideoKapture.VideoFilePath;
+            // If the Send page list is already cached, insert and sort it now; otherwise do nothing
+            var svc = IPlatformApplication.Current.Services.GetService<SendVideoOverTCPLib.Services.IVideoMetadataService>();
+            if (svc != null && svc.HasCachedList())
+            {
+                svc.AddVideoToCache(_VideoKapture.VideoFilePath, videoStart);
+                SendVideoOverTCPLib.SendVideo.NewVideo = string.Empty;
+            }
 
             // Save JSON metadata alongside the video
             string path = await GetJson();
@@ -319,14 +299,13 @@ public partial class MainPage : ContentPage, IDisposable
             System.Diagnostics.Debug.WriteLine($"Video Info JSON saved: {path}");
 
             // Apply file naming based on timing mode or gun time
+            // Nb: GunTime is now in Json
             if (_VideoKapture.ViewModel.GunDateTime != DateTime.MinValue)
             {
-                AppendGunTimeToVideoFilename();
                 _VideoKapture.ViewModel.GunDateTime = DateTime.MinValue;
             }
             else
             {
-                AppendTimeFromModePrefixToVideoFilename();
             }
 
             _VideoKapture.ViewModel.NotifyStateChange();
@@ -357,33 +336,6 @@ public partial class MainPage : ContentPage, IDisposable
         _VideoKapture.ViewModel.EnableCrossHairs = !_VideoKapture.ViewModel.EnableCrossHairs;
     }
 
-    private void AppendTimeFromModePrefixToVideoFilename()
-    {
-        var viewModel = (RecordingViewModel)this.BindingContext;
-        var videoPath = _VideoKapture.VideoFilePath;
-        if ((_VideoKapture == null) || (string.IsNullOrEmpty(videoPath)))
-        {
-            ShowMessage("Please start recording first to set gun time.");
-            return;
-        }
-        if (!System.IO.File.Exists(videoPath))
-        {
-            throw new System.IO.FileNotFoundException($"The specified video file does not exist: {videoPath}");
-        }
-
-        string extension = videoPath.Substring(videoPath.Length - 4, 4); // Get the last 4 characters for extension check
-        if ((string.IsNullOrEmpty(extension)) ||
-            (!extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase)))
-        {
-            throw new ArgumentException("The input file must be an MP4 video file.");
-        }
-        string outputPath = videoPath.Replace(".mp4", $"_{viewModel.TimeFromModePrefix}_.mp4", StringComparison.OrdinalIgnoreCase);
-
-        System.IO.File.Copy(videoPath, outputPath, true);
-
-    }
-
-
     private void SetGunTime_Click(object sender, EventArgs e)
     {
         _VideoKapture.ViewModel.GunDateTime = DateTime.Now;
@@ -391,34 +343,7 @@ public partial class MainPage : ContentPage, IDisposable
         viewModel.GunState = MauiAndroidCameraViewLib.GunStateEnum.Fired;// Update the gun time in the view model
         var yy = viewModel.IsStartGunButtonEnabled;
     }
-    
-    private void AppendGunTimeToVideoFilename()
-    {
-        var viewModel = (RecordingViewModel)this.BindingContext;
-        var videoPath = _VideoKapture.VideoFilePath;
-        if ((_VideoKapture == null) || (string.IsNullOrEmpty(videoPath)))
-        {
-            ShowMessage("Please start recording first to set gun time.");
-            return;
-        }
-        if (!System.IO.File.Exists(videoPath))
-        {
-            throw new System.IO.FileNotFoundException($"The specified video file does not exist: {videoPath}");
-        }
-        string gunTimeString = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-        gunTimeString = gunTimeString.Replace(":", "--");
-        string extension = videoPath.Substring(videoPath.Length - 4, 4); // Get the last 4 characters for extension check
-        if ((string.IsNullOrEmpty(extension)) ||
-            (!extension.Equals(".mp4", StringComparison.OrdinalIgnoreCase)))
-        {
-            throw new ArgumentException("The input file must be an MP4 video file.");
-        }
-        string outputPath = videoPath.Replace(".mp4", $"_{viewModel.TimeFromModePrefix}_{gunTimeString}_.mp4", StringComparison.OrdinalIgnoreCase);
-
-        System.IO.File.Copy(videoPath, outputPath, true);
-
-    }
 
     private void OnTimeFromModeChanged(object sender, CheckedChangedEventArgs e)
     {
@@ -530,19 +455,19 @@ public partial class MainPage : ContentPage, IDisposable
             switch (mode)
             {
                 case "Vid Start":
-                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromVideoStart;
+                    viewModel.TimeFromMode = TimeFromMode.FromVideoStart;
                     break;
                 case "Gun Bang":
-                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromGunSound;
+                    viewModel.TimeFromMode = TimeFromMode.FromGunSound;
                     break;
                 case "Gun Flash":
-                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.FromGunFlash;
+                    viewModel.TimeFromMode = TimeFromMode.FromGunFlash;
                     break;
                 case "Manual":
-                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.ManuallySelect;
+                    viewModel.TimeFromMode = TimeFromMode.ManuallySelect;
                     break;
                 case "Wall Clck":
-                    viewModel.TimeFromMode = MauiAndroidCameraViewLib.TimeFromMode.WallClockSelect;
+                    viewModel.TimeFromMode = TimeFromMode.WallClockSelect;
                     break;
             }
         }
@@ -557,7 +482,7 @@ public partial class MainPage : ContentPage, IDisposable
             {
                 return false; // If value is null, return false
             }
-            return value is MauiAndroidCameraViewLib.TimeFromMode mode && mode == MauiAndroidCameraViewLib.TimeFromMode.WallClockSelect;
+            return value is TimeFromMode mode && mode == TimeFromMode.WallClockSelect;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -619,17 +544,17 @@ public partial class MainPage : ContentPage, IDisposable
                 VideoPath = _VideoKapture.VideoFilePath,
                 Filename = System.IO.Path.GetFileName(_VideoKapture.VideoFilePath),
                 VideoStart = _VideoKapture.ViewModel.RecordingStartTime,
-                TimeFrom = (PhotoTimingDjaus.Enums.TimeFromMode)_VideoKapture.ViewModel.TimeFromMode,
+                TimeFrom = _VideoKapture.ViewModel.TimeFromMode,
             };
 
             videoInfo.GetCheckSum();
 
             switch (videoInfo.TimeFrom)
             {
-                case PhotoTimingDjaus.Enums.TimeFromMode.FromGunFlash:
+                case TimeFromMode.FromGunFlash:
                     videoInfo.DetectMode = VideoDetectMode.FromFlash;
                     break;
-                case PhotoTimingDjaus.Enums.TimeFromMode.WallClockSelect:
+                case TimeFromMode.WallClockSelect:
                     videoInfo.GunTime = _VideoKapture.ViewModel.GunDateTime;
                     break;
             }

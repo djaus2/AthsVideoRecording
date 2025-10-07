@@ -5,7 +5,6 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
-using AndroidX.Lifecycle;
 using Microsoft.Maui.Storage;
 using SendVideoOverTCPLib;
 using SendVideoOverTCPLib.ViewModels;

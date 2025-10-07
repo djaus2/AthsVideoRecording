@@ -238,7 +238,7 @@
                         <ImageButton Source="start.svg" Grid.Row="2" Grid.Column="0" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="StartButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
-                        <ImageButton Source="bang.svg" Grid.Row="2" Grid.Column="1" WidthRequest="40"  HeightRequest="40" 
+                        <ImageButton Source="gun.svg" Grid.Row="2" Grid.Column="1" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="BangButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
                         <ImageButton Source="boltlightning.svg" Grid.Row="2" Grid.Column="2" WidthRequest="40"  HeightRequest="40" 
@@ -247,7 +247,7 @@
                         <ImageButton Source="spanner.svg" Grid.Row="2" Grid.Column="3" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="ManualButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
-                        <ImageButton Source="gun.svg" Grid.Row="2" Grid.Column="4" WidthRequest="40"  HeightRequest="40" 
+                        <ImageButton Source="bigbenclock.svg" Grid.Row="2" Grid.Column="4" WidthRequest="40"  HeightRequest="40" 
                                      CommandParameter="WCButton"
                                      Clicked="OnButton_TimeFromMode_Clicked" />
                     </Grid>

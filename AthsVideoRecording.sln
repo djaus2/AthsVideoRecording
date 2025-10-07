@@ -3,16 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AthsVideoRecording", "AthsVideoRecording.csproj", "{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AthsVideoRecording", "AthsVideoRecording\AthsVideoRecording.csproj", "{960B2A3D-8055-3004-F951-78D81B6B05FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendVideoOverTcpLib", "SendVideoOverTcpLib\SendVideoOverTcpLib.csproj", "{6BB8E6DB-ED53-8D8E-1534-EFDA5B9B3C4E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
+		Directory.Packages.props = Directory.Packages.props
+		AthsVideoRecording\README.md = AthsVideoRecording\README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiMediaRecorderVideoLib", "..\MauiMediaRecorderVideoSample6Private\MauiMediaRecorderVideolib\MauiMediaRecorderVideoLib.csproj", "{E6D84EC3-C0EC-D998-46E5-E1AB520DCC8C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoEnums", "..\TransferVideoOverTcp2\VideoEnums\VideoEnums.csproj", "{5E624A6F-6089-7160-CADF-136D390F013F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,18 +19,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE3BD5E8-E646-7F0D-BF3D-35679F26B851}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{E6D84EC3-C0EC-D998-46E5-E1AB520DCC8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6D84EC3-C0EC-D998-46E5-E1AB520DCC8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6D84EC3-C0EC-D998-46E5-E1AB520DCC8C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E6D84EC3-C0EC-D998-46E5-E1AB520DCC8C}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{5E624A6F-6089-7160-CADF-136D390F013F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5E624A6F-6089-7160-CADF-136D390F013F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5E624A6F-6089-7160-CADF-136D390F013F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960B2A3D-8055-3004-F951-78D81B6B05FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960B2A3D-8055-3004-F951-78D81B6B05FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960B2A3D-8055-3004-F951-78D81B6B05FA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{960B2A3D-8055-3004-F951-78D81B6B05FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960B2A3D-8055-3004-F951-78D81B6B05FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960B2A3D-8055-3004-F951-78D81B6B05FA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6BB8E6DB-ED53-8D8E-1534-EFDA5B9B3C4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BB8E6DB-ED53-8D8E-1534-EFDA5B9B3C4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BB8E6DB-ED53-8D8E-1534-EFDA5B9B3C4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BB8E6DB-ED53-8D8E-1534-EFDA5B9B3C4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
