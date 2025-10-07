@@ -1,6 +1,8 @@
 ﻿# AthsVideoRecording  
 - Note: Renamed from MauiMediaRecorderVideoAndroidApp
 
+## BIG CHANGES COMING. WATCH THIS SPACE!
+
 An Android Maui App for video recoding Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
 ## The Complementary WPF Apps
