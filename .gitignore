@@ -5,3 +5,4 @@
 /.vs
 /SendVideoOverTcpLib/obj
 /SendVideoOverTcpLib/bin/Debug/net9.0-android
+/AthsVideoRecording/athsvideo.keystore
