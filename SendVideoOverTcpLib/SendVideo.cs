@@ -185,16 +185,26 @@ namespace SendVideoOverTCPLib
             }
             using var stream = client.GetStream();
 
-            //byte[] fileBytes = await File.ReadAllBytesAsync(fileInfo.FilePath);
+            VideoInfo? videoInfo = null;
+
             var res =MetadataManager.ReadJsonComment(fileInfo.FilePath); // Verify save
 
-            VideoInfo? videoInfo = VideoInfo.CreateFromJson(res ?? "");
-            videoInfo.VideoPath = fileInfo.FilePath;
+            videoInfo = VideoInfo.CreateFromJson(res ?? "");
 
-            if(videoInfo is null)
+            // If no valid metadata, create new with basic info
+            if (videoInfo is null)
             {
-                throw new Exception("Failed to read video metadata. Ensure the video file has valid metadata.");
+                videoInfo = new VideoInfo
+                {
+                    Filename = fileInfo.FileName,
+                    VideoStart = fileInfo.CreationTime,
+                    GunTime = fileInfo.CreationTime,
+                    DetectMode = VideoDetectMode.FromFlash,
+                    TimeFrom = TimeFromMode.FromVideoStart
+                };
             }
+
+            videoInfo.VideoPath = fileInfo.FilePath;
 
             videoInfo.GetCheckSum();
             //ShowMessage(videoInfo.ToJson());
