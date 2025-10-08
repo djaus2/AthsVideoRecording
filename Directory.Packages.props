@@ -10,7 +10,6 @@
     <PackageVersion Include="Microsoft.Maui.Controls" Version="9.0.100" />
     <PackageVersion Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
-    <PackageVersion Include="Sportronics.MauiMediaRecorderVideoLib" Version="3.2.0" />
     <PackageVersion Include="Xamarin.AndroidX.Core" Version="1.16.0.1" />
     <PackageVersion Include="Xamarin.AndroidX.AppCompat" Version="1.7.0.6" />
     <PackageVersion Include="Xamarin.AndroidX.AppCompat.AppCompatResources" Version="1.7.0.6" />
@@ -35,8 +34,8 @@
     <PackageVersion Include="Xamarin.AndroidX.Lifecycle.ViewModel.Android" Version="2.8.7.3" />
     <PackageVersion Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.8.7.3" />
     <PackageVersion Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState" Version="2.8.7.3" />
-    <!-- Centralize app/library specific packages -->
-    <PackageVersion Include="djaus2MauiCountdownToolkit" Version="1.1.6" />
+    <!-- Custom app/library specific packages -->
+    <PackageVersion Include="Sportronics.MauiMediaRecorderVideoLib" Version="3.2.0" />
     <PackageVersion Include="Sportronics.VideoEnums" Version="3.2.1" />
   </ItemGroup>
 </Project>
