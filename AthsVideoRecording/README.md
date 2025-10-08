@@ -1,18 +1,33 @@
 ﻿# AthsVideoRecording  
 - Note: Renamed from MauiMediaRecorderVideoAndroidApp
 
-## BIG CHANGES COMING. WATCH THIS SPACE!
+## BIG CHANGES HERE NOW!
 
-An Android Maui App for video recoding Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
+An Android Maui App for video recording Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
-## The Complementary WPF Apps
+---
 
-These receive the video file transmitted from this app.
+## The Complementary WPF App/s
+
+This receives the video file transmitted from this app:
 
 - [AthStitcher](https://github.com/djaus2/PhotoTimingDjaus/tree/master/AthStitcher)  project from the repository [djaus2/PhotoTimingDjaus](https://github.com/djaus2/PhotoTimingDjaus) that does Photo Finish processing of video.
-- Also simpler WPF app that only handles reception: [TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp/tree/master/GetVideoWPFLibSample) in repository [djaus2/TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp)
+- Also simpler WPF app [TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp)that only handles transfer from an Android MAUI app and reception by WPF app in repository: [djaus2/TransferVideoOverTcp](https://github.com/djaus2/TransferVideoOverTcp)
+  - This app is used for testing the transfer protocol.
+  - SendVideo  _(The Maui-Android phone app)_
+    - Uses SendVideoOverTcpLib
+    - An **updated** version of the lib is included here.
+  - GetVideo _(The 2nd Complementary WPF app)_
+    - Uses ReceiveVideoOverTcpLib
+    - As used in the [AthStitcher](https://github.com/djaus2/PhotoTimingDjaus/tree/master/AthStitcher) App.
 
-## App Features
+--- 
+
+## This App Features
+
+> ***Note In most the recent version of this app, meta-information is no longer passed from recording to transmission
+as appendages to the filename but is added as a json string as a video file comment at the end of recording. 
+This is then recovered prior to transmission and used to recreate the VideoInfo for transmission prior to the video's transmission.***
 
 ### Recording
 
@@ -30,23 +45,34 @@ These receive the video file transmitted from this app.
 - Support for pausing and resuming recording
 - Proper handling of Android permissions
 - Screen dimensions detection for optimal preview.
+- At transmission the video's metadata is extracted and used to create a VideoInfo object which is then transmitted.
+  - Filename, Filepath, Filesize, Checksum
+  - TimeFromMode used for the recording
+  - DateTime of recording
+  - Start time of event (based on TimeFromMode setting)
+  - Gun time if TimeFromMode is WallClockSelect
+
+- The WPF then uses the Filename to store the transmitted data an dthe checksum to verify it. 
+ Other meta-info is then subsequently used as required.
 
 ### Transmission
 
 - "Paper Airplane" button to send the recorded video file over TCP locally to a Windows WPF app.
+- Can pick a video for transmission from sorted (latest first) list of videos from the Movies folder.
 - Configurable IP address and port for the receiving app.
 - Status messages to indicate connection status and transmission progress.
 - Error handling for connection issues and transmission failures.
 - Checksum and filename automatically transmitted as part of the protocol.
+- No auto trasmit after recording. 2Do?
 
 ## Custom NuGet packages used
-- [djaus2_MauiMediaRecorderVideoLib](https://www.nuget.org/packages/djaus2_MauiMediaRecorderVideoLib/)
+- [Sportronics.MauiMediaRecorderVideoLib](https://www.nuget.org/packages/Sportronics.MauiMediaRecorderVideoLib/)
   - A .NET MAUI library for Android video recording using MediaRecorder with Camera Preview and Stabilization features
 - [djaus2MauiCountdownToolkit](https://www.nuget.org/packages/djaus2MauiCountdownToolkit/)
   - A .NET MAUI library for countdown popup with customizable appearance and behavior
-- [Sportronics.SendVideoOverTcpLib](https://www.nuget.org/packages/Sportronics.SendVideoOverTcpLib)
-  - Handles the TCP Video transmission to the WPF app
-
+- ~~[Sportronics.SendVideoOverTcpLib](https://www.nuget.org/packages/Sportronics.SendVideoOverTcpLib)~~ 
+  - ~~Handles the TCP Video transmission to the WPF app~~ ...Now directly included in this repo as updated version.
+- [Sportronics.Sportronics.VideoEnums](https://www.nuget.org/packages/Sportronics.VideoEnums) as required by SendVideoOverTcpLib to handle VideoInfo processing and provides app enums.
 ## Usage
 
 Clone and build the repository targeting an Android phone. Deploy and run.  Need to accept permissions (2).
@@ -57,20 +83,18 @@ Need the e WPF app for receiving the video.
 ## TimeFromMode Setting
 
 - **TimeFromMode Property** to VideoRecorderService allows for different ways of determining the start time of the event.
-  - Appends a text string for **TimeFromMode** to the video filename.
-  - The WPF app app uses this to determine the start time of the event and parse it to the video file **Title** property, removing that text from the filename.
-  - For **WallClock** mode, the gun time is also appended that WPF app parses to gun WallClock time and sets as Video file **Comment** property, _also_ removing that text from the filename.
-  - Note: Gun only shows if **TimeFromMode** is set to **WallClock** when ready to record. 
+  - As above included in VideoInfo and transmitted to the WPF app.
+  - The WPF app app uses this to determine how to determine the start time of the event.
+  - For **WallClock** mode, the gun time is also included in VideoInfo
+    - Note: Gun only shows if **TimeFromMode** is set to **WallClock** when ready to record. 
     - Can be pressed before or during video recording.
-  - Would like to insert those properties into the video file before transmission, but adding info to the filename works. 
-   _The Windows app does parse that info in the filename and add it as file properties, removing it from the filename._
-- Text appended: _(Note: an underscore is added before and after each text string when prepended to the filename._
-```cs
-        TimeFromMode.FromVideoStart => "VIDEOSTART",
-        TimeFromMode.FromGunSound => "GUNSOUND",
-        TimeFromMode.FromGunFlash => "GUNFLASH",
-        TimeFromMode.ManuallySelect => "MANUAL",
-        TimeFromMode.WallClockSelect => "WALLCLOCK"
+- TimeFromModes: 
+```csharp
+        TimeFromMode.FromVideoStart ,
+        TimeFromMode.FromGunSound ,
+        TimeFromMode.FromGunFlash ,
+        TimeFromMode.ManuallySelect ,
+        TimeFromMode.WallClockSelect 
 ```
 
 ## Other
