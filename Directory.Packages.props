@@ -37,5 +37,6 @@
     <!-- Custom app/library specific packages -->
     <PackageVersion Include="Sportronics.MauiMediaRecorderVideoLib" Version="3.2.0" />
     <PackageVersion Include="Sportronics.VideoEnums" Version="3.2.1" />
+    <PackageVersion Include="djaus2MauiCountdownToolkit" Version="1.1.6" />
   </ItemGroup>
 </Project>
