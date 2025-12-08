@@ -45,6 +45,23 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <Frame BorderColor="LightGray" Padding="15" Margin="0,10,0,10">
+                <VerticalStackLayout Spacing="15">
+                    <!-- Port Setting -->
+                    <Label Text="Program Upload Port" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry x:Name="ProgramUploadPortEntry" 
+                               Grid.Column="0"
+                               Keyboard="Numeric"
+                               Text="{Binding SelectedProgramUploadPort}"
+                               Placeholder="Enter Program upload port number" />
+                    </Grid>
+                    <Label Text="Port number for TCP Program upload connection (default: 1000)" 
+                           FontSize="Small" 
+                           TextColor="Gray" />
+                </VerticalStackLayout>
+            </Frame>
+
             <Button Text="Return to Home" 
                     Clicked="OnReturnToHomeClicked"
                     HorizontalOptions="Center"

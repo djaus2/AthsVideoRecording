@@ -1,0 +1,129 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj",
+        "projectName": "GetProgramAsCsv",
+        "projectPath": "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj",
+        "packagesPath": "C:\\Users\\david\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\obj\\",
+        "projectStyle": "PackageReference",
+        "crossTargeting": true,
+        "centralPackageVersionsManagementEnabled": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\david\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-android"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://nuget.telerik.com/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0-android35.0": {
+            "targetAlias": "net9.0-android",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.100"
+      },
+      "frameworks": {
+        "net9.0-android35.0": {
+          "targetAlias": "net9.0-android",
+          "dependencies": {
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.4.0, )",
+              "versionCentrallyManaged": true
+            }
+          },
+          "centralPackageVersions": {
+            "CommunityToolkit.Maui": "10.0.0",
+            "CommunityToolkit.Maui.Camera": "2.0.3",
+            "CommunityToolkit.Mvvm": "8.4.0",
+            "djaus2MauiCountdownToolkit": "1.1.6",
+            "Microsoft.EntityFrameworkCore": "9.0.11",
+            "Microsoft.EntityFrameworkCore.Proxies": "9.0.11",
+            "Microsoft.EntityFrameworkCore.Sqlite": "9.0.11",
+            "Microsoft.EntityFrameworkCore.Tools": "10.0.0",
+            "Microsoft.Extensions.Logging.Debug": "9.0.4",
+            "Microsoft.Maui.Controls": "9.0.100",
+            "Microsoft.Maui.Controls.Compatibility": "9.0.60",
+            "Sportronics.MauiMediaRecorderVideoLib": "3.2.0",
+            "Sportronics.VideoEnums": "3.2.1",
+            "Xamarin.AndroidX.AppCompat": "1.7.0.6",
+            "Xamarin.AndroidX.AppCompat.AppCompatResources": "1.7.0.6",
+            "Xamarin.AndroidX.Camera.Camera2": "1.4.2.1",
+            "Xamarin.AndroidX.Camera.Core": "1.4.2.1",
+            "Xamarin.AndroidX.Camera.Lifecycle": "1.4.2.1",
+            "Xamarin.AndroidX.Camera.Video": "1.4.2.1",
+            "Xamarin.AndroidX.Camera.View": "1.4.2.1",
+            "Xamarin.AndroidX.Core": "1.16.0.1",
+            "Xamarin.AndroidX.Lifecycle.Common": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.Common.Jvm": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.LiveData": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.LiveData.Core": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.Process": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.Runtime": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.Runtime.Android": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.Runtime.Ktx": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.ViewModel": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.ViewModel.Android": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.ViewModel.Ktx": "2.8.7.3",
+            "Xamarin.AndroidX.Lifecycle.ViewModelSavedState": "2.8.7.3"
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.Android.Ref.35",
+              "version": "[35.0.105, 35.0.105]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.Android": {
+              "privateAssets": "all"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

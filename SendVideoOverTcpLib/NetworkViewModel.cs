@@ -29,6 +29,9 @@ namespace SendVideoOverTCPLib.ViewModels
         private int selectedPort = 5000;
 
         [ObservableProperty]
+        private int selectedProgramUploadPort = 1000;
+
+        [ObservableProperty]
         private int startHostId = 2;
 
         [ObservableProperty]

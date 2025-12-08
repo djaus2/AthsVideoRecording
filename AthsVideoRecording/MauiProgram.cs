@@ -3,6 +3,11 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using MauiAndroidCameraViewLib;
 using SendVideoOverTCPLib.Services;
+using AthsVideoRecording.Data;
+using AthsVideoRecording.Views;
+
+
+
 #if ANDROID
 using SendVideoOverTCPLib.Platforms.Android;
 #endif
@@ -13,6 +18,7 @@ namespace AthsVideoRecording
     {
         public static MauiApp CreateMauiApp()
         {
+            //string dbPath = AppDatabase.GetDefaultDbPath();
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
@@ -28,6 +34,7 @@ namespace AthsVideoRecording
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<SendVideoPage>();
             builder.Services.AddTransient<SettingsPage>();
+            builder.Services.AddTransient<ProgramPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();
@@ -45,6 +52,7 @@ builder.ConfigureMauiHandlers(handlers =>
             MauiAndroidCameraViewLib.MauiCameraServicesSetup.ConfigureCameraServices(builder);
             // Register Android-specific newest-first video metadata/picker service
             builder.Services.AddSingleton<IVideoMetadataService, VideoMetadataService>();
+            //builder.Services.AddSingleton(new AppDatabase(dbPath));
 #endif
 
 

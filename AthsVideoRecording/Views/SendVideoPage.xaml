@@ -155,7 +155,15 @@
                         BackgroundColor="Pink"
                         Clicked="Settings_Clicked" 
                         SemanticProperties.HeadingLevel="Level1" />
-                </Grid>
+                    <Button Text="Get Program" 
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Beige"
+                        Clicked="GetProgram_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+            </Grid>
  
             </Grid>  
       </VerticalStackLayout>   

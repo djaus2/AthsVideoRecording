@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "B1ZuhD3w83s=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\david\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512",
+    "C:\\Users\\david\\.nuget\\packages\\microsoft.android.ref.35\\35.0.105\\microsoft.android.ref.35.35.0.105.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1507",
+      "level": "Warning",
+      "message": "There are 2 package sources defined in your configuration. When using central package management, please map your package sources with package source mapping (https://aka.ms/nuget-package-source-mapping) or specify a single package source. The following sources are defined: nuget.org, telerik.com",
+      "projectPath": "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\david\\source\\repos\\AthsVideoRecordingV5.00-7-10-2025\\GetProgramAsCsv\\GetProgramAsCsv.csproj",
+      "targetGraphs": []
+    }
+  ]
+}

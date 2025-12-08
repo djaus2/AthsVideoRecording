@@ -71,9 +71,22 @@
     <RuntimeIdentifiers>android-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\AppDatabse.cs" />
+    <Compile Remove="Data\MeetService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Data\AppDatabse.cs" />
+    <None Include="Data\MeetService.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Maui" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <PackageReference Include="Microsoft.Maui.Controls" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
     <PackageReference Include="Sportronics.MauiMediaRecorderVideoLib" />
@@ -81,6 +94,12 @@
 
   <ItemGroup>
     <MauiXaml Update="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ChangePasswordDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Views\ProgramPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
     <!-- ... -->
@@ -91,8 +110,11 @@
 
   <ItemGroup>
     <!-- Removed direct Lifecycle Runtime Ktx reference; resolve via library if needed -->
-    <Compile Update="SendVideoPage.xaml.cs">
+    <Compile Update="Views\SendVideoPage.xaml.cs">
       <DependentUpon>SendVideoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProgramPage.xaml.cs">
+      <DependentUpon>ProgramPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -104,6 +126,7 @@
    </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GetProgramAsCsv\GetProgramAsCsv.csproj" />
     <ProjectReference Include="..\SendVideoOverTcpLib\SendVideoOverTcpLib.csproj" />
   </ItemGroup>
 

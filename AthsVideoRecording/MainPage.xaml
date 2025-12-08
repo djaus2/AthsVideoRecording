@@ -306,11 +306,18 @@
                 Clicked="OnButton_GetReady4Recording" 
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
-            <ImageButton 
+            <!--<ImageButton 
                 x:Name="CrossHairsButton"
                 Source="crosshairs.svg" 
                 Grid.Row="1" Grid.Column="3"
                 Clicked="OnButton_CrossHairs" 
+                IsEnabled="{Binding IsGetReadyButtonEnabled}" 
+                IsVisible="{Binding IsGetReadyButtonEnabled}" />-->
+            <ImageButton 
+                x:Name="CrossHairsButton"
+                Source="crosshairs.svg" 
+                Grid.Row="1" Grid.Column="3"
+                Clicked="OnButton_Programm" 
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
 

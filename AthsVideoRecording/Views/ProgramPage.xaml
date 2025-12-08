@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+            xmlns:local="clr-namespace:SendVideoOverTCPLib.Converters;assembly=SendVideoOverTcpLib" 
+            x:Class="AthsVideoRecording.Views.ProgramPage">
+    <ContentPage.Resources>
+        <local:IpSelectedToVisibilityConverter x:Key="IpVisibilityConverter" />
+    </ContentPage.Resources>
+
+      <VerticalStackLayout  
+          Padding="30,0"  
+          Spacing="25">  
+          <Image  
+              Source="appiconvid.png"  
+              HeightRequest="185"  
+              Aspect="AspectFit"  
+              SemanticProperties.Description="dot net bot in a hovercraft number nine" />  
+
+          <Label  
+              Text="Get Program"  
+              Style="{StaticResource Headline}"  
+              SemanticProperties.HeadingLevel="Level1" />  
+
+          <Label  
+              Text="Get Meets + Events."  
+              Style="{StaticResource SubHeadline}"  
+              SemanticProperties.HeadingLevel="Level3"  
+              SemanticProperties.Description="Welcome to Send a video file from /Movies" />
+            
+          <ActivityIndicator x:Name="BusyIndicator"
+                   IsRunning="False"
+                   IsVisible="False"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Color="DodgerBlue"
+                   WidthRequest="50"
+                   HeightRequest="50" />
+            <Label x:Name="BusyIndicatorLabel" Padding ="10"  Text="Getting local device IPAddresses"  TextColor="Purple" FontAttributes="Italic,Bold"/>
+
+            <Grid x:Name="grid" IsVisible="True" Padding="10" RowSpacing="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="5" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="0 " Grid.ColumnSpan="3" >
+                    <Label Text="Select Meet:" VerticalTextAlignment="Center"/>
+                    <Picker x:Name="MeetPicker"
+                            Title="Select Meet"
+                            HorizontalOptions="StartAndExpand"
+                            WidthRequest="200"
+                            SelectedItem="{Binding SelectedMeet}"
+                            ItemsSource="{Binding Meets}"
+                            ItemDisplayBinding="{Binding Description}" />
+                </HorizontalStackLayout>
+                
+                <HorizontalStackLayout Grid.Row="2" Grid.Column="0 " Grid.ColumnSpan="3">
+                    <Label  Text="Meet:" Margin="0,0,5,0"/>
+                    <Label  Text="{Binding Meet.Description}"/>
+                </HorizontalStackLayout>
+
+                <Button Text="Get All Meets" 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="5"
+                        Margin="5"
+                        TextColor="Yellow"
+                        BackgroundColor="Purple"
+                        Clicked="GetProgram_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+                <Button Text="Get All Events" 
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Padding="5"
+                        Margin="5"
+                        TextColor="Purple"
+                        BackgroundColor="Yellow"
+                        Clicked="GetProgram_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+
+                <Button Text="Get Events 4 Meet"  
+                        Grid.Row="3"                           
+                        Grid.Column="0" 
+                            Grid.ColumnSpan="3"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Purple"
+                        Clicked="GetEvents4Meet" 
+                        SemanticProperties.HeadingLevel="Level1" />
+
+                <Button Text="Done"  
+                        Grid.Row="5" 
+                        Grid.Column="0"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Green"
+                        Clicked="Done_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+
+                <Button Text="Settings" 
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Pink"
+                        Clicked="Settings_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+
+            </Grid>
+ 
+            </Grid>  
+      </VerticalStackLayout>   
+</ContentPage>

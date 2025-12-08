@@ -13,6 +13,7 @@ public static class Settings
     {
         Preferences.Set("SelectedIpAddress", networkViewModel.SelectedIpAddress);
         Preferences.Set("Port", networkViewModel.SelectedPort);
+        Preferences.Set("SelectedProgramUploadPort", networkViewModel.SelectedProgramUploadPort);
         Preferences.Set("StartHostId", networkViewModel.StartHostId);
         Preferences.Set("EndHostId", networkViewModel.EndHostId);
         Preferences.Set("TimeoutInHalfSeconds", networkViewModel.PingTimeoutInHalfSeconds);
@@ -26,6 +27,7 @@ public static class Settings
         {
             SelectedIpAddress = GetSettingSelectedIPAddress(),
             SelectedPort = GetSettingSelectedPort() > 0 ? GetSettingSelectedPort() : 5000,
+            SelectedProgramUploadPort = GetSettingSelectedProgramUploadPort() > 0 ? GetSettingSelectedProgramUploadPort() : 5000,
             StartHostId = GetSettingStartHostId(),
             EndHostId = GetSettingEndHostId(),
             PingTimeoutInHalfSeconds = GetSettingTimeoutInHalfSeconds(),
@@ -41,6 +43,11 @@ public static class Settings
     public static int GetSettingSelectedPort()
     {
         return Preferences.Get("Port", 5000);
+    }
+
+    public static int GetSettingSelectedProgramUploadPort()
+    {
+        return Preferences.Get("SelectedProgramUploadPort", 1000);
     }
 
     public static int GetSettingStartHostId()

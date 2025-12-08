@@ -1,0 +1,13 @@
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.AssemblyInfoInputs.cache
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.AssemblyInfo.cs
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.csproj.CoreCompileInputs.cache
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.sourcelink.json
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.csproj.AssemblyReference.cache
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\bin\Debug\net9.0\GetProgramAsCsv.deps.json
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\bin\Debug\net9.0\GetProgramAsCsv.dll
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\bin\Debug\net9.0\GetProgramAsCsv.pdb
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.dll
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\refint\GetProgramAsCsv.dll
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\GetProgramAsCsv.pdb
+C:\Users\david\source\repos\AthsVideoRecordingV5.00-7-10-2025\GetProgramAsCsv\obj\Debug\net9.0\ref\GetProgramAsCsv.dll
