@@ -5,6 +5,9 @@
 
 An Android Maui App for video recording Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
+>Still work in progress
+Can get Meets-Events-Heats and select, including Event Guid  
+Now to set as send back meta info.
 ---
 
 ## The Complementary WPF App/s
