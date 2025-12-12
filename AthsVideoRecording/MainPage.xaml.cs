@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
+using SendVideoOverTCPLib.ViewModels;
 using Sportronics.VideoEnums;
 using System;
 // Ensure that the necessary namespaces are included at the top of the file.  
@@ -39,7 +40,7 @@ public partial class MainPage : ContentPage, IDisposable
     private string? VideoFilePath { get => _VideoKapture?.VideoFilePath; } // File path for the recorded video
 
     //private AppViewModel appViewModel;
-
+    private bool NewDatabase = false;
 
     public MainPage()
     {
@@ -50,6 +51,7 @@ public partial class MainPage : ContentPage, IDisposable
         this.Appearing += _VideoKapture.MainPage_Appearing;
         this.Disappearing += _VideoKapture.MainPage_Disappearing;
         BindingContext = _VideoKapture.ViewModel;
+        NewDatabase = SendVideoOverTCPLib.Settings.GetNewDatabaseSetting();
         Resources.Add("TimeModeToVisible", new TimeFromModeToVisibilityConverter());
         _VideoKapture.ViewModel.State = MediaRecorderState.Stopped; // Button gets disabled
         _VideoKapture.ViewModel.TimeFromMode = TimeFromMode.FromVideoStart; // Default time from mode
@@ -65,7 +67,13 @@ public partial class MainPage : ContentPage, IDisposable
                     {
 
                         using var ctx = new AthsVideoRecording.Data.AthsVideoRecordingDbContext();
-                        //ctx.Database.EnsureDeleted();
+                        if (NewDatabase)
+                        {
+                            ctx.Database.EnsureDeleted();
+                            NewDatabase = false;
+                            SendVideoOverTCPLib.Settings.SetNewDatabaseSetting(NewDatabase);
+                        
+                        }
                         ctx.Database.EnsureCreated();
                         //ctx.Database.Migrate();
                     });
@@ -85,6 +93,8 @@ public partial class MainPage : ContentPage, IDisposable
         }
 
     }
+
+
 
     private async Task DeleteAndRecreateDatabase_Menu_Click(object sender, EventArgs e)
     {

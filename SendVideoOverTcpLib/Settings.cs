@@ -19,6 +19,7 @@ public static class Settings
         Preferences.Set("TimeoutInHalfSeconds", networkViewModel.PingTimeoutInHalfSeconds);
         Preferences.Set("TimeoutInMs", networkViewModel.PingTimeoutInMs);
         Preferences.Set("DownloadTimeoutInSec", networkViewModel.DownloadTimeoutInSec);
+        Preferences.Set("NewDatabase", networkViewModel.NewDatabase);
     }
 
     public static NetworkViewModel GetSettingNetworkViewModel()
@@ -32,13 +33,25 @@ public static class Settings
             EndHostId = GetSettingEndHostId(),
             PingTimeoutInHalfSeconds = GetSettingTimeoutInHalfSeconds(),
             PingTimeoutInMs = GetSettingTimeoutInMs(),
-            DownloadTimeoutInSec = GetSettingDownloadTimeoutInSec()
+            DownloadTimeoutInSec = GetSettingDownloadTimeoutInSec(),
+            NewDatabase = GetNewDatabaseSetting()
         };
         return networkViewModel;
     }
 
 
     // using System.Net.NetworkInformation;
+    public static bool GetNewDatabaseSetting()
+    {
+        return Preferences.Get("NewDatabase", false);
+    }
+
+    public static void SetNewDatabaseSetting(bool newDatabase)
+    {
+        Preferences.Set("NewDatabase", newDatabase);
+    }
+
+
 
     public static int GetSettingSelectedPort()
     {

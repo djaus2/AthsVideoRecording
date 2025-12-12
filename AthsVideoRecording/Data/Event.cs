@@ -141,7 +141,7 @@ namespace AthsVideoRecording.Data
                 trackTypeStr = $"{formattedTrackTypeStr}";
             }
 
-            string result = $"Event No:{EventNumber} {TimeStr} {genderStr} {ageGroupingStr} {Distance}m {trackTypeStr} {Description}";
+            string result = $"{Description}";
             return result;
         }
 

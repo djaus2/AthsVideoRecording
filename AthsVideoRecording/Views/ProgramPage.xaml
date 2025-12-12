@@ -37,25 +37,11 @@
                    HeightRequest="50" />
             <Label x:Name="BusyIndicatorLabel" Padding ="10"  Text="Getting local device IPAddresses"  TextColor="Purple" FontAttributes="Italic,Bold"/>
 
-            <Grid x:Name="grid" IsVisible="True" Padding="10" RowSpacing="20">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="5" />
-                </Grid.ColumnDefinitions>
+            <Grid x:Name="grid" IsVisible="True" Padding="0" RowSpacing="5">
 
-                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
                     <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
@@ -64,28 +50,65 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="150"/>
-                    </Grid.ColumnDefinitions>
-                    
-                <HorizontalStackLayout Grid.Row="1" Grid.Column="0 " Grid.ColumnSpan="3" >
-                    <Label Text="Select Meet:" VerticalTextAlignment="Center"/>
-                    <Picker x:Name="MeetPicker"
-                            Title="Select Meet"
-                            HorizontalOptions="StartAndExpand"
-                            WidthRequest="200"
-                            SelectedItem="{Binding SelectedMeet}"
-                            ItemsSource="{Binding Meets}"
-                            ItemDisplayBinding="{Binding Description}" />
-                </HorizontalStackLayout>
-                
-                <HorizontalStackLayout Grid.Row="2" Grid.Column="0 " Grid.ColumnSpan="3">
-                    <Label  Text="Meet:" Margin="0,0,5,0"/>
-                    <Label  Text="{Binding Meet.Description}"/>
-                </HorizontalStackLayout>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <Button Text="Get All Meets" 
-                        Grid.Row="0"
+            <HorizontalStackLayout Grid.Row="0" Grid.Column="0 " Grid.ColumnSpan="4" >
+                <Picker x:Name="MeetPicker"
+                            Title="Select Meet"
+
+                        
+                            WidthRequest="200"
+                            ItemsSource="{Binding MeetsCollection}"
+                            SelectedItem="{Binding SelectedMeet, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding Display}" />
+            </HorizontalStackLayout>
+
+
+
+            <StackLayout Grid.Row="2" Grid.Column="0 " Grid.ColumnSpan="4" >
+                <Picker x:Name="EventPicker"
+                            Title="Select Event"
+                            HorizontalOptions="StartAndExpand"                            
+                            ItemsSource="{Binding EventsForMeetCollection}"
+                            SelectedItem="{Binding SelectedEvent, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding Display}" />
+            </StackLayout>
+            <HorizontalStackLayout Grid.Row="3" Grid.Column="0 " Grid.ColumnSpan="3" >
+                <Label  Text="Heat:" 
+                        VerticalTextAlignment="Center"
+                        FontSize="18"
+                        FontAttributes="Bold,Italic"
+                        TextColor="Blue"
+                        Margin="0,0,5,0"/>
+
+                <Button Text="Prev"  
+                        IsVisible="{Binding NextPrevHeatViz}"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="Pink"
+                        Clicked="Heat_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+                <Label x:Name="EventValue"  Margin="0"  Padding="0" 
+                        VerticalTextAlignment="Center"
+                        FontSize="18"
+                        FontAttributes="Bold"
+                        TextColor="Blue"
+                        Text="{Binding SelectedHeat}"/>
+
+                <Button Text="Next"  
+                        IsVisible="{Binding NextPrevHeatViz}"
+                        Padding="5"
+                        Margin="5"
+                        BackgroundColor="LightGreen"
+                        Clicked="Heat_Clicked" 
+                        SemanticProperties.HeadingLevel="Level1" />
+            </HorizontalStackLayout>
+
+            <Button Text="Get Meets" 
+                        Grid.Row="4"
                         Grid.Column="0"
                         Padding="5"
                         Margin="5"
@@ -93,27 +116,18 @@
                         BackgroundColor="Purple"
                         Clicked="GetProgram_Clicked" 
                         SemanticProperties.HeadingLevel="Level1" />
-                <Button Text="Get All Events" 
-                        Grid.Row="0"
+            <Button Text="Get Events" 
+                        Grid.Row="4"
                         Grid.Column="2"
-                        Padding="5"
+                        Padding="4"
                         Margin="5"
                         TextColor="Purple"
+                        IsEnabled="{Binding GetEventsIsEnabled}"
                         BackgroundColor="Yellow"
                         Clicked="GetProgram_Clicked" 
                         SemanticProperties.HeadingLevel="Level1" />
 
-                <Button Text="Get Events 4 Meet"  
-                        Grid.Row="3"                           
-                        Grid.Column="0" 
-                            Grid.ColumnSpan="3"
-                        Padding="5"
-                        Margin="5"
-                        BackgroundColor="Purple"
-                        Clicked="GetEvents4Meet" 
-                        SemanticProperties.HeadingLevel="Level1" />
-
-                <Button Text="Done"  
+            <Button Text="Done"  
                         Grid.Row="5" 
                         Grid.Column="0"
                         Padding="5"
@@ -133,6 +147,5 @@
 
             </Grid>
  
-            </Grid>  
       </VerticalStackLayout>   
 </ContentPage>

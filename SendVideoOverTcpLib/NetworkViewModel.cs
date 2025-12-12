@@ -54,6 +54,9 @@ namespace SendVideoOverTCPLib.ViewModels
         [ObservableProperty]
         private string videoInfoPathJosnStr = "";
 
+        [ObservableProperty]
+        private bool newDatabase = false;
+
         /*
         public ObservableCollection<string> ActiveIPs
         {

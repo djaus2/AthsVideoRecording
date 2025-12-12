@@ -1,49 +1,151 @@
+using Android.Views;
 using AthsVideoRecording.Data;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
 using SendVideoOverTCPLib.Receiver;
 using SendVideoOverTCPLib.ViewModels;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Metrics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json.Serialization;
+using Xamarin.Google.Crypto.Tink;
+using Xamarin.JSpecify.Annotations;
 
 namespace AthsVideoRecording.Views
 {
+
+    public partial class Meets : ObservableObject
+    {
+        // toolkit generated property (backing field is private)
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(Display)), NotifyPropertyChangedFor(nameof(EventsCollection)), NotifyPropertyChangedFor(nameof(GetEventsIsEnabled))]
+        private Meet? selectedMeet;
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(Display)),
+            NotifyPropertyChangedFor(nameof(NextPrevHeatViz)),
+            NotifyPropertyChangedFor(nameof(EventsCollection)), 
+            NotifyPropertyChangedFor(nameof(GetEventsIsEnabled))]
+        private Event? selectedEvent;
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(Display)), NotifyPropertyChangedFor(nameof(EventsCollection)), NotifyPropertyChangedFor(nameof(GetEventsIsEnabled))]
+        private int selectedHeat = 1;
+
+        public bool NextPrevHeatViz => (SelectedEvent != null) && (SelectedEvent.NumHeats > 1);
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(GetEventsIsEnabled))]
+        private System.Collections.ObjectModel.ObservableCollection<Meet> meetsCollection
+            = new System.Collections.ObjectModel.ObservableCollection<Meet>();
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(GetEventsIsEnabled))]
+        private System.Collections.ObjectModel.ObservableCollection<Event> eventsCollection
+            = new System.Collections.ObjectModel.ObservableCollection<Event>();
+
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(GetEventsIsEnabled))]
+        private System.Collections.ObjectModel.ObservableCollection<Event> eventsForMeetCollection
+        = new System.Collections.ObjectModel.ObservableCollection<Event>();
+
+        public string FileName => "{SelectedEvent.MeetId}_{HeatNumber}}";
+        public string EventStr => SelectedEvent != null ? $"{SelectedEvent.Description}:{SelectedHeat}" : "No Event Selected";  
+
+        public bool GetEventsIsEnabled => (MeetsCollection.Count() > 0);
+
+        [JsonIgnore]
+        [NotMapped]
+        public string Display => ToString();
+
+        public override string ToString() => ""; // SelectedMeet != null ? $"{SelectedMeet.Display}" : "No Meet Selected";
+
+        // Event raised whenever SelectedMeet changes
+        public event EventHandler<SelectedMeetChangedEventArgs>? SelectedMeetChanged;
+
+        // EventArgs type carrying old and new selection
+        public sealed class SelectedMeetChangedEventArgs : EventArgs
+        {
+            public Meet? OldSelected { get; }
+            public Meet? NewSelected { get; }
+
+            public SelectedMeetChangedEventArgs(Meet? oldSelected, Meet? newSelected)
+            {
+                OldSelected = oldSelected;
+                NewSelected = newSelected;
+            }
+        }
+
+        public void NextHeat()
+        {
+            int numHeats = SelectedEvent.NumHeats;
+            if(SelectedHeat < numHeats)
+            {
+                SelectedHeat++;
+                return;
+            }
+            else 
+            {
+                //Could increment to next event here
+            }
+        }
+
+        public void PrevHeat()
+        {
+            int numHeats = SelectedEvent.NumHeats;
+            if (SelectedHeat > 1)
+            {
+                SelectedHeat--;
+                return;
+            }
+            else
+            {
+                {
+                    //Could decrement to previous event here
+                }
+            }
+        }
+
+            // Called by the source-generated setter when SelectedMeet changes.
+            partial void OnSelectedMeetChanged(Meet? oldValue, Meet? newValue)
+            {
+                if (newValue != null)
+                {
+                    SelectedMeet = newValue;
+                    string newMeetId = SelectedMeet.ExternalId;
+                    EventsForMeetCollection = new System.Collections.ObjectModel.ObservableCollection<Event>();
+
+                    if (!string.IsNullOrEmpty(newMeetId))
+                    {
+                        // Guard against Event.Meet being null before accessing Meet.ExternalId
+                        var eventsForMeetList = EventsCollection
+                            .Where(ev => ev != null && ev.Meet != null &&(!string.IsNullOrEmpty(ev.Meet.ExternalId)) && ev.Meet.ExternalId == newMeetId)
+                            .OrderBy(ev => ev.EventNumber);
+
+                        //var llst = eventsForMeetList.ToList<Event>();
+                            foreach (var ev in eventsForMeetList)
+                                EventsForMeetCollection.Add(ev);
+                    }
+                }
+                SelectedHeat = 1;
+                // raise event for subscribers
+                SelectedMeetChanged?.Invoke(this, new SelectedMeetChangedEventArgs(oldValue, newValue));
+            }
+        }
+
     public partial class ProgramPage : ContentPage
     {
         public ProgramPage()
         {
             InitializeComponent();
-            this.BindingContext = SendVideoOverTCPLib.SendVideo.NetworkViewModel;
+            
         }
 
-        private async void OnRescanVideos_Clicked(object sender, EventArgs e)
-        {
-            grid.IsVisible = false;
-            BusyIndicatorLabel.IsVisible = true;
-            BusyIndicator.IsVisible = true;
-            BusyIndicator.IsRunning = true;
-            BusyIndicatorLabel.Text = "Rescanning videos (newest first)…";
-            try
-            {
-                SendVideoOverTCPLib.SendVideo.ClearVideoListCache();
-                await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
-                // Reset NewVideo after rescan
-                SendVideoOverTCPLib.SendVideo.NewVideo = string.Empty;
-            }
-            catch { }
-            finally
-            {
-                BusyIndicator.IsRunning = false;
-                BusyIndicator.IsVisible = false;
-                BusyIndicatorLabel.IsVisible = false;
-                grid.IsVisible = true;
-            }
-        }
+        // Can get selections back on MainPage via ProgramPage._Meets.SelectedMeet etc.
+        public static Meets _Meets { get; set; }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-           ;
+            ;
             grid.IsVisible = false;
             BusyIndicatorLabel.Text = $"Getting saved Target Host ID or Local active Ids to select from if no setting (slower).";
             BusyIndicatorLabel.IsVisible = true;
@@ -53,31 +155,64 @@ namespace AthsVideoRecording.Views
             {
                 var ipaddress = await SendVideoOverTCPLib.SendVideo.GetSettings();
             }
-            this.BindingContext = SendVideoOverTCPLib.SendVideo.NetworkViewModel;
-            //// Always call EnsureVideoListBuiltAsync so NewVideo (if set) can be inserted at the top.
-            //// Show spinner only when building from scratch (no cache yet).
-            //if (!SendVideoOverTCPLib.SendVideo.HasVideoListCache())
-            //{
-            //    BusyIndicatorLabel.Text = "Scanning videos (newest first)…";
-            //    await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
-            //}
-            //else
-            //{
-            //    // Quick path: ensure insert without spinner
-            //    await SendVideoOverTCPLib.SendVideo.EnsureVideoListBuiltAsync();
-            //}
-            //// Reset NewVideo as requested
-            //SendVideoOverTCPLib.SendVideo.NewVideo = string.Empty;
+            _Meets = new Meets();
+            LoadMeets();
+            LoadEvents();
+
+            this.BindingContext = _Meets;
             BusyIndicator.IsRunning = false;
             BusyIndicator.IsVisible = false;
             BusyIndicatorLabel.IsVisible = false;
             grid.IsVisible = true;
         }
 
+        private void LoadMeets()
+        {
+            using (var ctx = new AthsVideoRecording.Data.AthsVideoRecordingDbContext())
+            {
+                var meets = ctx.Meets
+                               .AsNoTracking()
+                               .OrderByDescending(m => m.Date)
+                               .ToList();
+
+                _Meets.MeetsCollection.Clear();
+                foreach (var m in meets)
+                    _Meets.MeetsCollection.Add(m);
+            }
+        }
+
+        private void LoadEvents()
+        {
+            using (var ctx = new AthsVideoRecording.Data.AthsVideoRecordingDbContext())
+            {
+                // Eagerly load the Meet navigation so Event.Meet is populated (avoid lazy-loading / disposed context issues)
+                var events = ctx.Events
+                                .Include(e => e.Meet)
+                                .AsNoTracking()
+                                .OrderByDescending(e => e.Meet.Date)
+                                .ThenByDescending(e => e.Time)
+                                .ToList();
+
+                _Meets.EventsCollection.Clear();
+                foreach (var e in events)
+                    _Meets.EventsCollection.Add(e);
+            }
+        }
+
+
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
             // Do not clear the cached list here so it persists across page views.
+        }
+
+        // Call this method if you must force the Picker to re-evaluate its ItemsSource binding.
+        public void ForceRefreshMeetPicker()
+        {
+            if (MeetPicker == null) return;
+            var src = MeetPicker.ItemsSource;
+            MeetPicker.ItemsSource = null;
+            MeetPicker.ItemsSource = src;
         }
 
 
@@ -107,11 +242,11 @@ namespace AthsVideoRecording.Views
                 return;
             }
             bool found = false;
-            if(caption=="Get All Meets")
+            if(caption=="Get Meets")
             {
                 found = true;
             }
-            else if (caption == "Get All Events")
+            else if (caption == "Get Events")
             {
                 found = true;
             }
@@ -119,9 +254,9 @@ namespace AthsVideoRecording.Views
             {
                 return;
             }
-            this.BindingContext = SendVideoOverTCPLib.SendVideo.NetworkViewModel;
+            var nwvm= SendVideoOverTCPLib.SendVideo.NetworkViewModel;
 
-            if (this.BindingContext is NetworkViewModel nw)
+            if (nwvm is NetworkViewModel nw)
             {
                 grid.IsVisible = false;
                 BusyIndicatorLabel.IsVisible = true;
@@ -153,14 +288,16 @@ namespace AthsVideoRecording.Views
                     await ProgramReceiver.StartListeningAsync(IPAddress.Any, port, saveDir);
                     string contents = ProgramReceiver.ReadFile(ProgramReceiver.FilePath);
                     //var meets = MeetCsvImporter.ParseMeetsCsv(contents);
-                    if(caption == "Get All Meets")
+                    if(caption == "Get Meets")
                     {
                         string msg = await MeetCsvImporter.ImportMeetsIntoDatabaseAsync(contents);
+                        LoadMeets();
                         await DisplayAlert("Import Meets", msg, "OK");
                     }
-                    else if(caption == "Get All Events")
+                    else if(caption == "Get Events")
                     {
                         string msg = await MeetCsvImporter.ImportEventsIntoDatabaseAsync(contents);
+                        LoadEvents();
                         await DisplayAlert("Import Events", msg, "OK");
                     }
                 }
@@ -187,6 +324,26 @@ namespace AthsVideoRecording.Views
         private void GetEvents4Meet(object sender, EventArgs e)
         {
 
+        }
+
+        private void Heat_Clicked(object sender, EventArgs e)
+        {
+            if (sender is not Button btn) return;
+
+            var caption = btn.Text ?? string.Empty;
+
+            switch (caption)
+            {
+                case "Next":
+                    _Meets?.NextHeat();
+                    break;
+                case "Prev":
+                    _Meets?.PrevHeat();
+                    break;
+                default:
+                    // no-op
+                    break;
+            }
         }
     }
 

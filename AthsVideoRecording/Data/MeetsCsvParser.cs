@@ -183,22 +183,26 @@ namespace AthsVideoRecording.Data
 
             int numUpdates = 0;
             int numNew = 0;
+            bool newTable = (ctx.Meets.Count() == 0);
             foreach (var m in meets)
             {
-                if (!string.IsNullOrEmpty(m.ExternalId))
+                if (!newTable)
                 {
-                    var existing = await ctx.Meets.FirstOrDefaultAsync(mm => mm.ExternalId == m.ExternalId);
-                    if (existing != null)
+                    if (!string.IsNullOrEmpty(m.ExternalId))
                     {
-                        // update fields (do not overwrite Events navigation)
-                        existing.Description = m.Description;
-                        existing.Round = m.Round;
-                        existing.Date = m.Date;
-                        existing.Location = m.Location;
-                        existing.MaxLanes = m.MaxLanes;
-                        ctx.Meets.Update(existing);
-                        numUpdates++;
-                        continue;
+                        var existing = await ctx.Meets.FirstOrDefaultAsync(mm => mm.ExternalId == m.ExternalId);
+                        if (existing != null)
+                        {
+                            // update fields (do not overwrite Events navigation)
+                            existing.Description = m.Description;
+                            existing.Round = m.Round;
+                            existing.Date = m.Date;
+                            existing.Location = m.Location;
+                            existing.MaxLanes = m.MaxLanes;
+                            ctx.Meets.Update(existing);
+                            numUpdates++;
+                            continue;
+                        }
                     }
                 }
 
@@ -271,6 +275,7 @@ namespace AthsVideoRecording.Data
             }
 
             int num = ctx.SaveChanges();
+            var evs = ctx.Events;
             string msg = $"Num changes: {num} = New:{numNew} + Updates:{numUpdates}";
             return msg;
         }

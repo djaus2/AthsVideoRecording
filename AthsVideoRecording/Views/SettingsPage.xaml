@@ -62,6 +62,11 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <HorizontalStackLayout Spacing="10">
+                <CheckBox IsChecked="{Binding NewDatabase, Mode=TwoWay}" />
+                <Label Text="Clear DB and reboot" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
             <Button Text="Return to Home" 
                     Clicked="OnReturnToHomeClicked"
                     HorizontalOptions="Center"
