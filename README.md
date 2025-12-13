@@ -31,6 +31,7 @@ This receives the video file transmitted from this app:
 > ***Note In most the recent version of this app, meta-information is no longer passed from recording to transmission
 as appendages to the filename but is added as a json string as a video file comment at the end of recording. 
 This is then recovered prior to transmission and used to recreate the VideoInfo for transmission prior to the video's transmission.***
+> Note: This has been reversed for the moment to get Event Guid and Heat Number from filename when sending video back. 2Do.
 
 ### Recording
 
