@@ -37,5 +37,8 @@ namespace SendVideoOverTCPLib.Services
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public DateTime CreationTime { get; set; }
+
+        public int HeatNum { get; set; } = 1;
+        public string ExternalId { get; set; } = "";
     }
 }

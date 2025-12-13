@@ -781,12 +781,47 @@ public partial class MainPage : ContentPage, IDisposable
         }
     }
 
+    //private async void OnButton_Programm(object sender, EventArgs e)
+    //{
+    //    var dial = "AthsVideoRecording.Views.ProgramPage";
+
+    //    var serviceProvider = IPlatformApplication.Current.Services;
+    //    var modalPage = serviceProvider.GetRequiredService<AthsVideoRecording.Views.ProgramPage>();
+    //    await Navigation.PushModalAsync(modalPage);
+    //}
+
     private async void OnButton_Programm(object sender, EventArgs e)
     {
-        var dial = "AthsVideoRecording.Views.ProgramPage";
-
         var serviceProvider = IPlatformApplication.Current.Services;
         var modalPage = serviceProvider.GetRequiredService<AthsVideoRecording.Views.ProgramPage>();
+
+        // subscribe to the ProgramPage.Close event and run logic when it closes
+        EventHandler? handler = null;
+        handler = async (s, args) =>
+        {
+            // unsubscribe to avoid memory leak / duplicate calls
+            modalPage.Closed -= handler;
+
+            // do UI work on the main thread (this handler may already be on UI thread)
+            await OnProgramPageReturnedAsync();
+        };
+        modalPage.Closed += handler;
+
         await Navigation.PushModalAsync(modalPage);
+    }
+
+    // action to run when ProgramPage finishes and returns to MainPage
+    private async Task OnProgramPageReturnedAsync()
+    {
+        // example: refresh UI, reload data, show a message, etc.
+        // call methods that update state or reload DB content here
+        await MainThread.InvokeOnMainThreadAsync(async () =>
+        {
+            // Replace with your actual refresh logic
+            await DisplayAlert("Returned", "Returned from ProgramPage", "OK");
+            // e.g. RefreshMeetList();
+            var _Meets = ProgramPage._Meets;
+            this.Filename.Text = _Meets.EventHeatInfo;
+        });
     }
 }

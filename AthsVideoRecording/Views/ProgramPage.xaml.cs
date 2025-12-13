@@ -6,6 +6,7 @@ using SendVideoOverTCPLib.Receiver;
 using SendVideoOverTCPLib.ViewModels;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -14,6 +15,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Xamarin.Google.Crypto.Tink;
 using Xamarin.JSpecify.Annotations;
+
+
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace AthsVideoRecording.Views
 {
@@ -47,7 +52,7 @@ namespace AthsVideoRecording.Views
         private System.Collections.ObjectModel.ObservableCollection<Event> eventsForMeetCollection
         = new System.Collections.ObjectModel.ObservableCollection<Event>();
 
-        public string FileName => "{SelectedEvent.MeetId}_{HeatNumber}}";
+        public string EventHeatInfo => Normalise($"{SelectedEvent.Description},{SelectedHeat},{SelectedEvent.ExternalId}");
         public string EventStr => SelectedEvent != null ? $"{SelectedEvent.Description}:{SelectedHeat}" : "No Event Selected";  
 
         public bool GetEventsIsEnabled => (MeetsCollection.Count() > 0);
@@ -129,7 +134,98 @@ namespace AthsVideoRecording.Views
                 // raise event for subscribers
                 SelectedMeetChanged?.Invoke(this, new SelectedMeetChangedEventArgs(oldValue, newValue));
             }
+
+        private static string Normalise(string? input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return string.Empty;
+
+            // Escape quotes
+
+            var s = input.Replace(" ", "__");
+            s = s.Replace(":", "___");
+            //s = s.Replace(",", "_--_");
+
+            return s;
         }
+
+
+    }
+
+
+    public static class FileNameHelpers
+    {
+        /// <summary>
+        /// Normalize <paramref name="input"/> to a filesystem-safe filename.
+        /// Removes diacritics, invalid filename chars, collapses whitespace and control chars,
+        /// replaces other unsafe chars with <paramref name="replacement"/>, preserves a sanitized extension,
+        /// and trims to <paramref name="maxLength"/>.
+        /// </summary>
+        public static string NormalizeFileName(string? input, int maxLength = 240, string replacement = "_")
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return "unnamed";
+
+            // 1) Unicode normalize and remove diacritics
+            var normalized = input.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder(capacity: normalized.Length);
+            foreach (var ch in normalized)
+            {
+                var uc = CharUnicodeInfo.GetUnicodeCategory(ch);
+                if (uc != UnicodeCategory.NonSpacingMark)
+                    sb.Append(ch);
+            }
+            var cleaned = sb.ToString().Normalize(NormalizationForm.FormC);
+
+            // 2) Remove control chars
+            cleaned = Regex.Replace(cleaned, @"\p{C}+", string.Empty);
+
+            // 3) Replace path/filename invalid chars
+            var invalid = Path.GetInvalidFileNameChars();
+            foreach (var c in invalid)
+                cleaned = cleaned.Replace(c, replacement[0]);
+
+            // 4) Collapse whitespace to single replacement and remove other unwanted chars
+            cleaned = Regex.Replace(cleaned, @"\s+", replacement);
+            // allow a-z, A-Z, 0-9, dot, underscore, dash — everything else => replacement
+            cleaned = Regex.Replace(cleaned, @"[^A-Za-z0-9\._\-]+", replacement);
+
+            // 5) Collapse multiple replacements into single replacement
+            var repEsc = Regex.Escape(replacement);
+            cleaned = Regex.Replace(cleaned, $"{repEsc}+", replacement);
+
+            // 6) Trim leading/trailing spaces, dots and replacement chars
+            cleaned = cleaned.Trim().Trim('.', ' ', replacement[0]);
+
+            if (string.IsNullOrEmpty(cleaned))
+                return "unnamed";
+
+            // 7) Preserve and sanitize extension if present
+            var ext = Path.GetExtension(cleaned);
+            string safeExt = string.Empty;
+            if (!string.IsNullOrEmpty(ext))
+            {
+                // sanitize extension (remove dot & unsafe chars)
+                var extBody = ext.TrimStart('.');
+                extBody = Regex.Replace(extBody, @"[^A-Za-z0-9]+", string.Empty);
+                if (!string.IsNullOrEmpty(extBody))
+                    safeExt = "." + extBody;
+            }
+
+            // 8) Trim base name to fit maxLength
+            var baseName = !string.IsNullOrEmpty(safeExt) ? cleaned.Substring(0, Math.Max(0, cleaned.Length - ext.Length)) : cleaned;
+            var allowedBaseLen = Math.Max(1, maxLength - safeExt.Length);
+            if (baseName.Length > allowedBaseLen)
+                baseName = baseName.Substring(0, allowedBaseLen);
+
+            // final cleanup
+            var result = (baseName + safeExt).Trim('.', ' ', replacement[0]);
+            if (string.IsNullOrEmpty(result))
+                return "unnamed";
+
+            return result;
+        }
+    }
 
     public partial class ProgramPage : ContentPage
     {
@@ -137,6 +233,21 @@ namespace AthsVideoRecording.Views
         {
             InitializeComponent();
             
+        }
+
+        public event EventHandler? Closed;
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            // notify subscribers that this page is closing (runs on UI thread)
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private async void Done_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
         }
 
         // Can get selections back on MainPage via ProgramPage._Meets.SelectedMeet etc.
@@ -200,11 +311,11 @@ namespace AthsVideoRecording.Views
         }
 
 
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            // Do not clear the cached list here so it persists across page views.
-        }
+        //protected override void OnDisappearing()
+        //{
+        //    base.OnDisappearing();
+        //    // Do not clear the cached list here so it persists across page views.
+        //}
 
         // Call this method if you must force the Picker to re-evaluate its ItemsSource binding.
         public void ForceRefreshMeetPicker()
@@ -218,10 +329,10 @@ namespace AthsVideoRecording.Views
 
 
 
-        private async void Done_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PopModalAsync();
-        }
+        //private async void Done_Clicked(object sender, EventArgs e)
+        //{
+        //    await Navigation.PopModalAsync();
+        //}
 
         private async void Settings_Clicked(object sender, EventArgs e)
         {

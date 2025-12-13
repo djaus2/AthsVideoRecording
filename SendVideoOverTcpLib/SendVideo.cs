@@ -187,9 +187,16 @@ namespace SendVideoOverTCPLib
 
             VideoInfo? videoInfo = null;
 
+            Guid? VideoId = null;
+            if (Guid.TryParse(fileInfo.ExternalId, out Guid videoid))
+            {
+                VideoId = videoid;
+            }
+
+
             var res =MetadataManager.ReadJsonComment(fileInfo.FilePath); // Verify save
 
-            videoInfo = VideoInfo.CreateFromJson(res ?? "");
+            //videoInfo = VideoInfo.CreateFromJson(res ?? "");
 
             // If no valid metadata, create new with basic info
             if (videoInfo is null)
@@ -197,6 +204,8 @@ namespace SendVideoOverTCPLib
                 videoInfo = new VideoInfo
                 {
                     Filename = fileInfo.FileName,
+                    EventId = videoid,
+                    EventHeatNumber = fileInfo.HeatNum,
                     VideoStart = fileInfo.CreationTime,
                     GunTime = fileInfo.CreationTime,
                     DetectMode = VideoDetectMode.FromFlash,

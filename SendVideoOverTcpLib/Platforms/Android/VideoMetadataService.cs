@@ -108,6 +108,51 @@ namespace SendVideoOverTCPLib.Platforms.Android
 
                         // Prefer absolute path if available; otherwise copy the content to cache and use that path
                         string filePath = sel.AbsolutePath;
+                        string fileName = sel.DisplayName;
+                        int HeatNum = 1;
+                        string GuidStr = "";
+                        string[] fileinfos = fileName.Split(',');
+                        if (fileinfos.Length==3)
+                        {
+                            string filenamePart = fileinfos[0].Trim();
+                            
+                            if(!string.IsNullOrEmpty(filenamePart))
+                            {
+                                if (int.TryParse(fileinfos[1].Trim(), out int heatNum))
+                                {
+                                    HeatNum = heatNum;
+                                    string[] GuidExtnParts = fileinfos[2].Trim().Split('.');
+                                    if (GuidExtnParts.Length == 2)
+                                    {
+                                        if ((!string.IsNullOrEmpty(GuidExtnParts[1].Trim())))
+                                        {
+                                            string extn = GuidExtnParts[1].Trim();
+                                            if (!string.IsNullOrEmpty(GuidExtnParts[0].Trim()))
+                                            {
+                                                if (Guid.TryParse(GuidExtnParts[0].Trim(), out Guid guid))
+                                                {
+                                                    GuidStr = guid.ToString();
+                                                    // Need Heat Number in filename so different filename for each event heat.
+                                                    fileName = $"{filenamePart}-H{HeatNum}.{extn}";// part1 + "." + extn;
+                                                    return new VideoFileInfo
+                                                    {
+                                                        // New version where ExternalId passes back unique Id as Guid for event
+                                                        FilePath = filePath,
+                                                        FileName = Normalise(fileName),
+                                                        CreationTime = sel.When,
+                                                        HeatNum = HeatNum,
+                                                        ExternalId = GuidStr
+
+                                                    };
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                        
                         if (string.IsNullOrEmpty(filePath) && context != null)
                         {
                             filePath = await CopyContentToCacheAsync(context, sel.ContentUri);
@@ -118,7 +163,7 @@ namespace SendVideoOverTCPLib.Platforms.Android
                             return new VideoFileInfo
                             {
                                 FilePath = filePath,
-                                FileName = sel.DisplayName,
+                                FileName = fileName,
                                 CreationTime = sel.When
                             };
                         }
@@ -184,6 +229,13 @@ namespace SendVideoOverTCPLib.Platforms.Android
                 System.Diagnostics.Debug.WriteLine($"Error picking video: {ex.Message}");
                 return null;
             }
+        }
+
+        private string Normalise(string filename)
+        {
+            string s = filename.Replace(" ", "_");
+            s = filename.Replace(":", "-");
+            return s;
         }
 
         // Preload newest-first filtered list (called from page OnAppearing)
