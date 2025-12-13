@@ -7,7 +7,7 @@ An Android Maui App for video recording Athletcs (or similar sport) finish of a 
 
 >Still work in progress
 Can get Meets-Events-Heats and select, including Event Guid  
-Now to set as send back meta info.
+Also now sent back (Event Guid and Heat Number).
 ---
 
 ## The Complementary WPF App/s
