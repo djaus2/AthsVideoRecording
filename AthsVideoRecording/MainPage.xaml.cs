@@ -821,7 +821,17 @@ public partial class MainPage : ContentPage, IDisposable
             await DisplayAlert("Returned", "Returned from ProgramPage", "OK");
             // e.g. RefreshMeetList();
             var _Meets = ProgramPage._Meets;
+            //this.Filename.Text = _Meets.EventHeatInfo;
+            //this.Filename.Completed += OnFilenameCompleted;
+            //_VideoKapture.OnFilenameCompleted(this.Filename.Text);
+
+            // set text once, ensure handler only subscribed once
             this.Filename.Text = _Meets.EventHeatInfo;
+            this.Filename.Completed -= OnFilenameCompleted;
+            this.Filename.Completed += OnFilenameCompleted;
+
+            // force "Completed" behavior programmatically
+            OnFilenameCompleted(this.Filename, EventArgs.Empty);
         });
     }
 }
