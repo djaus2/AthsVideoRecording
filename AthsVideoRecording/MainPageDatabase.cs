@@ -33,6 +33,7 @@ public partial class MainPage : ContentPage, IDisposable
         try
         {
 
+            var ipaddress = await SendVideoOverTCPLib.SendVideo.GetSettings();
             await Task.Run(() =>
             {
 

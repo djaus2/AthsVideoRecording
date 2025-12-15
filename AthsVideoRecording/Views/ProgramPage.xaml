@@ -22,7 +22,7 @@
               SemanticProperties.HeadingLevel="Level1" />  
 
           <Label  
-              Text="Get Meets + Events."  
+              Text="Meet-Event-Heat"  
               Style="{StaticResource SubHeadline}"  
               SemanticProperties.HeadingLevel="Level3"  
               SemanticProperties.Description="Welcome to Send a video file from /Movies" />

@@ -251,14 +251,14 @@ namespace AthsVideoRecording.Views
         }
 
         // Can get selections back on MainPage via ProgramPage._Meets.SelectedMeet etc.
-        public static Meets _Meets { get; set; }
+        public static Meets? _Meets { get; set; } = null;
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             ;
             grid.IsVisible = false;
-            BusyIndicatorLabel.Text = $"Getting saved Target Host ID or Local active Ids to select from if no setting (slower).";
+            BusyIndicatorLabel.Text = $"Loading App Data";
             BusyIndicatorLabel.IsVisible = true;
             BusyIndicator.IsVisible = true;
             BusyIndicator.IsRunning = true;
@@ -266,9 +266,50 @@ namespace AthsVideoRecording.Views
             {
                 var ipaddress = await SendVideoOverTCPLib.SendVideo.GetSettings();
             }
-            _Meets = new Meets();
+
+            Meet? savedMeet = null;
+            Event? savedEvent = null;
+            int? savedHeat = null;
+            if (_Meets == null)
+            {
+                _Meets = new Meets();
+            }
+            else
+            {
+                // preserve previous selection state (including heat) across reload
+                savedMeet = _Meets?.SelectedMeet;
+                savedEvent = _Meets?.SelectedEvent;
+                savedHeat = _Meets?.SelectedHeat;
+            }
+
             LoadMeets();
             LoadEvents();
+
+            if (savedMeet != null)
+            {
+                // Clear selection then try to restore if the meet still exists
+                _Meets.SelectedMeet = null;
+                var restoredMeet = _Meets.MeetsCollection.FirstOrDefault(m => m.Id == savedMeet.Id);
+                if (restoredMeet != null)
+                {
+                    _Meets.SelectedMeet = restoredMeet;
+                    _Meets.SelectedEvent = null;
+
+                    if (savedEvent != null)
+                    {
+                        var restoredEvent = _Meets.EventsCollection.FirstOrDefault(ev => ev.Id == savedEvent.Id);
+                        if (restoredEvent != null)
+                            _Meets.SelectedEvent = restoredEvent;
+                    }
+
+                    // restore saved heat if valid for the restored event
+                    if (savedHeat.HasValue && savedHeat.Value > 0)
+                    {
+                        int maxHeats = _Meets.SelectedEvent.NumHeats;
+                        _Meets.SelectedHeat = Math.Min(savedHeat.Value, Math.Max(1, maxHeats));
+                    }
+                }
+            }
 
             this.BindingContext = _Meets;
             BusyIndicator.IsRunning = false;
@@ -287,6 +328,7 @@ namespace AthsVideoRecording.Views
                                .ToList();
 
                 _Meets.MeetsCollection.Clear();
+                _Meets.SelectedEvent = null;
                 foreach (var m in meets)
                     _Meets.MeetsCollection.Add(m);
             }

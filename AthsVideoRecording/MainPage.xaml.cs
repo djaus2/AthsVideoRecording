@@ -41,10 +41,12 @@ public partial class MainPage : ContentPage, IDisposable
 
     //private AppViewModel appViewModel;
     private bool NewDatabase = false;
+    private bool FirstAppearance = true;
 
     public MainPage()
     {
         InitializeComponent();
+        FirstAppearance = true;
         _VideoKapture = new MauiAndroidCameraViewLib.VideoKapture(this, CameraPreview);
         Task.Delay(1000).Wait();//Let permission/s permeate
         // Register for page lifecycle events
@@ -72,14 +74,18 @@ public partial class MainPage : ContentPage, IDisposable
 
     protected override async void OnAppearing()
     {
-        MyLayout1.IsVisible = false;
-        MyLayout2.IsVisible = false;
-        MyLayout3.IsVisible = false;
-        BusyIndicatorLabel.Text = $"Please wait. Loading database).";
-        BusyIndicatorLabel.IsVisible = true;
-        BusyIndicator.IsVisible = true;
-        BusyIndicatorInd.IsVisible = true;
-        BusyIndicatorInd.IsRunning = true;
+        if (FirstAppearance)
+        { 
+            FirstAppearance = false;
+            MyLayout1.IsVisible = false;
+            MyLayout2.IsVisible = false;
+            MyLayout3.IsVisible = false;
+            BusyIndicatorLabel.Text = $"Please wait. Loading database).";
+            BusyIndicatorLabel.IsVisible = true;
+            BusyIndicator.IsVisible = true;
+            BusyIndicatorInd.IsVisible = true;
+            BusyIndicatorInd.IsRunning = true;
+        }
 
         base.OnAppearing();     
         _VideoKapture.MainPage_Appearing(this, EventArgs.Empty);
@@ -650,7 +656,7 @@ public partial class MainPage : ContentPage, IDisposable
         await MainThread.InvokeOnMainThreadAsync(async () =>
         {
             // Replace with your actual refresh logic
-            await DisplayAlert("Returned", "Returned from ProgramPage", "OK");
+            //await DisplayAlert("Returned", "Returned from ProgramPage", "OK");
             // e.g. RefreshMeetList();
             var _Meets = ProgramPage._Meets;
             //this.Filename.Text = _Meets.EventHeatInfo;
@@ -664,6 +670,8 @@ public partial class MainPage : ContentPage, IDisposable
 
             // force "Completed" behavior programmatically
             OnFilenameCompleted(this.Filename, EventArgs.Empty);
+            // Lock into using just selected program meet-event-heat. No manual entry.
+            this.Filename.IsEnabled = false; // disable further edits
         });
     }
 }
