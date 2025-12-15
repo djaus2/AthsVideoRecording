@@ -29,7 +29,7 @@ This receives the video file transmitted from this app:
 as appendages to the filename but is added as a json string as a video file comment at the end of recording. 
 This is then recovered prior to transmission and used to recreate the VideoInfo for transmission prior to the video's transmission.***
 
-### Meet-Event-Heat Selection
+### Meet-Event-Heat Selection 
 - Now done on the ProgramPage
 - From where programs can also be uploaded from AppStitcher.
 - When so selected the video filename is automatically set and can't be 
