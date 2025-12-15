@@ -73,8 +73,20 @@
                     IsVisible="{Binding ShowCrossHairs}"
                     Opacity="0.8"/>
 
-
-        <Grid x:Name="MyLayout" Margin="0"
+        <StackLayout Grid.Row="1" x:Name="BusyIndicator">
+           
+        <ActivityIndicator x:Name="BusyIndicatorInd"
+                   IsRunning="False"
+                   IsVisible="False"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Color="DodgerBlue"
+                   WidthRequest="50"
+                   HeightRequest="50" />
+        <Label x:Name="BusyIndicatorLabel" Padding ="10"  Text="Loading database."  TextColor="Purple" FontAttributes="Italic,Bold"/>
+        </StackLayout>
+        
+        <Grid x:Name="MyLayout1" Margin="0"
               Grid.Row ="0" 
               IsVisible="{Binding IsShowHeadingEtcShowing, Converter={StaticResource InvertedBoolConverter}}" 
               HorizontalOptions="Fill"
@@ -278,7 +290,7 @@
         </Grid>
 
  
-        <Grid Margin="0"  IsVisible="{Binding IsGetReadyButtonEnabled}" Grid.Row="1">
+        <Grid x:Name="MyLayout3" Margin="0"  IsVisible="{Binding IsGetReadyButtonEnabled}" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1" />
                 <RowDefinition Height="80" />
