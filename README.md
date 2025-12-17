@@ -33,6 +33,13 @@ as appendages to the filename but is added as a json string as a video file comm
 This is then recovered prior to transmission and used to recreate the VideoInfo for transmission prior to the video's transmission.***
 > Note: This has been reversed for the moment to get Event Guid and Heat Number from filename when sending video back. 2Do.
 
+### Buttons at Bottom
+- Now fully functional. Have captions.
+- Note when a Mee-Event-Heat is selected the video filename is set automatically and can't be changed manually until app is restarted.
+  - Can select another Meet-Event-Heat on ProgramPage though which changes the video filename.
+  - Meet-Event-Heat now shows and manual filename entry is hidden.
+
+
 ### Meet-Event-Heat Selection  
 - Now done on the ProgramPage _(Currently from Crosshairs icon center bottom)_
 - From where programs can also be uploaded from AppStitcher.

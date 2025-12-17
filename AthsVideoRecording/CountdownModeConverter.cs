@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
+using Microsoft.Maui.Controls;
 
 namespace MauiAndroidVideoCaptureApp
 {
@@ -58,4 +60,30 @@ namespace MauiAndroidVideoCaptureApp
         }
     }
 
+}
+
+
+
+namespace AthsVideoRecording.Converters
+{
+    public class VisibilityToBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is Microsoft.Maui.Visibility v)
+            {
+                return v == Microsoft.Maui.Visibility.Visible;
+            }
+            // fallback: if already bool
+            if (value is bool b) return b;
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value is bool b)
+                return b ? Microsoft.Maui.Visibility.Visible : Microsoft.Maui.Visibility.Collapsed;
+            return Microsoft.Maui.Visibility.Collapsed;
+        }
+    }
 }

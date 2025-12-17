@@ -32,9 +32,11 @@ This is then recovered prior to transmission and used to recreate the VideoInfo 
 ### Meet-Event-Heat Selection 
 - Now done on the ProgramPage
 - From where programs can also be uploaded from AppStitcher.
-- When so selected the video filename is automatically set and can't be 
-manually changed, until app is rebooted.
+- When so selected the video filename is automatically set/.
 - Can select another Meet-Event-Heat though which changes the video filename.
+- Note when a Mee-Event-Heat is selected the video filename is set automatically and can't be changed manually until app is restarted.
+  - Can select another Meet-Event-Heat on ProgramPage though which changes the video filename.
+  - When Meet-Event-Heat shows the manual filename entry is hidden.
 
 ### Recording
 

@@ -659,19 +659,33 @@ public partial class MainPage : ContentPage, IDisposable
             //await DisplayAlert("Returned", "Returned from ProgramPage", "OK");
             // e.g. RefreshMeetList();
             var _Meets = ProgramPage._Meets;
-            //this.Filename.Text = _Meets.EventHeatInfo;
-            //this.Filename.Completed += OnFilenameCompleted;
-            //_VideoKapture.OnFilenameCompleted(this.Filename.Text);
 
-            // set text once, ensure handler only subscribed once
-            this.Filename.Text = _Meets.EventHeatInfo;
-            this.Filename.Completed -= OnFilenameCompleted;
-            this.Filename.Completed += OnFilenameCompleted;
+            if (_Meets != null)
+            {
+                if(_Meets.SelectedMeet == null || _Meets.SelectedEvent == null )
+                {
+                    ProgramPage._Meets.SelectedMeet = null;
+                    ProgramPage._Meets.SelectedEvent = null;
+                    // Invalid selection, do nothing
+                    return;
+                }
+                // set text once, ensure handler only subscribed once
+                this.Filename.Text = _Meets.EventHeatInfo;
+                this.Filename.Completed -= OnFilenameCompleted;
+                this.Filename.Completed += OnFilenameCompleted;
 
-            // force "Completed" behavior programmatically
-            OnFilenameCompleted(this.Filename, EventArgs.Empty);
-            // Lock into using just selected program meet-event-heat. No manual entry.
-            this.Filename.IsEnabled = false; // disable further edits
+                // force "Completed" behavior programmatically
+                OnFilenameCompleted(this.Filename, EventArgs.Empty);
+                // Lock into using just selected program meet-event-heat. No manual entry.
+                this.Filename.IsEnabled = false; // disable further edits
+                this.lMeet.Text = _Meets.SelectedMeet.Display;
+                string eventStr = _Meets.SelectedEvent.Display;
+                eventStr = eventStr.Replace("Event ", "");
+                this.lEvent.Text = eventStr;
+                this.lHeat.Text = $"{_Meets.SelectedHeat}";
+                FilenameMetaInfo.IsVisible = false;
+                FilenameNotMetaInfo.IsVisible = true;
+            }
         });
     }
 }

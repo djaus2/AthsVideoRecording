@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
+using static Android.Util.EventLogTags;
 
 
 namespace AthsVideoRecording.Data
@@ -145,13 +146,13 @@ namespace AthsVideoRecording.Data
             return result;
         }
 
-        /// <summary>
+         //<summary>
         // For Masters there are two gender based age groups used in two gender based separate ComboBoxes.
         // Only the correct ComboBox for the gender shows.
         // This next call translates the selection into the MastersAgeGroup property
         // There are separate enum lists for all three.
         // MaleMastersAgeGroup || FemaleMastersAgeGroup --> (Parsed as Text) --> MastersAgeGroup
-        /// </summary>
+        //</summary>
         public void SetMastersAgeGenderGroup()
         {
             if (Gender == Gender.male)

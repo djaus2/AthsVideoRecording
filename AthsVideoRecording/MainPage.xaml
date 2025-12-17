@@ -6,9 +6,10 @@
             xmlns:lib="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"
             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:vm="clr-namespace:MauiAndroidCameraViewLib;assembly=MauiMediaRecorderVideoLib"       
+            xmlns:conv="clr-namespace:AthsVideoRecording.Converters;assembly=AthsVideoRecording"
             x:DataType="vm:RecordingViewModel">
-    
     <ContentPage.Resources>
+        <conv:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
         <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
         <toolkit:IsEqualConverter x:Key="IsEqualConverter" />
         <Style TargetType="ImageButton">
@@ -47,7 +48,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"  />
-            <RowDefinition Height="85" />
+            <RowDefinition Height="100" />
         </Grid.RowDefinitions>
         <lib:CameraPreviewView Grid.Row="0" Grid.RowSpan="2"
                     x:Name="CameraPreview"                                  
@@ -95,7 +96,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
-            <ImageButton x:Name="AutoStartButton" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" IsEnabled="{Binding IsAutoStartGunButtonEnabled}" IsVisible="{Binding IsAutoStartGunButtonVisible}" HorizontalOptions="Start" VerticalOptions="Center"></ImageButton>
+            <ImageButton x:Name="AutoStartButton" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" 
+                         Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" 
+                         IsEnabled="{Binding IsAutoStartGunButtonEnabled}"  
+                         IsVisible="{Binding IsAutoStartGunButtonVisible, Converter={StaticResource VisibilityToBoolConverter}}" 
+                         HorizontalOptions="Start" 
+                         VerticalOptions="Center"></ImageButton>
             <!-- Spacer column (Grid.Column="1") takes up remaining space -->
             <ImageButton x:Name="SetGunTime" Source="gun.svg" Grid.Row="0" Grid.Column="2" Clicked="SetGunTime_Click" IsEnabled="{Binding IsStartGunButtonEnabled}" IsVisible="{Binding IsStartGunButtonEnabled}" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
@@ -273,13 +279,29 @@
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsGetReadyButtonEnabled}">
-                        <Label Text="Video Filename:" FontAttributes="Bold" TextColor= "Purple" />
-                        <Entry x:Name="Filename" 
-                         Placeholder="Enter Video FileName (without .mp4)" 
-                         HeightRequest="50"
-                         IsEnabled="{Binding IsGetReadyButtonEnabled}"
-                         IsVisible="True"
-                         Completed="OnFilenameCompleted" />
+                        <VerticalStackLayout x:Name="FilenameMetaInfo" IsVisible="True">
+                            <Label Text="Video Filename:" FontAttributes="Bold" TextColor= "Purple" />
+                            <Entry x:Name="Filename" 
+                             Placeholder="Enter Video FileName (without .mp4)" 
+                             HeightRequest="50"
+                             IsEnabled="{Binding IsGetReadyButtonEnabled}"
+                             IsVisible="True"
+                             Completed="OnFilenameCompleted" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout x:Name="FilenameNotMetaInfo" IsVisible="False">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Meet:" FontAttributes="Bold" TextColor= "Red" Padding="5,0,0,0"/>
+                                <Label x:Name="lMeet"   IsVisible="True" Padding="5,0,0,0" />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal"  >
+                                <Label Text="Event:" FontAttributes="Bold" TextColor= "Blue" Padding="5,0,0,0"/>
+                                <Label x:Name="lEvent"   IsVisible="True" Padding="5,0,0,0"  />
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label Text="Heat:" FontAttributes="Bold" TextColor= "Green" Padding="5,0,0,0"/>
+                                <Label x:Name="lHeat"  IsVisible="True" Padding="5,0,0,0"/>
+                            </StackLayout>
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
 
 
@@ -293,6 +315,7 @@
         <Grid x:Name="MyLayout3" Margin="0"  IsVisible="{Binding IsGetReadyButtonEnabled}" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1" />
+                <RowDefinition Height="15" />
                 <RowDefinition Height="80" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -303,33 +326,73 @@
                 <ColumnDefinition Width="1" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1" />
             </Grid.ColumnDefinitions>
+            <Label
+              Grid.Row="1" Grid.Column="1"
+              Text="Send"
+              FontSize="12" FontAttributes="Bold" TextColor= "Blue"
+              VerticalOptions="End"
+              HorizontalOptions="Center"
+                IsVisible="{Binding IsGetReadyButtonEnabled}"
+              Margin="0,0,0,0" />
             <ImageButton
                 x:Name="GetReadyButton1"
-                Source="send.svg" 
-                Grid.Row="1" Grid.Column="1"
+                Source="sendmail.svg" 
+                Grid.Row="2" Grid.Column="1"
                 Clicked="OnButton_SendVideo" 
+                HeightRequest="65"
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
-            <ImageButton
-                x:Name="GetReadyButton"
-                Source="optionsvid.svg" 
-                Grid.Row="1" Grid.Column="5"
-                Clicked="OnButton_GetReady4Recording" 
+            <Label
+              Grid.Row="1" Grid.Column="3"
+              Text="Program"
+              FontSize="12" FontAttributes="Bold" TextColor= "Blue"
+              VerticalOptions="End"
+              HorizontalOptions="Center"
+                IsVisible="{Binding IsGetReadyButtonEnabled}"
+              Margin="0,0,0, 0" />
+            <ImageButton 
+                x:Name="ProgramButton"
+                Source="documenta.svg" 
+                Grid.Row="2" Grid.Column="3"
+                Clicked="OnButton_Programm" 
+                HeightRequest="70"
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
-            <!--<ImageButton 
-                x:Name="CrossHairsButton"
-                Source="crosshairs.svg" 
-                Grid.Row="1" Grid.Column="3"
-                Clicked="OnButton_CrossHairs" 
-                IsEnabled="{Binding IsGetReadyButtonEnabled}" 
-                IsVisible="{Binding IsGetReadyButtonEnabled}" />-->
+            <Label
+              Grid.Row="1" Grid.Column="5"
+              Text="CrossHairs"
+              FontSize="12" FontAttributes="Bold" TextColor= "Blue"
+              VerticalOptions="End"
+              HorizontalOptions="Center"
+               IsVisible="{Binding IsGetReadyButtonEnabled}"
+              Margin="0,0,0, 0" />
             <ImageButton 
                 x:Name="CrossHairsButton"
                 Source="crosshairs.svg" 
-                Grid.Row="1" Grid.Column="3"
-                Clicked="OnButton_Programm" 
+                Grid.Row="2" Grid.Column="5"
+                Clicked="OnButton_CrossHairs" 
+                HeightRequest="90"
+                IsEnabled="{Binding IsGetReadyButtonEnabled}" 
+                IsVisible="{Binding IsGetReadyButtonEnabled}" />
+            <Label
+              Grid.Row="1" Grid.Column="9"
+              Text="Capture" 
+              FontSize="12" FontAttributes="Bold" TextColor= "Blue"
+              VerticalOptions="End"
+              HorizontalOptions="Center"
+                IsVisible="{Binding IsGetReadyButtonEnabled}"
+              Margin="0,0,0, 0" />
+            <ImageButton
+                x:Name="GetReadyButton"
+                Source="optionsvid.svg" 
+                Grid.Row="2" Grid.Column="9"
+                Clicked="OnButton_GetReady4Recording" 
+                HeightRequest="80"
                 IsEnabled="{Binding IsGetReadyButtonEnabled}" 
                 IsVisible="{Binding IsGetReadyButtonEnabled}" />
 
