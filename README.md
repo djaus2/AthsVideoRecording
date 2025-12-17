@@ -35,7 +35,7 @@ This is then recovered prior to transmission and used to recreate the VideoInfo 
 
 ### Buttons at Bottom
 - Now fully functional. Have captions.
-- Note when a Met-tEvent-Heat is selected the video filename is set automatically and can't be changed manually until app is restarted.
+- Note when a **Meet-Event-Heat** is selected the video filename is set automatically and can't be changed manually until app is restarted.
   - Can select another Meet-Event-Heat on ProgramPage though which changes the video filename.
   - Meet-Event-Heat now shows and manual filename entry is hidden.
 
