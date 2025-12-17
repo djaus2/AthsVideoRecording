@@ -41,7 +41,7 @@ This is then recovered prior to transmission and used to recreate the VideoInfo 
 
 
 ### Meet-Event-Heat Selection  
-- Now done on the ProgramPage _(Currently from Crosshairs icon center bottom)_
+- Now done on the ProgramPage. _Icon 2nd from left at bottom._
 - From where programs can also be uploaded from AppStitcher.
 - When so selected the video filename is automatically set and can't be 
 manually changed, until app is rebooted.
