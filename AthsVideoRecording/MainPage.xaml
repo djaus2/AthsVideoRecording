@@ -87,7 +87,7 @@
         <Label x:Name="BusyIndicatorLabel" Padding ="10"  Text="Loading database."  TextColor="Purple" FontAttributes="Italic,Bold"/>
         </StackLayout>
         
-        <Grid x:Name="MyLayout1" Margin="0"
+        <Grid x:Name="MyLayout1" Margin="10"
               Grid.Row ="0" 
               IsVisible="{Binding IsShowHeadingEtcShowing, Converter={StaticResource InvertedBoolConverter}}" 
               HorizontalOptions="Fill"
@@ -99,7 +99,7 @@
             <ImageButton x:Name="AutoStartButton" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" 
                          Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" 
                          IsEnabled="{Binding IsAutoStartGunButtonEnabled}"  
-                         IsVisible="{Binding IsAutoStartGunButtonVisible, Converter={StaticResource VisibilityToBoolConverter}}" 
+                         IsVisible="True" 
                          HorizontalOptions="Start" 
                          VerticalOptions="Center"></ImageButton>
             <!-- Spacer column (Grid.Column="1") takes up remaining space -->
@@ -275,6 +275,12 @@
                         <HorizontalStackLayout Spacing="15">
                             <RadioButton x:Name="RadioStabStandard" Content="Standard" IsChecked="True" CheckedChanged="OnStabilizationModeChanged" />
                             <RadioButton x:Name="RadioStabLocked" Content="Locked" CheckedChanged="OnStabilizationModeChanged" />
+                            <ImageButton x:Name="AutoStartButton2" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" 
+                         Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" 
+                          IsEnabled="{Binding IsAutoStartGunButtonEnabled}"  
+                          IsVisible="{Binding IsAutoStartGunButtonVisible}"  
+                         HorizontalOptions="Start" 
+                         VerticalOptions="Center"></ImageButton>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
