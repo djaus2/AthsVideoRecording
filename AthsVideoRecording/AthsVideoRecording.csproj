@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android</TargetFrameworks>
-    <Version>5.9.9</Version>
+    <Version>6.0.9</Version>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>AthsVideoRecording</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -17,8 +17,8 @@
 		<ApplicationId>sportronics.athsvideorecording</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>5.9.9</ApplicationDisplayVersion>
-		<ApplicationVersion>5</ApplicationVersion>
+		<ApplicationDisplayVersion>6.0.0</ApplicationDisplayVersion>
+		<ApplicationVersion>6</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 		<PlatformTarget>ARM64</PlatformTarget>

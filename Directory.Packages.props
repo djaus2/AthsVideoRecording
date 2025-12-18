@@ -39,7 +39,7 @@
     <PackageVersion Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx" Version="2.8.7.3" />
     <PackageVersion Include="Xamarin.AndroidX.Lifecycle.ViewModelSavedState" Version="2.8.7.3" />
     <!-- Custom app/library specific packages -->
-    <PackageVersion Include="Sportronics.MauiMediaRecorderVideoLib" Version="3.2.0" />
+    <PackageVersion Include="Sportronics.MauiMediaRecorderVideoLib" Version="3.3.1" />
     <PackageVersion Include="Sportronics.VideoEnums" Version="3.5.0" />
     <PackageVersion Include="djaus2MauiCountdownToolkit" Version="1.1.6" />
   </ItemGroup>

@@ -141,7 +141,7 @@
           "Microsoft.Extensions.Logging.Debug": "9.0.4",
           "Microsoft.Maui.Controls": "9.0.100",
           "Microsoft.Maui.Controls.Compatibility": "9.0.60",
-          "Sportronics.MauiMediaRecorderVideoLib": "3.2.0",
+          "Sportronics.MauiMediaRecorderVideoLib": "3.3.1",
           "Sportronics.VideoEnums": "3.5.0",
           "Xamarin.AndroidX.AppCompat": "1.7.0.6",
           "Xamarin.AndroidX.AppCompat.AppCompatResources": "1.7.0.6",

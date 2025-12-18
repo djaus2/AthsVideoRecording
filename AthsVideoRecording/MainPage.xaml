@@ -99,9 +99,9 @@
             <ImageButton x:Name="AutoStartButton" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" 
                          Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" 
                          IsEnabled="{Binding IsAutoStartGunButtonEnabled}"  
-                         IsVisible="True" 
+                         IsVisible="{Binding IsAutoStartGunButtonVisible}" 
                          HorizontalOptions="Start" 
-                         VerticalOptions="Center"></ImageButton>
+                         VerticalOptions="Center"></ImageButton >
             <!-- Spacer column (Grid.Column="1") takes up remaining space -->
             <ImageButton x:Name="SetGunTime" Source="gun.svg" Grid.Row="0" Grid.Column="2" Clicked="SetGunTime_Click" IsEnabled="{Binding IsStartGunButtonEnabled}" IsVisible="{Binding IsStartGunButtonEnabled}" HorizontalOptions="End" VerticalOptions="Center"/>
         </Grid>
@@ -275,12 +275,12 @@
                         <HorizontalStackLayout Spacing="15">
                             <RadioButton x:Name="RadioStabStandard" Content="Standard" IsChecked="True" CheckedChanged="OnStabilizationModeChanged" />
                             <RadioButton x:Name="RadioStabLocked" Content="Locked" CheckedChanged="OnStabilizationModeChanged" />
-                            <ImageButton x:Name="AutoStartButton2" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" 
+                            <!--ImageButton x:Name="AutoStartButton2" Source="stopwatchgreen.svg" Grid.Row="0" Grid.Column="0" 
                          Clicked="OnButton_AutoStartRecordingafterAutoStartSecs_Clicked" 
                           IsEnabled="{Binding IsAutoStartGunButtonEnabled}"  
                           IsVisible="{Binding IsAutoStartGunButtonVisible}"  
                          HorizontalOptions="Start" 
-                         VerticalOptions="Center"></ImageButton>
+                         VerticalOptions="Center"></ImageButton-->
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 

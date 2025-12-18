@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GetProgramAsCsv")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7625b34b083a99004b1ff68d3a06e8a7b6b9afd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1d7ce47dbac0734fff33f767d2bd8f80bb98c3f")]
 [assembly: System.Reflection.AssemblyProductAttribute("GetProgramAsCsv")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GetProgramAsCsv")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

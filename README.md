@@ -10,6 +10,9 @@ Can get Meets-Events-Heats and select, including Event Guid
 Also now sent back (Event Guid and Heat Number).
 ---
 
+> Fixed: Wallclock-Countdown mode works -- again.
+Can set timer _(green stopwatch to start)_ such that video recording starts after a period(sec).
+
 ## The Complementary WPF App/s
 
 This receives the video file transmitted from this app:
