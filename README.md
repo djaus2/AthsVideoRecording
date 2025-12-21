@@ -5,8 +5,9 @@
 
 An Android Maui App for video recording Athletcs (or similar sport) finish of a race and for sending it locally over TCP to a complementary Windows WPF app for **Photo Finish** processing.
 
->Still work in progress
-Can get Meets-Events-Heats and select, including Event Guid  
+> V6.1.0 Fixed issue where couldn't run Release version. Ok now. Can sideload updated app see [Photo Finish: Video Capture and Processing UPDATE DEC 2025](https://djzblogaccname137.z26.web.core.windows.net/index.html) _Comimg_
+
+> Can get Meets-Events-Heats and select, including Event Guid  
 Also now sent back (Event Guid and Heat Number).
 ---
 
