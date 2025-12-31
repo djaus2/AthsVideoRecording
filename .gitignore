@@ -11,3 +11,5 @@
 /SendVideoOverTcpLib/bin/
 /SendVideoOverTcpLib/obj/
 
+/GetProgramAsCsv/obj/Debug/net9.0-android/GetProgramAsCsv.assets.cache
+/GetProgramAsCsv/obj/Debug/net9.0-android/GetProgramAsCsv.csproj.FileListAbsolute.txt
